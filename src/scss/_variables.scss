@@ -1,0 +1,62 @@
+//
+// Variables
+// --------------------------------------------------
+// Copy settings from `node_modules/bootstrap/scss/_variables.scss` into this
+// file to override the Bootstrap defaults without modifying key, versioned files.
+
+//
+// Color system
+//
+
+$yellow:                            #ffef7f;
+$grey-50a:                          rgba($white, .5);
+$grey-30a:                          rgba($black, .3);
+
+$colors: (
+  yellow: $yellow,
+  white: $white,
+  black: $black,
+  grey-50: $grey-50a,
+  grey-30: $grey-30a
+);
+
+$theme-colors: (
+  primary: $yellow,
+  secondary: $black,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  light: $grey-30a,
+  dark: $grey-50a
+);
+
+
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+
+$enable-rounded:                    false;
+$enable-shadows:                    false;
+$enable-gradients:                  false;
+$enable-transitions:                true;
+$enable-hover-media-query:          true;
+$enable-grid-classes:               true;
+$enable-print-styles:               true;
+
+
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif:            "Avenir Medium", "Helvetica Neue", Arial, sans-serif;
+$font-family-base:                  $font-family-sans-serif;
+
+$line-height-base:                  1.3571428571; // ~19px on 14px font
+
+$h1-font-size:                      2rem; // ~28px
+
+$lead-font-size:                    1.2857142857rem;
+$lead-font-weight:                  $font-weight-normal;
+
+$small-font-size:                   71.42857143%; // ~10px on 14px font

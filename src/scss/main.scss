@@ -11,6 +11,7 @@
 // Bootstrap
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
+@import "variables";
 @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
@@ -24,7 +25,8 @@
 
 // Import app specific styles here
 
-@import "variables";
+@import "reboot";
+@import "fonts";
 
 // Import scss for tablet devices and larger
 // eg. device width >= 768px
