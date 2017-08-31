@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "soon-fm",
       "styles": [
-        "styles.scss"
+        "scss/main.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
