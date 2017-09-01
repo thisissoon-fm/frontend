@@ -1,8 +1,9 @@
 //
 // Variables
 // --------------------------------------------------
-// Copy settings from `node_modules/bootstrap/scss/_variables.scss` into this
-// file to override the Bootstrap defaults without modifying key, versioned files.
+// Copy settings from `node_modules/bootstrap/scss/_variables.scss`
+// into this file to override the Bootstrap defaults
+// without modifying key, versioned files.
 
 //
 // Color system
@@ -11,13 +12,15 @@
 $yellow:                            #ffef7f;
 $grey-50a:                          rgba($white, .5);
 $grey-30a:                          rgba($black, .3);
+$grey-20a:                          rgba($white, .2);
 
 $colors: (
   yellow: $yellow,
   white: $white,
   black: $black,
   grey-50: $grey-50a,
-  grey-30: $grey-30a
+  grey-30: $grey-30a,
+  grey-20: $grey-20a
 );
 
 $theme-colors: (
@@ -45,18 +48,31 @@ $enable-grid-classes:               true;
 $enable-print-styles:               true;
 
 
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg:                           $black;
+$body-color:                        $white;
+
 // Fonts
 //
 // Font, line-height, and color for body text, headings, and more.
 
 $font-family-sans-serif:            "Avenir Medium", "Helvetica Neue", Arial, sans-serif;
+$font-family-sans-serif-bold:       "Avenir Heavy", "Helvetica Neue", Arial, sans-serif;
 $font-family-base:                  $font-family-sans-serif;
 
 $line-height-base:                  1.3571428571; // ~19px on 14px font
 
 $h1-font-size:                      2rem; // ~28px
 
+$headings-font-weight:              $font-weight-base;
+$headings-line-height:              $line-height-base;
+
 $lead-font-size:                    1.2857142857rem;
 $lead-font-weight:                  $font-weight-normal;
 
 $small-font-size:                   71.42857143%; // ~10px on 14px font
+
+$text-muted:                        $grey-50a;
