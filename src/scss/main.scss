@@ -1,0 +1,48 @@
+//
+// Main
+// --------------------------------------------------
+// Entry point for global styles. Libraries such as
+// Bootstrap are imported here followed by files which
+// override their default styles. Finally include custom
+// styling.
+
+// Import libraries here
+
+// Bootstrap
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/utilities";
+
+// Import app specific styles here
+
+@import "reboot";
+@import "grid";
+@import "fonts";
+@import "type";
+
+// Import scss for tablet devices and larger
+// eg. device width >= 768px
+@media (min-width: #{ map-get($grid-breakpoints, md) }) {
+
+}
+
+// Import scss for desktop devices and larger
+// eg. device width >= 1024px
+@media (min-width: #{ map-get($grid-breakpoints, lg) }) {
+
+}
+
+// Import scss files for large desktop devices
+// eg. device width >= 1200px
+@media (min-width: #{ map-get($grid-breakpoints, xl) }) {
+
+}

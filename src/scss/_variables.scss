@@ -1,0 +1,133 @@
+//
+// Variables
+// --------------------------------------------------
+// Copy settings from `node_modules/bootstrap/scss/_variables.scss`
+// into this file to override the Bootstrap defaults
+// without modifying key, versioned files.
+
+//
+// Color system
+//
+
+$yellow:                            #ffef7f;
+$grey-50a:                          rgba($white, .5);
+$grey-30a:                          rgba($black, .3);
+$grey-20a:                          rgba($white, .2);
+
+$colors: (
+  yellow: $yellow,
+  white: $white,
+  black: $black,
+  grey-50: $grey-50a,
+  grey-30: $grey-30a,
+  grey-20: $grey-20a
+);
+
+$theme-colors: (
+  primary: $yellow,
+  secondary: $black,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  light: $grey-30a,
+  dark: $grey-50a
+);
+
+
+// Options
+//
+// Quickly modify global styling by enabling or disabling
+// optional features.
+
+$enable-rounded:                    false;
+$enable-shadows:                    false;
+$enable-gradients:                  false;
+$enable-transitions:                true;
+$enable-hover-media-query:          true;
+$enable-grid-classes:               true;
+$enable-print-styles:               true;
+
+
+// Spacing
+//
+// Control the default styling of most Bootstrap elements by
+// modifying these variables. Mostly focused on spacing.
+// You can add more entries to the $spacers map, should you
+// need more variation.
+
+$spacer:                            2.8571428571rem; // ~40px
+$spacers: (
+  0: 0,
+  1: ($spacer * .25),
+  2: ($spacer * .5),
+  3: $spacer,
+  4: ($spacer * 1.5),
+  5: ($spacer * 3)
+);
+
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg:                           $black;
+$body-color:                        $white;
+
+
+// Grid breakpoints
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px
+);
+@include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
+@include _assert-starts-at-zero($grid-breakpoints);
+
+// Grid containers
+//
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 992px,
+  xl: 1220px
+);
+@include _assert-ascending($container-max-widths, "$container-max-widths");
+
+// Grid columns
+//
+// Set the number of columns and specify the width of the gutters.
+
+$grid-columns:                      12;
+$grid-gutter-width:                 40px;
+
+
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif:            "Avenir Medium", "Helvetica Neue", Arial, sans-serif;
+$font-family-sans-serif-bold:       "Avenir Heavy", "Helvetica Neue", Arial, sans-serif;
+$font-family-base:                  $font-family-sans-serif;
+
+$line-height-base:                  1.3571428571; // ~19px on 14px font
+
+$h1-font-size:                      2rem; // ~28px
+
+$headings-font-weight:              $font-weight-base;
+$headings-line-height:              $line-height-base;
+
+$lead-font-size:                    1.2857142857rem; // ~18px
+$lead-font-weight:                  $font-weight-normal;
+
+$small-font-size:                   71.42857143%; // ~10px on 14px font
+
+$text-muted:                        $grey-50a;

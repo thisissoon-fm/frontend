@@ -1,0 +1,17 @@
+//
+// Type
+// --------------------------------------------------
+// Override type styles that cannot be overridden
+// using just variables
+
+.font-weight-normal {
+  font-family: $font-family-sans-serif;
+  font-weight: $font-weight-normal !important;
+}
+
+b,
+strong,
+.font-weight-bold {
+  font-family: $font-family-sans-serif-bold;
+  font-weight: $font-weight-normal !important;
+}
