@@ -1,0 +1,9 @@
+//
+// Cards
+// --------------------------------------------------
+// Override type styles that cannot be overridden
+// using just variables
+
+.card-body {
+  padding: $card-spacer-y $card-spacer-x;
+}
