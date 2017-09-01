@@ -20,6 +20,7 @@
 @import "~bootstrap/scss/forms";
 @import "~bootstrap/scss/buttons";
 @import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/media";
 @import "~bootstrap/scss/utilities";
 
 // Import app specific styles here
@@ -28,6 +29,7 @@
 @import "grid";
 @import "fonts";
 @import "type";
+@import "media";
 
 // Import scss for tablet devices and larger
 // eg. device width >= 768px

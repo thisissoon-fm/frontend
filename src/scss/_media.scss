@@ -1,0 +1,45 @@
+//
+// Media
+// --------------------------------------------------
+// Extends bootstrap media component
+
+.media {
+  &,
+  .media-img,
+  .media-body {
+    overflow: hidden;
+  }
+
+  .media-body,
+  .img-album {
+    transition: $transition-base;
+  }
+
+  .media-body {
+    margin-left: -4.5714285714rem; // ~64px
+    transition-delay: .35s;
+  }
+
+  .img-album {
+    transition-property: transform;
+    transform: translateX(9.1428571429rem); // ~128px
+    @include size(6.2857142857rem); // ~88px
+  }
+
+  .img-avatar {
+    @include size(3.5714285714rem); // ~50px
+  }
+
+  @include hover-focus-active() {
+    .img-album {
+      opacity: 1;
+      transform: translateX(0);
+      transition-delay: .4s;
+    }
+
+    .media-body {
+      margin-left: 0;
+      transition-delay: 0s;
+    }
+  }
+}
