@@ -3,4 +3,6 @@ require('../examples/index.html');
 require('../examples/type/index.html');
 require('../examples/grid/index.html');
 require('../examples/tracks/index.html');
+require('../examples/tracks/search.html');
 require('../examples/albums/index.html');
+require('../examples/buttons/index.html');
