@@ -1,0 +1,31 @@
+//
+// Forms
+// --------------------------------------------------
+// Override form styling that cannot be customised
+// by modifying variables
+
+
+.form-control {
+  // Placeholder
+  &::placeholder {
+    font-style: italic;
+  }
+
+}
+
+.form-group {
+  position: relative;
+
+  &.border-left::before {
+    background-color: rgba($black, .1);
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 1.4285714286rem; // ~20px
+    left: 0;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    width: 2px;
+  }
+}

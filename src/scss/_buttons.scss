@@ -1,0 +1,11 @@
+//
+// Buttons
+// --------------------------------------------------
+// Override button styling that cannot be customised
+// by modifying variables
+
+.btn {
+  @include hover {
+    cursor: pointer;
+  }
+}

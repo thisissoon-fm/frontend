@@ -1,0 +1,33 @@
+//
+// Icons
+// --------------------------------------------------
+// Made using `https://icomoon.io/`. Use the `src/assets/fonts/icomoon/selection.json`
+// file to add more icons.
+
+
+@font-face {
+  font-family: "icomoon";
+  src: url("#{$icomoon-font-path}/icomoon.ttf?204la8") format("truetype"),
+       url("#{$icomoon-font-path}/icomoon.woff?204la8") format("woff"),
+       url("#{$icomoon-font-path}/icomoon.svg?204la8#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon {
+  font-family: "icomoon" !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  speak: none;
+  text-transform: none;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-plus                        { &::before { content: $icon-plus; }}
+.icon-close                       { &::before { content: $icon-close; }}
+.icon-caret-down                  { &::before { content: $icon-caret-down; }}
+

@@ -1,0 +1,22 @@
+//
+// Dropdown
+// --------------------------------------------------
+// Override styles for dropdown that cannot be modified
+// using the variables
+
+.dropdown-toggle {
+  &::after {
+    content: none;
+  }
+
+  .icon {
+    display: inline-block;
+    line-height: $input-btn-line-height;
+    transition: $transition-base;
+    vertical-align: middle;
+  }
+
+  .show & .icon {
+    transform: rotate(180deg);
+  }
+}
