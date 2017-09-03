@@ -37,22 +37,5 @@
 @import "card";
 @import "media";
 @import "dropdown";
+@import "leaderboard";
 @import "utilities";
-
-// Import scss for tablet devices and larger
-// eg. device width >= 768px
-@media (min-width: #{ map-get($grid-breakpoints, md) }) {
-
-}
-
-// Import scss for desktop devices and larger
-// eg. device width >= 1024px
-@media (min-width: #{ map-get($grid-breakpoints, lg) }) {
-
-}
-
-// Import scss files for large desktop devices
-// eg. device width >= 1200px
-@media (min-width: #{ map-get($grid-breakpoints, xl) }) {
-
-}

@@ -1,0 +1,16 @@
+//
+// Leaderboard
+// --------------------------------------------------
+// Styling for leaderboard module
+
+.leaderboard {
+  border-bottom: 2px solid $grey-20a;
+  border-left: 2px solid $grey-20a;
+  border-top: 2px solid $grey-20a;
+  padding-bottom: 2.5rem; // ~40px
+  padding-top: 3.75rem; // ~ 60px
+
+  .img-avatar {
+    width: 3.125rem; // ~50px
+  }
+}
