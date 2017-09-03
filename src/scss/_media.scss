@@ -11,7 +11,7 @@
   }
 
   .img-avatar {
-    @include size(3.5714285714rem); // ~50px
+    @include size(3.125rem); // ~50px
   }
 
   .media-img {
@@ -25,24 +25,24 @@
   }
 
   .media-img {
-    @include size(6.2857142857rem); // ~88px
+    @include size(5.5rem); // ~88px
   }
 
   .media-img.media-img-lg {
-    @include size(10.7142857143rem); // ~150px
+    @include size(9.375rem); // ~150px
   }
 
   .media-cta .btn {
-    width: 10.7142857143rem; // ~150px
+    width: 9.375rem; // ~150px
   }
 
   .seperator {
-    @include size(0.1428571429rem, 1rem); // ~(2px, 14px)
+    @include size(0.125rem, 0.875rem); // ~(2px, 14px)
     background-color: $grey-30a;
     display: inline-block;
-    margin-left: 1.4285714286rem; // ~20px
-    margin-right: 1.4285714286rem; // ~20px
-    margin-top: -0.2857142857rem; // ~4px
+    margin-left: 1.25rem; // ~20px
+    margin-right: 1.25rem; // ~20px
+    margin-top: -0.25rem; // ~4px
     vertical-align: middle;
   }
 
@@ -53,13 +53,13 @@
     }
 
     .media-body {
-      margin-left: -4.5714285714rem; // ~64px
+      margin-left: -4rem; // ~64px
       transition-delay: .2s;
     }
 
     .media-img {
       transition-property: all;
-      background-position-x: 9.1428571429rem; // ~128px
+      background-position-x: 8rem; // ~128px
     }
 
     @include hover-focus-active() {

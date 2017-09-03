@@ -5,7 +5,7 @@
 // by modifying variables
 
 .btn {
-  @include hover {
+  @include hover() {
     cursor: pointer;
   }
 }
