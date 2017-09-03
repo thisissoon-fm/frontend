@@ -1,7 +1,9 @@
 //
 // Icons
 // --------------------------------------------------
-// Website iconography
+// Made using `https://icomoon.io/`. Use the `src/assets/fonts/icomoon/selection.json`
+// file to add more icons.
+
 
 @font-face {
   font-family: "icomoon";
@@ -26,4 +28,6 @@
 }
 
 .icon-plus                        { &::before { content: $icon-plus; }}
+.icon-close                       { &::before { content: $icon-close; }}
+.icon-caret-down                  { &::before { content: $icon-caret-down; }}
 

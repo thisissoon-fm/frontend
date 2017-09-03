@@ -14,11 +14,21 @@
     @include size(3.5714285714rem); // ~50px
   }
 
-  .img-album {
+  .media-img {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .media-img img {
+    display: none;
+  }
+
+  .media-img {
     @include size(6.2857142857rem); // ~88px
   }
 
-  .img-album-lg {
+  .media-img.media-img-lg {
     @include size(10.7142857143rem); // ~150px
   }
 
@@ -30,33 +40,33 @@
     @include size(0.1428571429rem, 1rem); // ~(2px, 14px)
     background-color: $grey-30a;
     display: inline-block;
-    margin-top: -0.2857142857rem; // ~4px
     margin-left: 1.4285714286rem; // ~20px
     margin-right: 1.4285714286rem; // ~20px
+    margin-top: -0.2857142857rem; // ~4px
     vertical-align: middle;
   }
 
   &.media-hover {
     .media-body,
-    .img-album {
+    .media-img {
       transition: $transition-base;
     }
 
     .media-body {
       margin-left: -4.5714285714rem; // ~64px
-      transition-delay: .35s;
+      transition-delay: .2s;
     }
 
-    .img-album {
-      transition-property: transform;
-      transform: translateX(9.1428571429rem); // ~128px
+    .media-img {
+      transition-property: all;
+      background-position-x: 9.1428571429rem; // ~128px
     }
 
     @include hover-focus-active() {
-      .img-album {
+      .media-img {
         opacity: 1;
-        transform: translateX(0);
-        transition-delay: .4s;
+        background-position-x: 0;
+        transition-delay: .35s;
       }
 
       .media-body {

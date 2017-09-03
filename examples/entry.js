@@ -6,3 +6,4 @@ require('../examples/tracks/index.html');
 require('../examples/tracks/search.html');
 require('../examples/albums/index.html');
 require('../examples/buttons/index.html');
+require('../examples/search/index.html');
