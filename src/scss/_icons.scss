@@ -30,4 +30,11 @@
 .icon-plus                        { &::before { content: $icon-plus; }}
 .icon-close                       { &::before { content: $icon-close; }}
 .icon-caret-down                  { &::before { content: $icon-caret-down; }}
+.icon-play                        { &::before { content: $icon-play; }}
+.icon-skip                        { &::before { content: $icon-skip; }}
+.icon-pause                       { &::before { content: $icon-pause; }}
+.icon-volume-high                 { &::before { content: $icon-volume-high; }}
+.icon-volume-medium               { &::before { content: $icon-volume-medium; }}
+.icon-volume-low                  { &::before { content: $icon-volume-low; }}
+.icon-volume-mute                 { &::before { content: $icon-volume-mute; }}
 

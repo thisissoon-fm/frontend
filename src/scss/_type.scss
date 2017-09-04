@@ -15,3 +15,11 @@ strong,
   font-family: $font-family-sans-serif-bold;
   font-weight: $font-weight-normal !important;
 }
+
+//
+// Horizontal rules
+//
+hr {
+  margin-bottom: $hr-margin-bottom;
+  margin-top: $hr-margin-top;
+}

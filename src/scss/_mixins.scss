@@ -1,0 +1,22 @@
+//
+// Mixins
+// --------------------------------------------------
+// Reusable blocks of code
+
+@mixin track() {
+  animate: 0.2s;
+  cursor: pointer;
+  height: $track-height;
+  width: $track-width;
+}
+
+@mixin thumb() {
+  background-color: $thumb-color;
+  border: $thumb-border-width solid $thumb-border-color;
+  border-radius: $thumb-radius;
+  cursor: pointer;
+  height: $thumb-height;
+  position: relative;
+  width: $thumb-width;
+  z-index: 1;
+}

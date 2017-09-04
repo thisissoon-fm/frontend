@@ -30,6 +30,7 @@ $theme-colors: (
   info: $cyan,
   warning: $yellow,
   danger: $red,
+  lighter: $grey-20a,
   light: $grey-30a,
   dark: $grey-50a,
   white: $white
@@ -41,7 +42,7 @@ $theme-colors: (
 // Quickly modify global styling by enabling or disabling
 // optional features.
 
-$enable-rounded:                    false;
+$enable-rounded:                    true;
 $enable-shadows:                    false;
 $enable-gradients:                  false;
 $enable-transitions:                true;
@@ -139,6 +140,11 @@ $headings-line-height:              $line-height-base;
 $lead-font-size:                    1.125rem; // ~18px
 $lead-font-weight:                  $font-weight-normal;
 
+$hr-border-color:                   $grey-20a;
+$hr-border-width:                   0.125rem; // ~2px
+$hr-margin-bottom:                  1.25rem; // ~20px
+$hr-margin-top:                     1.25rem; // ~20px
+
 $small-font-size:                   71.42857143%; // ~10px on 14px font
 
 $text-muted:                        $grey-50a;
@@ -156,13 +162,13 @@ $input-btn-line-height:             1.4; // ~14px on 10px font size
 $btn-font-weight:                   $font-weight-normal;
 $btn-box-shadow:                    none;
 $btn-focus-box-shadow:              none;
-$btn-active-box-shadow:             inset 0 3px 5px rgba($black, .125) !default;
+$btn-active-box-shadow:             none;
 
 
 // Allows for customizing button radius independently from global border radius
-$btn-border-radius:                 $border-radius;
-$btn-border-radius-lg:              $border-radius-lg;
-$btn-border-radius-sm:              $border-radius-sm;
+$btn-border-radius:                 0;
+$btn-border-radius-lg:              0;
+$btn-border-radius-sm:              0;
 
 
 // Forms
@@ -200,7 +206,7 @@ $transition-base:                   all .35s ease-in-out;
 //
 //
 
-$card-spacer-y:                     1.25rem; // ~20px;
+$card-spacer-y:                     1.25rem; // ~20px
 $card-spacer-x:                     0;
 $card-border-width:                 0;
 $card-border-radius:                $border-radius;
@@ -219,3 +225,34 @@ $icomoon-font-path:                 "/assets/fonts/icomoon";
 $icon-plus:                         "\e900";
 $icon-close:                        "\e901";
 $icon-caret-down:                   "\e902";
+$icon-play:                         "\e903";
+$icon-skip:                         "\e904";
+$icon-pause:                        "\e905";
+$icon-volume-high:                  "\ea26";
+$icon-volume-medium:                "\ea27";
+$icon-volume-low:                   "\ea28";
+$icon-volume-mute:                  "\ea2a";
+
+
+// Volume slider
+//
+//
+
+$track-color:                       $gray-900;
+$thumb-color:                       $body-bg;
+
+$thumb-radius:                      50%;
+$thumb-height:                      1.25rem;
+$thumb-width:                       1.25rem;
+$thumb-border-width:                .1875rem; // ~3px
+$thumb-border-color:                $white;
+
+$track-width:                       100%;
+$track-height:                      .25rem; // ~4px
+$track-border-width:                .0625rem; // ~1px
+$track-border-color:                $track-color;
+
+$track-fill-color:                  theme-color("primary");
+
+$track-radius:                      2rem; // ~32px
+$contrast:                          5%;
