@@ -33,6 +33,9 @@
 .icon-play                        { &::before { content: $icon-play; }}
 .icon-skip                        { &::before { content: $icon-skip; }}
 .icon-pause                       { &::before { content: $icon-pause; }}
+.icon-history                     { &::before { content: $icon-history; }}
+.icon-stats-dots                  { &::before { content: $icon-stats-dots; }}
+.icon-search                      { &::before { content: $icon-search; }}
 .icon-volume-high                 { &::before { content: $icon-volume-high; }}
 .icon-volume-medium               { &::before { content: $icon-volume-medium; }}
 .icon-volume-low                  { &::before { content: $icon-volume-low; }}
