@@ -8,3 +8,4 @@ require('../examples/albums/index.html');
 require('../examples/buttons/index.html');
 require('../examples/search/index.html');
 require('../examples/leaderboard/index.html');
+require('../examples/now-playing/index.html');

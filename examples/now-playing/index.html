@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SOON FM - Examples</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+
+  <div class="container-fluid pt-3">
+
+    <div class-"row">
+      <div class="col-12 col-md-7 col-lg-5">
+        <div class="row">
+          <div class="col-6">
+            <p class="font-weight-bold text-primary mb-0">Playing now</p>
+          </div>
+          <div class="col-6">
+            <p class="font-weight-bold text-muted text-right mb-0">22:15 of playing time</p>
+          </div>
+          <div class="col-12">
+            <hr>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-12">
+            <div class="media align-items-center">
+              <div class="media-body">
+                <h3 class="h1 mt-0 mb-0 text-truncate">Track name goes here</h3>
+                <p class="lead mb-0 font-weight-bold text-truncate">Kanye West</p>
+                <p class="lead mb-0 font-weight-bold text-muted text-truncate">The Life of Pablo</p>
+              </div>
+              <div class="media-user d-flex align-items-center ml-3 flex-column">
+                <p class="small">Added by</p>
+                <img class="rounded-circle img-avatar" src="//via.placeholder.com/300x300" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-6">
+            <!-- TODO: Equaliser -->
+          </div>
+          <div class="col-6 text-right">
+            <p class="mb-0">3:28 / 4:29</p>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col-6">
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item pr-2">
+                <button type="button" class="btn btn-icon btn-circle btn-outline-lighter">
+                  <i class="icon icon-play text-white"></i>
+                </button>
+              </li>
+              <li class="list-inline-item pr-2">
+                <button type="button" class="btn btn-icon btn-circle btn-outline-lighter">
+                  <i class="icon icon-skip text-white"></i>
+                </button>
+              </li>
+              <li class="list-inline-item pr-2">
+                <button type="button" class="btn btn-icon btn-circle btn-outline-lighter">
+                  <i class="icon icon-volume-high text-white"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div class="col-6 text-right">
+            <div class="volume-slider">
+              <div id="fill" class="volume-slider-fill" style="width: 70%"></div>
+              <input class="volume-slider-input" type="range" min="0" max="100" value="70" onchange="onChange(event)">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/bundle.js"></script>
+  <script src="/webpack-dev-server.js"></script>
+
+  <script>
+    const sliderFill = document.getElementById('fill');
+    function onChange($event) {
+      console.log($event.target.value);
+      sliderFill.style.width = `${$event.target.value}%`;
+    }
+  </script>
+
+</body>
+</html>

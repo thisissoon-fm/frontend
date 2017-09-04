@@ -1,0 +1,91 @@
+//
+// Volume slider
+// --------------------------------------------------
+// Styling for volume slider. Taken from
+// https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
+
+.volume-slider {
+  position: relative;
+
+  .volume-slider-fill {
+    background-color: $track-fill-color;
+    border-top-left-radius: $track-radius;
+    border-bottom-left-radius: $track-radius;
+    height: $track-height;
+    left: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .volume-slider-input {
+    -webkit-appearance: none;
+    background-color: transparent;
+    margin: $thumb-height/2 0;
+    width: $track-width;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-slider-runnable-track {
+      @include track();
+      background-color: $track-color;
+      border-radius: $track-radius;
+      border: $track-border-width solid $track-border-color;
+    }
+
+    &::-webkit-slider-thumb {
+      @include thumb();
+      -webkit-appearance: none;
+      margin-top: ((-$track-border-width * 2 + $track-height) / 2) - ($thumb-height / 2);
+    }
+
+    &:focus::-webkit-slider-runnable-track {
+      background-color: lighten($track-color, $contrast);
+    }
+
+    &::-moz-range-track {
+      @include track();
+      background-color: $track-color;
+      border-radius: $track-radius;
+      border: $track-border-width solid $track-border-color;
+    }
+
+    &::-moz-range-thumb {
+       @include thumb();
+    }
+
+    &::-ms-track {
+      @include track();
+      background-color: transparent;
+      border-color: transparent;
+      border-width: $thumb-width 0;
+      color: transparent;
+    }
+
+    &::-ms-fill-lower {
+      background-color: darken($track-color, $contrast);
+      border: $track-border-width solid $track-border-color;
+      border-radius: $track-radius*2;
+    }
+
+    &::-ms-fill-upper {
+      background-color: $track-color;
+      border: $track-border-width solid $track-border-color;
+      border-radius: $track-radius*2;
+    }
+
+    &::-ms-thumb {
+      @include thumb();
+    }
+
+    &:focus::-ms-fill-lower {
+      background-color: $track-color;
+    }
+
+    &:focus::-ms-fill-upper {
+      background-color: lighten($track-color, $contrast);
+    }
+  }
+}

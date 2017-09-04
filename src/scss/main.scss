@@ -13,6 +13,7 @@
 @import "~bootstrap/scss/variables";
 @import "variables";
 @import "~bootstrap/scss/mixins";
+@import "mixins";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
 @import "~bootstrap/scss/images";
@@ -38,4 +39,5 @@
 @import "media";
 @import "dropdown";
 @import "leaderboard";
+@import "volume-slider";
 @import "utilities";
