@@ -81,6 +81,8 @@ $body-color:                        $white;
 //
 // Style anchor elements.
 
+$link-color:                        theme-color("dark");
+$link-hover-color:                  darken($link-color, 15%);
 $link-hover-decoration:             none;
 
 
@@ -132,6 +134,8 @@ $font-size-base:                    0.875rem; // ~14px
 $line-height-base:                  1.3571428571; // ~19px on 14px font
 
 $h1-font-size:                      1.75rem; // ~28px
+$h3-font-size:                      1.625rem; // ~26px
+$h4-font-size:                      1.25rem; // ~20px
 $h5-font-size:                      1.125rem; // ~18px
 
 $headings-font-weight:              $font-weight-base;
@@ -228,6 +232,9 @@ $icon-caret-down:                   "\e902";
 $icon-play:                         "\e903";
 $icon-skip:                         "\e904";
 $icon-pause:                        "\e905";
+$icon-history:                      "\e906";
+$icon-stats-dots:                   "\e907";
+$icon-search:                       "\e986";
 $icon-volume-high:                  "\ea26";
 $icon-volume-medium:                "\ea27";
 $icon-volume-low:                   "\ea28";
