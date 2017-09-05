@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ApiModule, LocalStorageService } from './api';
 
-const getLocalStorage = () => localStorage;
+export const getLocalStorage = () => localStorage;
 
 @NgModule({
   declarations: [
