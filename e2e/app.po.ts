@@ -6,6 +6,6 @@ export class AppPage {
   }
 
   getParagraphText() {
-    return element(by.css('soon-fm-root h1')).getText();
+    return element(by.css('fm-root h1')).getText();
   }
 }
