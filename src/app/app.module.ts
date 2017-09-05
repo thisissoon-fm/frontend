@@ -4,7 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { ApiModule } from './api/api.module';
+import { ApiModule, LocalStorageService } from './api';
+
+const getLocalStorage = () => localStorage;
 
 @NgModule({
   declarations: [
@@ -12,7 +14,9 @@ import { ApiModule } from './api/api.module';
   ],
   imports: [
     BrowserModule,
-    ApiModule.forRoot()
+    ApiModule.forRoot([
+      { provide: LocalStorageService, useFactory: (getLocalStorage) }
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]

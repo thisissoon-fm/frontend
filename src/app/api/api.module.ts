@@ -1,15 +1,24 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, Provider } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 import { apiProviders } from './services';
 import { interceptors } from './shared';
 
-const providers = [
+const defaultProviders = [
   ...apiProviders,
   ...interceptors
 ];
 
+/**
+ * Api module makes request to the FM API and returns
+ * player data. Automatically authenticates requests
+ * if auth token exists in storage and modifies some
+ * responses to make some data easier to use.
+ *
+ * @export
+ * @class ApiModule
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -18,10 +27,23 @@ const providers = [
   declarations: []
 })
 export class ApiModule {
-  public static forRoot(): ModuleWithProviders {
+  /**
+   * Specify a static method for root module to ensure providers are
+   * only provided once but allows the module to still be imported
+   * into other modules without reproviding services.
+   *
+   * @static
+   * @param {Provider[]} providers
+   * @returns {ModuleWithProviders}
+   * @memberof ApiModule
+   */
+  public static forRoot(providers?: Provider[]): ModuleWithProviders {
     return {
       ngModule: ApiModule,
-      providers: providers
+      providers: [
+        ...defaultProviders,
+        ...providers
+      ]
     };
   }
 }
