@@ -117,13 +117,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "soon-fm",
+      "fm",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "soon-fm",
+      "fm",
       "kebab-case"
     ],
     "use-input-property-decorator": true,
