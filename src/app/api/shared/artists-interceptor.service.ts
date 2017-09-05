@@ -56,7 +56,9 @@ export class ArtistsInterceptor implements HttpInterceptor {
         if (event instanceof HttpResponse) {
           if (event.url.startsWith(currentUrl)) {
             const current = <QueueItem>event.body;
-            current.track.artistsAsString = this.concatArtists(current.track.artists);
+            if (current) {
+              current.track.artistsAsString = this.concatArtists(current.track.artists);
+            }
           } else if (event.url.startsWith(queueUrl)) {
             const queue = <QueueItem[]>event.body;
             queue.map((item) => item.track.artistsAsString = this.concatArtists(item.track.artists));
