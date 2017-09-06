@@ -1,29 +1,48 @@
+<div class="grid-padding fixed-top pt-3 pb-3">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-7">
+        <img class="img-logo" src="/assets/img/logo/logo-white.svg" alt="SOON FM_">
+      </div>
+      <div class="col-5">
+        <ul class="list-inline text-right mb-0">
+          <li class="list-inline-item pr-3">
+            <a class="text-white h4" href="#"><i class="icon icon-stats-dots"></i></a>
+          </li>
+          <li class="list-inline-item pr-3">
+            <a class="text-white h4" href="#"><i class="icon icon-history"></i></a>
+          </li>
+          <li class="list-inline-item">
+            <a class="text-white h4" href="#"><i class="icon icon-search"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="row no-gutters" *ngIf="current && volume && mute && queue.length">
   <div
-    class="col-7 pt-3 section-left"
+    class="col-7 section-left"
     style.backgroundImage="url({{ current?.track.album.images[0].url }})">
 
     <div class="grid-padding">
       <div class="container-fluid">
 
-        <div class="row mb-6">
-          <div class="col-12">
-            <img class="img-logo" src="/assets/img/logo/logo-white.svg" alt="SOON FM_">
-          </div>
-        </div>
 
-        <div class="row section-left-fill">
+        <div class="row">
           <div class="col-2 text-upcoming-container">
-            <p class="text-primary font-weight-bold rotate-90 text-nowrap text-upcoming">
+            <p class="text-primary font-weight-bold rotate-90 text-nowrap text-upcoming mb-0">
               Upcoming beats
             </p>
           </div>
 
-          <div class="col-10">
+          <div class="col-10 section-fill">
 
             <ul class="list-unstyled">
-              <li>
-                <ng-template ngFor let-item [ngForOf]="queue">
+              <ng-template ngFor let-item [ngForOf]="queue">
+                <li>
                   <div class="media media-hover align-items-center mb-3">
                     <div
                       class="media-img d-flex mr-3"
@@ -51,8 +70,8 @@
                         [alt]="item.user.display_name">
                     </div>
                   </div>
-                </ng-template>
-              </li>
+                </li>
+              </ng-template>
             </ul>
 
           </div>
@@ -60,34 +79,9 @@
 
       </div>
     </div>
-
-
   </div>
 
-  <div class="col-5 pt-3 section-right">
-
-    <div class="grid-padding">
-      <div class="container-fluid">
-        <div class="row no-gutters">
-
-          <div class="col-12">
-            <ul class="list-inline text-right mb-4">
-              <li class="list-inline-item pr-3">
-                <a class="text-white h4" href="#"><i class="icon icon-stats-dots"></i></a>
-              </li>
-              <li class="list-inline-item pr-3">
-                <a class="text-white h4" href="#"><i class="icon icon-history"></i></a>
-              </li>
-              <li class="list-inline-item">
-                <a class="text-white h4" href="#"><i class="icon icon-search"></i></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
+  <div class="col-5 section-right pb-4">
     <div class="row no-gutters pl-3">
 
       <div class="col-12 mb-4">
@@ -125,6 +119,7 @@
 
         </div>
       </div>
+
     </div>
 
     <div class="row no-gutters pl-3">
@@ -224,4 +219,5 @@
     </div>
 
   </div>
+
 </div>
