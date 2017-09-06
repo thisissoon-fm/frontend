@@ -1,0 +1,19 @@
+//
+// Scrollbar
+// --------------------------------------------------
+// Custom scrollbar styling (only works on webkit browsers)
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  height: .5rem;
+  width: .5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $gray-800;
+  border-radius: .25rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}

@@ -7,3 +7,4 @@ export * from './queue-item.model';
 export * from './track.model';
 export * from './user.model';
 export * from './volume.model';
+export * from './meta.model';

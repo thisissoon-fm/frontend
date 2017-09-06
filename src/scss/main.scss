@@ -6,14 +6,12 @@
 // override their default styles. Finally include custom
 // styling.
 
+// Import functions, mixins and variables first
+@import "helpers";
+
 // Import libraries here
 
 // Bootstrap
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "variables";
-@import "~bootstrap/scss/mixins";
-@import "mixins";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
 @import "~bootstrap/scss/images";
@@ -40,4 +38,5 @@
 @import "dropdown";
 @import "leaderboard";
 @import "volume-slider";
+@import "scrollbar";
 @import "utilities";

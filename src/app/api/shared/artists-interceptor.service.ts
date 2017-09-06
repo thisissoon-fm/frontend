@@ -45,9 +45,11 @@ export class ArtistsInterceptor implements HttpInterceptor {
     const queueUrl = `${environment.apiUrlPlayer}player/queue`;
     const trackUrl = `${environment.apiUrlPlayer}tracks`;
     if (
-      (!req.url.startsWith(currentUrl)) &&
+      ((!req.url.startsWith(currentUrl)) &&
       (!req.url.startsWith(queueUrl)) &&
-      (!req.url.startsWith(trackUrl))) {
+      (!req.url.startsWith(trackUrl))) ||
+      (req.url.startsWith(`${queueUrl}/meta`))
+    ) {
       return next.handle(req);
     }
 
@@ -56,7 +58,9 @@ export class ArtistsInterceptor implements HttpInterceptor {
         if (event instanceof HttpResponse) {
           if (event.url.startsWith(currentUrl)) {
             const current = <QueueItem>event.body;
-            current.track.artistsAsString = this.concatArtists(current.track.artists);
+            if (current) {
+              current.track.artistsAsString = this.concatArtists(current.track.artists);
+            }
           } else if (event.url.startsWith(queueUrl)) {
             const queue = <QueueItem[]>event.body;
             queue.map((item) => item.track.artistsAsString = this.concatArtists(item.track.artists));

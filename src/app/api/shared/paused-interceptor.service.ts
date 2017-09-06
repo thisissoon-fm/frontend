@@ -41,7 +41,9 @@ export class PausedInterceptor implements HttpInterceptor {
     return next.handle(req)
       .map((event: HttpEvent<QueueItem>) => {
         if (event instanceof HttpResponse) {
-          event.body.paused = this.getPaused(event);
+          if (event.body) {
+            event.body.paused = this.getPaused(event);
+          }
         }
         return event;
       });
