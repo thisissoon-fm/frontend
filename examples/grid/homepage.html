@@ -63,7 +63,20 @@
     }
 
     .sfm-info {
-      overflow: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sfm-stats {
+      flex-grow: 1;
+      flex-shrink: 2;
+      height: 300px;
+    }
+
+    .sfm-controls {
+      background-color: rebeccapurple;
+      flex-grow: 2;
+      height: 300px;
     }
   </style>
 
@@ -85,7 +98,8 @@
     <div class="sfm-right">
       <div class="sfm-nav bg-info"></div>
       <div class="sfm-info bg-primary">
-        <div style="min-height: 100vh;"></div>
+        <div class="sfm-stats bg-white"></div>
+        <div class="sfm-controls"></div>
       </div>
     </div>
   </div>

@@ -6,7 +6,9 @@
 // override their default styles. Finally include custom
 // styling.
 
+// Import functions, mixins and variables first
 @import "helpers";
+
 // Import libraries here
 
 // Bootstrap
@@ -36,4 +38,5 @@
 @import "dropdown";
 @import "leaderboard";
 @import "volume-slider";
+@import "scrollbar";
 @import "utilities";
