@@ -1,4 +1,4 @@
-<div class="sfm" *ngIf="current && volume && mute && queue.length">
+<div class="sfm" *ngIf="current && volume && mute && queue.length && meta">
 
   <div class="sfm-left" style.backgroundImage="url({{ current?.track.album.images[0].url }})">
 
@@ -153,7 +153,7 @@
               <p class="font-weight-bold text-primary mb-0">Playing now</p>
             </div>
             <div class="col-6">
-              <p class="font-weight-bold text-muted text-right mb-0 pr-3">22:15 of playing time</p>
+              <p class="font-weight-bold text-muted text-right mb-0 pr-3">{{ meta.play_time | date:'m:ss' }} of playing time</p>
             </div>
             <div class="col-12">
               <hr>

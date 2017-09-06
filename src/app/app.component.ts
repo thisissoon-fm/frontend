@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   PlayerQueueService, PlayerCurrentService, PlayerMuteService,
-  PlayerVolumeService, QueueItem, Mute, Volume
+  PlayerVolumeService, QueueItem, Mute, Volume, Meta
 } from './api';
 
 @Component({
@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   queue: QueueItem[] = [];
   volume: Volume;
   mute: Mute;
+  meta: Meta;
 
   constructor(
     public playerQueueSvc: PlayerQueueService,
@@ -26,25 +27,31 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.playerQueueSvc.query()
       .subscribe(
-        (queue) => { this.queue = queue; console.log(queue); },
+        (queue) => this.queue = queue,
         (err) => console.error(err) /** TODO: Some error handling here **/
       );
 
     this.playerCurrentSvc.get()
       .subscribe(
-        (current) => { this.current = current; console.log(current); },
+        (current) => this.current = current,
         (err) => console.error(err) /** TODO: Some error handling here **/
       );
 
     this.playerMuteSvc.get()
       .subscribe(
-        (mute) => { this.mute = mute; console.log(mute); },
+        (mute) => this.mute = mute,
         (err) => console.error(err) /** TODO: Some error handling here **/
       );
 
     this.playerVolumeSvc.get()
       .subscribe(
-        (volume) => { this.volume = volume; console.log(volume); },
+        (volume) => this.volume = volume,
+        (err) => console.error(err) /** TODO: Some error handling here **/
+      );
+
+    this.playerQueueSvc.getMeta()
+      .subscribe(
+        (meta) => this.meta = meta,
         (err) => console.error(err) /** TODO: Some error handling here **/
       );
   }

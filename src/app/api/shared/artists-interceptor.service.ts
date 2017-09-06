@@ -45,9 +45,11 @@ export class ArtistsInterceptor implements HttpInterceptor {
     const queueUrl = `${environment.apiUrlPlayer}player/queue`;
     const trackUrl = `${environment.apiUrlPlayer}tracks`;
     if (
-      (!req.url.startsWith(currentUrl)) &&
+      ((!req.url.startsWith(currentUrl)) &&
       (!req.url.startsWith(queueUrl)) &&
-      (!req.url.startsWith(trackUrl))) {
+      (!req.url.startsWith(trackUrl))) ||
+      (req.url.startsWith(`${queueUrl}/meta`))
+    ) {
       return next.handle(req);
     }
 
