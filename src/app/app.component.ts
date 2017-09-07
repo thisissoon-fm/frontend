@@ -12,7 +12,7 @@ import * as fromStore from './store';
  *
  * @example
  * ```
- * <fm-root></fm-root>
+ * <sfm-root></sfm-root>
  * ```
  *
  * @export
@@ -20,7 +20,7 @@ import * as fromStore from './store';
  * @implements {OnInit}
  */
 @Component({
-  selector: 'fm-root',
+  selector: 'sfm-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
