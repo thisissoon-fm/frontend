@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse, HttpParams, HttpEvent } from '@angular/common
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
-import { QueueItem, Meta } from '../models';
+import { QueueItem, QueueMeta } from '../models';
 
 /**
  * Get queue items, add a track to queue or remove a track from queue
@@ -41,12 +41,12 @@ export class PlayerQueueService {
   /**
    * Add a track to the queue
    *
-   * @param {{ uri: string }} data
+   * @param {string} uri
    * @returns {Observable<any>}
    * @memberof PlayerQueueService
    */
-  public post(data: { uri: string }): Observable<any> {
-    return this.http.post<any>(this.endpointUrl, data);
+  public post(uri: string): Observable<any> {
+    return this.http.post<any>(this.endpointUrl, { uri });
   }
   /**
    * Remove a track from the queue
@@ -61,10 +61,10 @@ export class PlayerQueueService {
   /**
    * Gets queue meta data
    *
-   * @returns {Observable<Meta>}
+   * @returns {Observable<QueueMeta>}
    * @memberof PlayerQueueService
    */
-  public getMeta(): Observable<Meta> {
-    return this.http.get<Meta>(`${this.endpointUrl}/meta`);
+  public getMeta(): Observable<QueueMeta> {
+    return this.http.get<QueueMeta>(`${this.endpointUrl}/meta`);
   }
 }
