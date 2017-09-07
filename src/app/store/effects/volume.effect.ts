@@ -22,10 +22,11 @@ export class VolumeEffects {
   public setVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.SET_VOLUME)
     .map((action: volumeActions.SetVolume) => action.payload)
-    .mergeMap((vol) =>
-      this.playerVolumeSvc.post(vol)
+    .mergeMap((vol) => {
+      return this.playerVolumeSvc.post(vol)
         .map((res) => new volumeActions.SetVolumeSuccess(res))
-        .catch((err) => Observable.of(new volumeActions.SetVolumeFail(err)))
+        .catch((err) => Observable.of(new volumeActions.SetVolumeFail(err)));
+      }
     );
 
 

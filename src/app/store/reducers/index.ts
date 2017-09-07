@@ -2,7 +2,6 @@ import { createFeatureSelector, createSelector, ActionReducerMap, combineReducer
 
 import * as fromCurrent from './current.reducer';
 import * as fromMute from './mute.reducer';
-import * as fromPause from './pause.reducer';
 import * as fromQueue from './queue.reducer';
 import * as fromVolume from './volume.reducer';
 import * as fromUser from './user.reducer';
@@ -11,7 +10,6 @@ import * as fromUser from './user.reducer';
 export interface PlayerState {
   current: fromCurrent.CurrentState;
   mute: fromMute.MuteState;
-  pause: fromPause.PauseState;
   queue: fromQueue.QueueState;
   user: fromUser.UserState;
   volume: fromVolume.VolumeState;
@@ -20,7 +18,6 @@ export interface PlayerState {
 export const reducers = {
   current: fromCurrent.currentReducer,
   mute: fromMute.muteReducer,
-  pause: fromPause.pauseReducer,
   queue: fromQueue.queueReducer,
   user: fromUser.userReducer,
   volume: fromVolume.volumeReducer
@@ -73,14 +70,4 @@ export const getVolumeState = createSelector(
 export const getVolume = createSelector(
   getVolumeState,
   fromVolume.getVolume
-);
-
-export const getPauseState = createSelector(
-  getPlayerState,
-  (state: PlayerState) => state.pause
-);
-
-export const getPause = createSelector(
-  getPauseState,
-  fromPause.getPause
 );

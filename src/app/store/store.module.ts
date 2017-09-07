@@ -7,6 +7,13 @@ import { ApiModule } from '../api';
 import { effects } from './effects';
 import { reducers } from './reducers';
 
+/**
+ * Module that stores data, updates all components
+ * and keeps them in sync with latest the data using RxJS
+ *
+ * @export
+ * @class StoreModule
+ */
 @NgModule({
   imports: [
     CommonModule,

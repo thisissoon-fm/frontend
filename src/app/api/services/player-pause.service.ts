@@ -33,7 +33,7 @@ export class PlayerPauseService {
    * @memberof PlayerPauseService
    */
   public post(): Observable<any> {
-    return this.http.post<any>(this.endpointUrl, null);
+    return this.http.post<any>(this.endpointUrl, {});
   }
   /**
    * Resume current track playback
