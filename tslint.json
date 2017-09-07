@@ -117,13 +117,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "fm",
+      "sfm",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "fm",
+      "sfm",
       "kebab-case"
     ],
     "use-input-property-decorator": true,
