@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  PlayerQueueService, PlayerCurrentService, PlayerMuteService,
-  PlayerVolumeService, QueueItem, Mute, Volume, Meta
-} from './api';
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+
+import { QueueItem, Mute, Volume, QueueMeta } from './api';
+import * as fromStore from './store';
 
 @Component({
   selector: 'fm-root',
@@ -11,48 +12,27 @@ import {
 })
 export class AppComponent implements OnInit {
 
-  current: QueueItem;
-  queue: QueueItem[] = [];
-  volume: Volume;
-  mute: Mute;
-  meta: Meta;
+  current$: Observable<QueueItem>;
+  queue$: Observable<QueueItem[]>;
+  volume$: Observable<Volume>;
+  mute$: Observable<Mute>;
+  meta$: Observable<QueueMeta>;
 
   constructor(
-    public playerQueueSvc: PlayerQueueService,
-    public playerCurrentSvc: PlayerCurrentService,
-    public playerVolumeSvc: PlayerVolumeService,
-    public playerMuteSvc: PlayerMuteService
+    private store: Store<fromStore.PlayerState>,
   ) { }
 
   ngOnInit() {
-    this.playerQueueSvc.query()
-      .subscribe(
-        (queue) => this.queue = queue,
-        (err) => console.error(err) /** TODO: Some error handling here **/
-      );
+    this.current$ = this.store.select(fromStore.getCurrent);
+    this.queue$ = this.store.select(fromStore.getQueue);
+    this.volume$ = this.store.select(fromStore.getVolume);
+    this.mute$ = this.store.select(fromStore.getMute);
+    this.meta$ = this.store.select(fromStore.getQueueMeta);
 
-    this.playerCurrentSvc.get()
-      .subscribe(
-        (current) => this.current = current,
-        (err) => console.error(err) /** TODO: Some error handling here **/
-      );
-
-    this.playerMuteSvc.get()
-      .subscribe(
-        (mute) => this.mute = mute,
-        (err) => console.error(err) /** TODO: Some error handling here **/
-      );
-
-    this.playerVolumeSvc.get()
-      .subscribe(
-        (volume) => this.volume = volume,
-        (err) => console.error(err) /** TODO: Some error handling here **/
-      );
-
-    this.playerQueueSvc.getMeta()
-      .subscribe(
-        (meta) => this.meta = meta,
-        (err) => console.error(err) /** TODO: Some error handling here **/
-      );
+    this.store.dispatch({ type: fromStore.LOAD_CURRENT });
+    this.store.dispatch({ type: fromStore.LOAD_QUEUE });
+    this.store.dispatch({ type: fromStore.LOAD_VOLUME });
+    this.store.dispatch({ type: fromStore.LOAD_MUTE });
+    this.store.dispatch({ type: fromStore.LOAD_QUEUE_META });
   }
 }

@@ -1,4 +1,4 @@
-export interface Meta {
+export interface QueueMeta {
   play_time: number;
   genres: { [key: string]: number };
   total: number;
