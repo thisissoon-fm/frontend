@@ -43,7 +43,7 @@ export class PlayerMuteService {
    * @memberof PlayerMuteService
    */
   public post(): Observable<Mute> {
-    return this.http.post<Mute>(this.endpointUrl, null);
+    return this.http.post<Mute>(this.endpointUrl, {});
   }
   /**
    * Unmute the player volume

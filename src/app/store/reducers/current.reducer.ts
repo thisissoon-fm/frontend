@@ -10,7 +10,7 @@ export interface CurrentState {
 const initialState: CurrentState = {
   loaded: false,
   loading: false,
-  current: null,
+  current: null
 };
 
 export function currentReducer(
@@ -47,6 +47,18 @@ export function currentReducer(
         loaded: false,
         loading: false,
         current: null
+      });
+    }
+
+    case current.ADD_PAUSE_SUCCESS: {
+      return Object.assign({}, state, {
+        current: Object.assign({}, state.current, { paused: true })
+      });
+    }
+
+    case current.REMOVE_PAUSE_SUCCESS: {
+      return Object.assign({}, state, {
+        current: Object.assign({}, state.current, { paused: false })
       });
     }
   }
