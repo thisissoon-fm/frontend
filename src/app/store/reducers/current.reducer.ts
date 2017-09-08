@@ -77,7 +77,5 @@ export function currentReducer(
 }
 
 export const getCurrentLoaded = (state: CurrentState) => state.loaded;
-
 export const getCurrentLoading = (state: CurrentState) => state.loading;
-
 export const getCurrent = (state: CurrentState) => state.current;

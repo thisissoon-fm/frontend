@@ -48,7 +48,5 @@ export function userReducer(
 }
 
 export const getUserLoaded = (state: UserState) => state.loaded;
-
 export const getUserLoading = (state: UserState) => state.loading;
-
 export const getUser = (state: UserState) => state.user;
