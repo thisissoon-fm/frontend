@@ -18,22 +18,20 @@ export class MuteEffects {
         .catch((err) => Observable.of(new muteActions.LoadMuteFail(err)))
     );
 
-  @Effect()
+  @Effect({ dispatch: false })
   public AddMute$: Observable<Action> = this.actions$
     .ofType(muteActions.ADD_MUTE)
     .mergeMap(() =>
       this.playerMuteSvc.post()
-        .map((res) => new muteActions.AddMuteSuccess(res))
-        .catch((err) => Observable.of(new muteActions.AddMuteFail(err)))
+        .catch((err) => Observable.of(err))
     );
 
-  @Effect()
+  @Effect({dispatch: false})
   public removeMute$: Observable<Action> = this.actions$
     .ofType(muteActions.REMOVE_MUTE)
     .mergeMap(() =>
       this.playerMuteSvc.delete()
-        .map((res) => new muteActions.RemoveMuteSuccess(res))
-        .catch((err) => Observable.of(new muteActions.RemoveMuteFail(err)))
+        .catch((err) => Observable.of(err))
     );
 
 

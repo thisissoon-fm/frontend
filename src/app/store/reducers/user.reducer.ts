@@ -1,4 +1,4 @@
-import * as user from '../actions/user.action';
+import * as fromUser from '../actions/user.action';
 import { User } from '../../api';
 
 export interface UserState {
@@ -15,18 +15,18 @@ const initialState: UserState = {
 
 export function userReducer(
   state = initialState,
-  action: user.UserAction
+  action: fromUser.UserAction
 ): UserState {
   switch (action.type) {
-    case user.LOAD_ME: {
+    case fromUser.LOAD_ME: {
       return Object.assign({}, state, {
         loaded: false,
         loading: true
       });
     }
 
-    case user.LOAD_ME_SUCCESS: {
-      const user = (<user.LoadMeSuccess>action).payload;
+    case fromUser.LOAD_ME_SUCCESS: {
+      const user = (<fromUser.LoadMeSuccess>action).payload;
 
       return {
         loaded: true,
@@ -35,7 +35,7 @@ export function userReducer(
       };
     }
 
-    case user.LOAD_ME_FAIL: {
+    case fromUser.LOAD_ME_FAIL: {
       return Object.assign({}, state, {
         loaded: false,
         loading: false,

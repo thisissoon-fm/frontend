@@ -4,7 +4,8 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import * as queueActions from '../actions/queue.action';
-import { PlayerQueueService } from '../../api';
+import { PlayerQueueService, Track, TrackService, User, UserService, QueueItem } from '../../api';
+import { PlayerEvent } from '../../event';
 
 @Injectable()
 export class QueueEffects {
@@ -21,22 +22,22 @@ export class QueueEffects {
 
   @Effect()
   public addToQueue$: Observable<Action> = this.actions$
-    .ofType(queueActions.ADD_QUEUE)
-    .map((action: queueActions.AddQueue) => action.payload)
+    .ofType(queueActions.QUEUE_ADD)
+    .map((action: queueActions.QueueAdd) => action.payload)
     .mergeMap((uri) =>
       this.playerQueueSvc.post(uri)
-        .map((res) => new queueActions.AddQueueSuccess(res))
-        .catch((err) => Observable.of(new queueActions.AddQueueFail(err)))
+        .map((res) => new queueActions.QueueAddSuccess(res))
+        .catch((err) => Observable.of(new queueActions.QueueAddFail(err)))
     );
 
   @Effect()
   public removeFromQueue$: Observable<Action> = this.actions$
-    .ofType(queueActions.REMOVE_QUEUE)
-    .map((action: queueActions.RemoveQueue) => action.payload)
+    .ofType(queueActions.QUEUE_REMOVE)
+    .map((action: queueActions.QueueRemove) => action.payload)
     .mergeMap((uuid) =>
       this.playerQueueSvc.delete(uuid)
-        .map((res) => new queueActions.RemoveQueueSuccess(res))
-        .catch((err) => Observable.of(new queueActions.RemoveQueueFail(err)))
+        .map((res) => new queueActions.QueueRemoveSuccess(uuid))
+        .catch((err) => Observable.of(new queueActions.QueueRemoveFail(err)))
     );
 
   @Effect()
@@ -48,8 +49,27 @@ export class QueueEffects {
         .catch((err) => Observable.of(new queueActions.LoadQueueMetaFail(err)))
     );
 
+  @Effect()
+  public loadQueueItem$: Observable<Action> = this.actions$
+    .ofType(queueActions.LOAD_QUEUE_ITEM)
+    .map((action: queueActions.LoadQueueItem) => action.payload)
+    .switchMap((data: PlayerEvent) => {
+      const track = this.trackSvc.get(data.uri);
+      const user = this.userSvc.get(data.user);
+      return Observable.forkJoin(track, user)
+        .map((results) =>
+          new queueActions.LoadQueueItemSuccess({
+            track: <Track>results[0],
+            user: <User>results[1],
+            uuid: null // TODO: update api to get uuid
+          }))
+        .catch((err) => Observable.of(new queueActions.LoadQueueItemFail(err)));
+    });
+
   constructor(
     private actions$: Actions,
-    private playerQueueSvc: PlayerQueueService
+    private playerQueueSvc: PlayerQueueService,
+    private trackSvc: TrackService,
+    private userSvc: UserService
   ) { }
 }

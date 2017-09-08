@@ -1,32 +1,48 @@
-import './operators';
+import './rxjs';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import * as io from 'socket.io-client';
 
-import { AppComponent } from './app.component';
 import { ApiModule, LocalStorageService } from './api';
 import { StoreModule as fmStoreModule } from './store';
+import { EventModule, SocketIOService } from './event';
 
+import { AppComponent } from './app.component';
+
+// Factories to be specifically provided for browser platform
 export const getLocalStorage = () => localStorage;
+export const getSocketIO = () => {
+  return { connect: io };
+};
 
+/**
+ * Root module that imports all other modules and is
+ * boostrapped by `/src/main.ts`
+ *
+ * @export
+ * @class AppModule
+ */
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
     CommonModule,
+    StoreModule.forRoot([]),
+    EffectsModule.forRoot([]),
+    fmStoreModule,
     ApiModule.forRoot([
       { provide: LocalStorageService, useFactory: (getLocalStorage) }
     ]),
-    StoreModule.forRoot([]),
-    EffectsModule.forRoot([]),
-    fmStoreModule
+    EventModule.forRoot([
+      { provide: SocketIOService, useFactory: (getSocketIO) }
+    ])
   ],
-  providers: [],
+  declarations: [
+    AppComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

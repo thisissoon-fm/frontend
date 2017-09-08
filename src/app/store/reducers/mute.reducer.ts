@@ -1,4 +1,4 @@
-import * as mute from '../actions/mute.action';
+import * as fromMute from '../actions/mute.action';
 import { Mute } from '../../api';
 
 export interface MuteState {
@@ -15,20 +15,20 @@ const initialState: MuteState = {
 
 export function muteReducer(
   state = initialState,
-  action: mute.MuteAction
+  action: fromMute.MuteAction
 ): MuteState {
   switch (action.type) {
-    case mute.LOAD_MUTE: {
+    case fromMute.LOAD_MUTE: {
       return Object.assign({}, state, {
         loaded: false,
         loading: true
       });
     }
 
-    case mute.ADD_MUTE_SUCCESS:
-    case mute.REMOVE_MUTE_SUCCESS:
-    case mute.LOAD_MUTE_SUCCESS: {
-      const mute = (<mute.LoadMuteSuccess | mute.AddMuteSuccess | mute.RemoveMuteSuccess>action).payload;
+    case fromMute.ADD_MUTE_SUCCESS:
+    case fromMute.REMOVE_MUTE_SUCCESS:
+    case fromMute.LOAD_MUTE_SUCCESS: {
+      const mute = (<fromMute.LoadMuteSuccess | fromMute.AddMuteSuccess | fromMute.RemoveMuteSuccess>action).payload;
 
       return {
         loaded: true,
@@ -37,7 +37,7 @@ export function muteReducer(
       };
     }
 
-    case mute.LOAD_MUTE_FAIL: {
+    case fromMute.LOAD_MUTE_FAIL: {
       return Object.assign({}, state, {
         loaded: false,
         loading: false

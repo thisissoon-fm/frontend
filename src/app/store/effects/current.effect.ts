@@ -18,31 +18,28 @@ export class CurrentEffects {
         .catch((err) => Observable.of(new currentActions.LoadCurrentFail(err)))
     );
 
-  @Effect()
+  @Effect({ dispatch: false })
   public removeCurrent$: Observable<Action> = this.actions$
     .ofType(currentActions.REMOVE_CURRENT)
     .switchMap(() =>
       this.playerCurrentSvc.delete()
-        .map((res) => new currentActions.RemoveCurrentSuccess(res))
-        .catch((err) => Observable.of(new currentActions.RemoveCurrentFail(err)))
+        .catch((err) => Observable.of(err))
     );
 
-  @Effect()
+  @Effect({ dispatch: false })
   public AddPause$: Observable<Action> = this.actions$
     .ofType(currentActions.ADD_PAUSE)
     .mergeMap(() =>
       this.playerPauseSvc.post()
-        .map((res) => new currentActions.AddPauseSuccess(res))
-        .catch((err) => Observable.of(new currentActions.AddPauseFail(err)))
+        .catch((err) => Observable.of(err))
     );
 
-  @Effect()
+  @Effect({ dispatch: false })
   public removePause$: Observable<Action> = this.actions$
     .ofType(currentActions.REMOVE_PAUSE)
     .mergeMap(() =>
       this.playerPauseSvc.delete()
-        .map((res) => new currentActions.RemovePauseSuccess(res))
-        .catch((err) => Observable.of(new currentActions.RemovePauseFail(err)))
+        .catch((err) => Observable.of(err))
     );
 
 
