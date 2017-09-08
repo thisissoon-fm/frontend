@@ -1,4 +1,4 @@
-import * as volume from '../actions/volume.action';
+import * as fromVolume from '../actions/volume.action';
 import { Volume } from '../../api';
 
 export interface VolumeState {
@@ -15,19 +15,19 @@ const initialState: VolumeState = {
 
 export function volumeReducer(
   state = initialState,
-  action: volume.VolumeAction
+  action: fromVolume.VolumeAction
 ): VolumeState {
   switch (action.type) {
-    case volume.LOAD_VOLUME: {
+    case fromVolume.LOAD_VOLUME: {
       return Object.assign({}, state, {
         loaded: false,
         loading: true
       });
     }
 
-    case volume.SET_VOLUME_SUCCESS:
-    case volume.LOAD_VOLUME_SUCCESS: {
-      const volume = (<volume.LoadVolumeSuccess>action).payload;
+    case fromVolume.SET_VOLUME_SUCCESS:
+    case fromVolume.LOAD_VOLUME_SUCCESS: {
+      const volume = (<fromVolume.LoadVolumeSuccess>action).payload;
 
       return {
         loaded: true,
@@ -36,7 +36,7 @@ export function volumeReducer(
       };
     }
 
-    case volume.LOAD_VOLUME_FAIL: {
+    case fromVolume.LOAD_VOLUME_FAIL: {
       return Object.assign({}, state, {
         loaded: false,
         loading: false

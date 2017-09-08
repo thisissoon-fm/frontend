@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 
 /**
  * Reference for local storage, can be replaced with
- * any appropriate store service depending on the
- * platform
+ * any appropriate store service depending on the platform
  *
  * @export
  * @class LocalStorageService

@@ -7,6 +7,7 @@ export const REMOVE_CURRENT_FAIL      = '[Current] Remove Current Fail';
 export const LOAD_CURRENT             = '[Current] Load Current';
 export const LOAD_CURRENT_FAIL        = '[Current] Load Current Fail';
 export const LOAD_CURRENT_SUCCESS     = '[Current] Load Current Success';
+export const TIMER_INCREMENT          = '[Current] Timer Increment';
 export const ADD_PAUSE                = '[Current] Add Pause';
 export const ADD_PAUSE_SUCCESS        = '[Current] Add Pause Success';
 export const ADD_PAUSE_FAIL           = '[Current] Add Pause Fail';
@@ -34,7 +35,7 @@ export class RemoveCurrentFail implements Action {
 }
 
 /**
- * Load Collection Actions
+ * Load Current Actions
  */
 export class LoadCurrent implements Action {
   readonly type = LOAD_CURRENT;
@@ -50,6 +51,13 @@ export class LoadCurrentFail implements Action {
   readonly type = LOAD_CURRENT_FAIL;
 
   constructor(public payload: any) { }
+}
+
+/**
+ * Timer Actions
+ */
+export class TimerIncrement implements Action {
+  readonly type = TIMER_INCREMENT;
 }
 
 
@@ -98,6 +106,7 @@ export type CurrentAction =
   | LoadCurrent
   | LoadCurrentSuccess
   | LoadCurrentFail
+  | TimerIncrement
   | AddPause
   | AddPauseSuccess
   | AddPauseFail

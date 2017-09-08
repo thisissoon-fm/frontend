@@ -20,7 +20,6 @@ import { reducers } from './reducers';
     ApiModule,
     ngrxStoreModule.forFeature('player', reducers),
     EffectsModule.forFeature(effects),
-  ],
-  declarations: []
+  ]
 })
 export class StoreModule { }
