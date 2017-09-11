@@ -30,34 +30,8 @@
 
               <ul class="list-unstyled">
                 <ng-template ngFor let-item [ngForOf]="queue$ | async">
-                  <li>
-                    <div class="media media-hover align-items-center mb-3">
-                      <div
-                        class="media-img d-flex mr-3"
-                        style.backgroundImage="url({{ item.track.album.images[0].url }})">
-                        <img
-                          [src]="item.track.album.images[0].url"
-                          [alt]="item.track.name">
-                      </div>
-                      <div class="media-body">
-                        <h3 class="h1 mt-0 mb-0 text-truncate">
-                          {{ item.track.name }}
-                        </h3>
-                        <p class="lead mb-0 font-weight-bold text-truncate">
-                          {{ item.track.artistsAsString }}
-                        </p>
-                        <p class="lead mb-0 font-weight-bold text-muted text-truncate">
-                          {{ item.track.album.name }}
-                        </p>
-                      </div>
-                      <div class="media-user d-flex align-items-center ml-3 flex-column">
-                        <p class="small">Added by</p>
-                        <img
-                          class="rounded-circle img-avatar"
-                          [src]="item.user.avatar_url"
-                          [alt]="item.user.display_name">
-                      </div>
-                    </div>
+                  <li class="mb-3">
+                    <sfm-queue-item [item]="item" [imageIndex]="1"></sfm-queue-item>
                   </li>
                 </ng-template>
               </ul>
@@ -178,28 +152,10 @@
               </div>
             </div>
 
+
             <div class="row no-gutters mb-2 pr-3">
               <div class="col-12">
-                <div class="media align-items-center">
-                  <div class="media-body">
-                    <h3 class="h1 mt-0 mb-0 text-truncate">
-                      {{ (current$ | async)?.track?.name }}
-                    </h3>
-                    <p class="lead mb-0 font-weight-bold text-truncate">
-                      {{ (current$ | async)?.track?.artistsAsString }}
-                    </p>
-                    <p class="lead mb-0 font-weight-bold text-muted text-truncate">
-                      {{ (current$ | async)?.track?.album?.name }}
-                    </p>
-                  </div>
-                  <div class="media-user d-flex align-items-center ml-3 flex-column">
-                    <p class="small">Added by</p>
-                    <img
-                      class="rounded-circle img-avatar"
-                      [src]="(current$ | async)?.user?.avatar_url || ''"
-                      [alt]="(current$ | async)?.user?.display_name">
-                  </div>
-                </div>
+                <sfm-queue-item [item]="current$ | async" [displayImage]="false"></sfm-queue-item>
               </div>
             </div>
 

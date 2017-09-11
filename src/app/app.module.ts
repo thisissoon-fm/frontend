@@ -11,15 +11,16 @@ import * as io from 'socket.io-client';
 import { ApiModule, LocalStorageService } from './api';
 import { StoreModule as fmStoreModule } from './store';
 import { EventModule, SocketIOService } from './event';
+import { SearchModule } from './search';
+import { PlayerModule } from './player';
+import { SharedModule } from './shared/';
 
 import { AppComponent } from './app.component';
-import { SearchModule } from './search/search.module';
 
 // Factories to be specifically provided for browser platform
+const socketIO = { connect: io };
 export const getLocalStorage = () => localStorage;
-export const getSocketIO = () => {
-  return { connect: io };
-};
+export const getSocketIO = () => socketIO;
 
 /**
  * Root module that imports all other modules and is
@@ -35,6 +36,7 @@ export const getSocketIO = () => {
     NgbDropdownModule.forRoot(),
     StoreModule.forRoot([]),
     EffectsModule.forRoot([]),
+    SharedModule.forRoot(),
     fmStoreModule,
     ApiModule.forRoot([
       { provide: LocalStorageService, useFactory: (getLocalStorage) }
@@ -42,7 +44,8 @@ export const getSocketIO = () => {
     EventModule.forRoot([
       { provide: SocketIOService, useFactory: (getSocketIO) }
     ]),
-    SearchModule
+    SearchModule,
+    PlayerModule
   ],
   declarations: [
     AppComponent

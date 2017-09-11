@@ -3,19 +3,31 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { SearchComponent } from './search.component';
+import { SharedModule } from '../shared';
+
+import { SearchComponent } from './search';
+import { TrackComponent } from './track';
+import { AlbumComponent } from './album';
+import { ArtistComponent } from './artist';
 
 @NgModule({
   imports: [
     CommonModule,
     StoreModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    SharedModule
   ],
   exports: [
-    SearchComponent
+    SearchComponent,
+    TrackComponent,
+    ArtistComponent,
+    AlbumComponent
   ],
   declarations: [
-    SearchComponent
+    SearchComponent,
+    TrackComponent,
+    AlbumComponent,
+    ArtistComponent
   ]
 })
 export class SearchModule { }

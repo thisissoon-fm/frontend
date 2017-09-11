@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import * as fromStore from '../store';
-import { SearchType } from '../api';
+import * as fromStore from '../../store';
+import { SearchType } from '../../api';
 
 @Component({
   selector: 'sfm-search',
