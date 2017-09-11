@@ -67,13 +67,6 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public meta$: Observable<QueueMeta>;
   /**
-   * Observable of search status
-   *
-   * @type {Observable<fromStore.SearchState>}
-   * @memberof AppComponent
-   */
-  public search$: Observable<fromStore.SearchState>;
-  /**
    * Observable that emits and event when volume is changed
    * using the `[input="range"]` slider
    *
@@ -81,13 +74,6 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onVolumeChange$: Subject<number> = new Subject<number>();
-  /**
-   * Observable that emits and event when search input is changed
-   *
-   * @type {Subject<string>}
-   * @memberof AppComponent
-   */
-  public onSearchChange$: Subject<string> = new Subject<string>();
   /**
    * Interval observable that will update track timer when track is playing
    *
@@ -106,40 +92,17 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Specifies the current view in the sidebar
    *
-   * @type {View}
+   * @type {Observable<View>}
    * @memberof AppComponent
    */
-  public view: View = View.STATS;
+  public view$: Observable<View>;
   /**
-   * Returns true if stats view
+   * Store `view` enum as a property in the component
+   * to use in template
    *
-   * @readonly
-   * @type {boolean}
    * @memberof AppComponent
    */
-  public get isStatsView(): boolean {
-    return (this.view === View.STATS);
-  }
-  /**
-   * Returns true if search view
-   *
-   * @readonly
-   * @type {boolean}
-   * @memberof AppComponent
-   */
-  public get isSearchView(): boolean {
-    return (this.view === View.SEARCH);
-  }
-  /**
-   * Returns true if history view
-   *
-   * @readonly
-   * @type {boolean}
-   * @memberof AppComponent
-   */
-  public get isHistoryView(): boolean {
-    return (this.view === View.HISTORY);
-  }
+  public view = View;
   /**
    * Creates an instance of AppComponent.
    * @param {Store<fromStore.PlayerState>} store
@@ -161,7 +124,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.volume$ = this.store.select(fromStore.getVolume);
     this.mute$ = this.store.select(fromStore.getMute);
     this.meta$ = this.store.select(fromStore.getQueueMeta);
-    this.search$ = this.store.select(fromStore.getSearchState);
+    this.view$ = this.store.select(fromStore.getView);
+
 
     this.store.dispatch(new fromStore.LoadCurrent());
     this.store.dispatch(new fromStore.LoadQueue());
@@ -175,12 +139,6 @@ export class AppComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe$)
       .debounceTime(100)
       .subscribe((vol) => this.setVolume(vol));
-
-    this.onSearchChange$
-      .takeUntil(this.ngUnsubscribe$)
-      .filter((query) => query.length > 2)
-      .debounceTime(100)
-      .subscribe((query) => this.setSearch(query, 'track'));
 
     this.eventSvc.messages$
       .takeUntil(this.ngUnsubscribe$)
@@ -198,17 +156,6 @@ export class AppComponent implements OnInit, OnDestroy {
     // Update UI instantly while we wait for request to go through
     this.store.dispatch(new fromStore.SetVolumeSuccess({ volume }));
     this.onVolumeChange$.next(volume);
-  }
-  /**
-   * Event handler for search input change, send next value
-   * to `onSearchChange$` observable
-   *
-   * @param {Event} event
-   * @memberof AppComponent
-   */
-  public onSearchInputChange(event: Event): void {
-    const query = (<HTMLInputElement>event.target).value;
-    this.onSearchChange$.next(query);
   }
   /**
    * Sends requests to api to toggle pause status
@@ -254,22 +201,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromStore.SetVolume({ volume }));
   }
   /**
-   * Set search query
+   * Set sidebar view
    *
-   * @param {Event} $event
+   * @param {View} view
    * @memberof AppComponent
    */
-  public setSearch(query: string, type: SearchType): void {
-    this.store.dispatch(new fromStore.LoadSearchResults({ query, type }));
-  }
-  /**
-   * Add to queue
-   *
-   * @param {Event} $event
-   * @memberof AppComponent
-   */
-  public addToQueue(uri: string): void {
-    this.store.dispatch(new fromStore.QueueAdd(uri));
+  public setView(view: View): void {
+    this.store.dispatch(new fromStore.SetView(view));
   }
   /**
    * Event handler for events from socket.io event service

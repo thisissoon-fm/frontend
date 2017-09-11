@@ -1,0 +1,65 @@
+<div class="grid-padding">
+  <div class="container-fluid pt-3 pb-3">
+    <div class="row">
+      <div class="col-12">
+
+        <div class="d-flex justify-content-between">
+
+          <div class="form-group border-left w-75">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Start searching here…"
+              (input)="onSearchInputChange($event)">
+          </div>
+
+          <div class="dropdown">
+            <button class="btn btn-link dropdown-toggle text-secondary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Tracks
+              <i class="icon icon-caret-down ml-1 small"></i>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Tracks</a>
+              <a class="dropdown-item" href="#">Artists</a>
+              <a class="dropdown-item" href="#">Albums</a>
+            </div>
+          </div>
+
+          <button class="btn btn-link text-secondary" (click)="close()">
+            <i class="icon icon-close"></i>
+          </button>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pt-3 pb-3 bg-white text-secondary" *ngFor="let item of (search$ | async)?.results">
+  <div class="row no-gutters">
+    <div class="col-12">
+      <div class="media align-items-center">
+        <div class="media-img media-img-lg d-flex mr-3" style.backgroundImage="url({{ item.album.images[1].url }})">
+          <img [src]="item.album.images[1].url" [alt]="item.name">
+        </div>
+        <div class="media-body align-items-center">
+          <h3 class="h5 mt-0 mb-1 text-truncate">{{ item.name }}</h3>
+          <p class="lead mb-0 text-light text-truncate">{{ item.artists[0].name }}</p>
+          <p class="lead mb-2 text-light text-truncate">{{ item.album.name }}</p>
+          <p class="mb-0">{{ item.duration_ms | date:'m:ss' }}  <!-- TODO: Add genre if possible <span class="seperator"></span> Rap--></p>
+        </div>
+        <div class="media-cta d-flex align-self-start align-items-start ml-3 flex-column">
+          <button
+            type="button"
+            class="btn btn-primary text-secondary rotate-90"
+            (click)="addToQueue(item.uri)">
+            <i class="icon icon-plus pr-2"></i>
+            <span class="small font-weight-bold">Add to playlist</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

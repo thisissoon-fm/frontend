@@ -6,7 +6,7 @@ export const LOAD_SEARCH_RESULTS_FAIL        = '[Search] Load Search Fail';
 export const LOAD_SEARCH_RESULTS_SUCCESS     = '[Search] Load Search Success';
 
 /**
- * Load Current Actions
+ * Load search results actions
  */
 export class LoadSearchResults implements Action {
   readonly type = LOAD_SEARCH_RESULTS;

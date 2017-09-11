@@ -12,6 +12,7 @@ import { StoreModule as fmStoreModule } from './store';
 import { EventModule, SocketIOService } from './event';
 
 import { AppComponent } from './app.component';
+import { SearchModule } from './search/search.module';
 
 // Factories to be specifically provided for browser platform
 export const getLocalStorage = () => localStorage;
@@ -38,7 +39,8 @@ export const getSocketIO = () => {
     ]),
     EventModule.forRoot([
       { provide: SocketIOService, useFactory: (getSocketIO) }
-    ])
+    ]),
+    SearchModule
   ],
   declarations: [
     AppComponent

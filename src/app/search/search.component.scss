@@ -1,0 +1,9 @@
+@import "../../scss/helpers";
+
+:host {
+  background-color: $white;
+  color: $black;
+  display: block;
+  height: 100vh;
+  overflow: auto;
+}

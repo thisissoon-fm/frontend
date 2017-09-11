@@ -1,85 +1,83 @@
-<div class="sfm">
-  <div
-    class="sfm-left"
-    style.backgroundImage="url({{ (current$ | async)?.track?.album?.images[0].url }})">
-
-    <div class="sfm-nav">
-      <div class="grid-padding pt-3 pb-3">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <img class="img-logo" src="/assets/img/logo/logo-white.svg" alt="SOON FM_">
-            </div>
+<div class="main" style.backgroundImage="url({{ (current$ | async)?.track?.album?.images[0].url }})">
+  <div class="nav">
+    <div class="grid-padding pt-3 pb-3">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <img class="img-logo" src="/assets/img/logo/logo-white.svg" alt="SOON FM_">
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="sfm-playlist">
+  <div class="playlist">
 
-      <div class="sfm-playlist-heading">
-        <div class="sfm-playlist-heading-content">
-          <p class="text-primary font-weight-bold rotate-90 text-nowrap sfm-playlist-heading-text mb-0">
-            Upcoming beats
-          </p>
-        </div>
+    <div class="playlist-heading">
+      <div class="playlist-heading-content">
+        <p class="text-primary font-weight-bold rotate-90 text-nowrap playlist-heading-text mb-0">
+          Upcoming beats
+        </p>
       </div>
+    </div>
 
-      <div class="sfm-playlist-tracks">
+    <div class="playlist-tracks">
 
-        <div class="grid-padding">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-12">
+      <div class="grid-padding">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
 
-                <ul class="list-unstyled">
-                  <ng-template ngFor let-item [ngForOf]="queue$ | async">
-                    <li>
-                      <div class="media media-hover align-items-center mb-3">
-                        <div
-                          class="media-img d-flex mr-3"
-                          style.backgroundImage="url({{ item.track.album.images[0].url }})">
-                          <img
-                            [src]="item.track.album.images[0].url"
-                            [alt]="item.track.name">
-                        </div>
-                        <div class="media-body">
-                          <h3 class="h1 mt-0 mb-0 text-truncate">
-                            {{ item.track.name }}
-                          </h3>
-                          <p class="lead mb-0 font-weight-bold text-truncate">
-                            {{ item.track.artistsAsString }}
-                          </p>
-                          <p class="lead mb-0 font-weight-bold text-muted text-truncate">
-                            {{ item.track.album.name }}
-                          </p>
-                        </div>
-                        <div class="media-user d-flex align-items-center ml-3 flex-column">
-                          <p class="small">Added by</p>
-                          <img
-                            class="rounded-circle img-avatar"
-                            [src]="item.user.avatar_url"
-                            [alt]="item.user.display_name">
-                        </div>
+              <ul class="list-unstyled">
+                <ng-template ngFor let-item [ngForOf]="queue$ | async">
+                  <li>
+                    <div class="media media-hover align-items-center mb-3">
+                      <div
+                        class="media-img d-flex mr-3"
+                        style.backgroundImage="url({{ item.track.album.images[0].url }})">
+                        <img
+                          [src]="item.track.album.images[0].url"
+                          [alt]="item.track.name">
                       </div>
-                    </li>
-                  </ng-template>
-                </ul>
+                      <div class="media-body">
+                        <h3 class="h1 mt-0 mb-0 text-truncate">
+                          {{ item.track.name }}
+                        </h3>
+                        <p class="lead mb-0 font-weight-bold text-truncate">
+                          {{ item.track.artistsAsString }}
+                        </p>
+                        <p class="lead mb-0 font-weight-bold text-muted text-truncate">
+                          {{ item.track.album.name }}
+                        </p>
+                      </div>
+                      <div class="media-user d-flex align-items-center ml-3 flex-column">
+                        <p class="small">Added by</p>
+                        <img
+                          class="rounded-circle img-avatar"
+                          [src]="item.user.avatar_url"
+                          [alt]="item.user.display_name">
+                      </div>
+                    </div>
+                  </li>
+                </ng-template>
+              </ul>
 
-              </div>
             </div>
           </div>
         </div>
-
       </div>
 
     </div>
 
   </div>
 
-  <div class="sfm-right" *ngIf="isStatsView">
+</div>
 
-    <div class="sfm-nav">
+<aside class="aside" [ngSwitch]="view$ | async">
+
+  <ng-template ngSwitchDefault>
+
+    <div class="nav">
       <div class="grid-padding pt-3 pb-3">
 
         <div class="container-fluid">
@@ -92,7 +90,7 @@
                       class="text-white h4"
                       href="#"
                       role="button"
-                      (click)="$event.preventDefault();view = 2">
+                      (click)="setView(view.STATS)">
                       <i class="icon icon-stats-dots"></i>
                     </a>
                   </li>
@@ -101,7 +99,7 @@
                       class="text-white h4"
                       href="#"
                       role="button"
-                      (click)="$event.preventDefault();view = 1">
+                      (click)="setView(view.HISTORY)">
                       <i class="icon icon-history"></i>
                     </a>
                   </li>
@@ -110,7 +108,7 @@
                       class="text-white h4"
                       href="#"
                       role="button"
-                      (click)="$event.preventDefault();view = 0">
+                      (click)="setView(view.SEARCH)">
                       <i class="icon icon-search"></i>
                     </a>
                   </li>
@@ -123,8 +121,8 @@
       </div>
     </div>
 
-    <div class="sfm-info pt-2">
-      <div class="row no-gutters pl-3 sfm-stats">
+    <div class="d-flex flex-column justify-content-end pt-2">
+      <div class="row no-gutters pl-3 stats">
 
         <div class="col-12 mb-4">
           <h2 class="h6 font-weight-bold text-primary mb-2">Weekly Leaderboard</h2>
@@ -164,7 +162,7 @@
 
       </div>
 
-      <div class="row no-gutters pl-3 pb-3 sfm-controls">
+      <div class="row no-gutters pl-3 pb-3 controls">
         <div class="col-12">
 
           <div *ngIf="(current$ | async)?.track">
@@ -267,76 +265,8 @@
       </div>
     </div>
 
-  </div>
+  </ng-template>
 
-  <div class="sfm-right bg-white text-secondary" *ngIf="isSearchView">
+  <sfm-search *ngSwitchCase="view.SEARCH"></sfm-search>
+</aside>
 
-    <div class="grid-padding">
-      <div class="container-fluid pt-3 pb-3">
-        <div class="row">
-          <div class="col-12">
-
-            <div class="d-flex justify-content-between">
-
-              <div class="form-group border-left w-75">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Start searching here…"
-                  (input)="onSearchInputChange($event)">
-              </div>
-
-              <div class="dropdown">
-                <button class="btn btn-link dropdown-toggle text-secondary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Tracks
-                  <i class="icon icon-caret-down ml-1 small"></i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Tracks</a>
-                  <a class="dropdown-item" href="#">Artists</a>
-                  <a class="dropdown-item" href="#">Albums</a>
-                </div>
-              </div>
-
-              <button class="btn btn-link text-secondary" (click)="view = 2">
-                <i class="icon icon-close"></i>
-              </button>
-
-            </div>
-
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pt-3 pb-3 bg-white text-secondary" *ngFor="let item of (search$ | async)?.results">
-      <div class="row no-gutters">
-        <div class="col-12">
-          <div class="media align-items-center">
-            <div class="media-img media-img-lg d-flex mr-3" style.backgroundImage="url({{ item.album.images[1].url }})">
-              <img [src]="item.album.images[1].url" [alt]="item.name">
-            </div>
-            <div class="media-body align-items-center">
-              <h3 class="h5 mt-0 mb-1 text-truncate">{{ item.name }}</h3>
-              <p class="lead mb-0 text-light text-truncate">{{ item.artists[0].name }}</p>
-              <p class="lead mb-2 text-light text-truncate">{{ item.album.name }}</p>
-              <p class="mb-0">{{ item.duration_ms | date:'m:ss' }}  <!-- <span class="seperator"></span> Rap--></p>
-            </div>
-            <div class="media-cta d-flex align-self-start align-items-start ml-3 flex-column">
-              <button
-                type="button"
-                class="btn btn-primary text-secondary rotate-90"
-                (click)="addToQueue(item.uri)">
-                <i class="icon icon-plus pr-2"></i>
-                <span class="small font-weight-bold">Add to playlist</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-</div>
