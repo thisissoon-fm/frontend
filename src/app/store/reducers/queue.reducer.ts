@@ -77,9 +77,6 @@ export function queueReducer(
 }
 
 export const getQueueLoaded = (state: QueueState) => state.loaded;
-
 export const getQueueLoading = (state: QueueState) => state.loading;
-
 export const getQueue = (state: QueueState) => state.queue;
-
 export const getMeta = (state: QueueState) => state.meta;

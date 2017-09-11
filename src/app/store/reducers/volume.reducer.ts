@@ -48,7 +48,5 @@ export function volumeReducer(
 }
 
 export const getVolumeLoaded = (state: VolumeState) => state.loaded;
-
 export const getVolumeLoading = (state: VolumeState) => state.loading;
-
 export const getVolume = (state: VolumeState) => state.volume;

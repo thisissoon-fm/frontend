@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { QueueItem } from '../models';
 
+export type SearchType = 'album' | 'artist' | 'track';
+
 /**
  * Searches spotify tracks, albums or artists via the FM api
  *
@@ -40,12 +42,12 @@ export class PlayerSpotifySearchService {
    * @returns {Observable<any>}
    * @memberof PlayerSpotifySearchService
    */
-  public searchTrack(query: string): Observable<any> {
+  public search(query: string, type: SearchType = 'track'): Observable<any> {
     const options: any = {};
-    const params = new HttpParams();
-    params.set('q', `${query}*`);
-    params.set('type', 'track');
-    params.set('market', this.market);
+    const params = new HttpParams()
+      .set('q', `${query}*`)
+      .set('type', type)
+      .set('market', this.market);
     options.params = params;
     return this.http.get<any>(this.endpointUrl, options);
   }

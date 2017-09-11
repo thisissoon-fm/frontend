@@ -1,85 +1,83 @@
-<div class="sfm">
-  <div
-    class="sfm-left"
-    style.backgroundImage="url({{ (current$ | async)?.track?.album?.images[0].url }})">
-
-    <div class="sfm-nav">
-      <div class="grid-padding pt-3 pb-3">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <img class="img-logo" src="/assets/img/logo/logo-white.svg" alt="SOON FM_">
-            </div>
+<div class="main" style.backgroundImage="url({{ (current$ | async)?.track?.album?.images[0].url }})">
+  <div class="nav">
+    <div class="grid-padding pt-3 pb-3">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <img class="img-logo" src="/assets/img/logo/logo-white.svg" alt="SOON FM_">
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="sfm-playlist">
+  <div class="playlist">
 
-      <div class="sfm-playlist-heading">
-        <div class="sfm-playlist-heading-content">
-          <p class="text-primary font-weight-bold rotate-90 text-nowrap sfm-playlist-heading-text mb-0">
-            Upcoming beats
-          </p>
-        </div>
+    <div class="playlist-heading">
+      <div class="playlist-heading-content">
+        <p class="text-primary font-weight-bold rotate-90 text-nowrap playlist-heading-text mb-0">
+          Upcoming beats
+        </p>
       </div>
+    </div>
 
-      <div class="sfm-playlist-tracks">
+    <div class="playlist-tracks">
 
-        <div class="grid-padding">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-12">
+      <div class="grid-padding">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
 
-                <ul class="list-unstyled">
-                  <ng-template ngFor let-item [ngForOf]="queue$ | async">
-                    <li>
-                      <div class="media media-hover align-items-center mb-3">
-                        <div
-                          class="media-img d-flex mr-3"
-                          style.backgroundImage="url({{ item.track.album.images[0].url }})">
-                          <img
-                            [src]="item.track.album.images[0].url"
-                            [alt]="item.track.name">
-                        </div>
-                        <div class="media-body">
-                          <h3 class="h1 mt-0 mb-0 text-truncate">
-                            {{ item.track.name }}
-                          </h3>
-                          <p class="lead mb-0 font-weight-bold text-truncate">
-                            {{ item.track.artistsAsString }}
-                          </p>
-                          <p class="lead mb-0 font-weight-bold text-muted text-truncate">
-                            {{ item.track.album.name }}
-                          </p>
-                        </div>
-                        <div class="media-user d-flex align-items-center ml-3 flex-column">
-                          <p class="small">Added by</p>
-                          <img
-                            class="rounded-circle img-avatar"
-                            [src]="item.user.avatar_url"
-                            [alt]="item.user.display_name">
-                        </div>
+              <ul class="list-unstyled">
+                <ng-template ngFor let-item [ngForOf]="queue$ | async">
+                  <li>
+                    <div class="media media-hover align-items-center mb-3">
+                      <div
+                        class="media-img d-flex mr-3"
+                        style.backgroundImage="url({{ item.track.album.images[0].url }})">
+                        <img
+                          [src]="item.track.album.images[0].url"
+                          [alt]="item.track.name">
                       </div>
-                    </li>
-                  </ng-template>
-                </ul>
+                      <div class="media-body">
+                        <h3 class="h1 mt-0 mb-0 text-truncate">
+                          {{ item.track.name }}
+                        </h3>
+                        <p class="lead mb-0 font-weight-bold text-truncate">
+                          {{ item.track.artistsAsString }}
+                        </p>
+                        <p class="lead mb-0 font-weight-bold text-muted text-truncate">
+                          {{ item.track.album.name }}
+                        </p>
+                      </div>
+                      <div class="media-user d-flex align-items-center ml-3 flex-column">
+                        <p class="small">Added by</p>
+                        <img
+                          class="rounded-circle img-avatar"
+                          [src]="item.user.avatar_url"
+                          [alt]="item.user.display_name">
+                      </div>
+                    </div>
+                  </li>
+                </ng-template>
+              </ul>
 
-              </div>
             </div>
           </div>
         </div>
-
       </div>
 
     </div>
 
   </div>
 
-  <div class="sfm-right">
+</div>
 
-    <div class="sfm-nav">
+<aside class="aside" [ngSwitch]="view$ | async">
+
+  <ng-template ngSwitchDefault>
+
+    <div class="nav">
       <div class="grid-padding pt-3 pb-3">
 
         <div class="container-fluid">
@@ -88,13 +86,31 @@
 
                 <ul class="list-inline text-right mb-0">
                   <li class="list-inline-item pr-3">
-                    <a class="text-white h4" href="#"><i class="icon icon-stats-dots"></i></a>
+                    <a
+                      class="text-white h4"
+                      href="#"
+                      role="button"
+                      (click)="setView(view.STATS)">
+                      <i class="icon icon-stats-dots"></i>
+                    </a>
                   </li>
                   <li class="list-inline-item pr-3">
-                    <a class="text-white h4" href="#"><i class="icon icon-history"></i></a>
+                    <a
+                      class="text-white h4"
+                      href="#"
+                      role="button"
+                      (click)="setView(view.HISTORY)">
+                      <i class="icon icon-history"></i>
+                    </a>
                   </li>
                   <li class="list-inline-item">
-                    <a class="text-white h4" href="#"><i class="icon icon-search"></i></a>
+                    <a
+                      class="text-white h4"
+                      href="#"
+                      role="button"
+                      (click)="setView(view.SEARCH)">
+                      <i class="icon icon-search"></i>
+                    </a>
                   </li>
                 </ul>
 
@@ -105,8 +121,8 @@
       </div>
     </div>
 
-    <div class="sfm-info pt-2">
-      <div class="row no-gutters pl-3 sfm-stats">
+    <div class="d-flex flex-column justify-content-end pt-2">
+      <div class="row no-gutters pl-3 stats">
 
         <div class="col-12 mb-4">
           <h2 class="h6 font-weight-bold text-primary mb-2">Weekly Leaderboard</h2>
@@ -146,7 +162,7 @@
 
       </div>
 
-      <div class="row no-gutters pl-3 pb-3 sfm-controls">
+      <div class="row no-gutters pl-3 pb-3 controls">
         <div class="col-12">
 
           <div *ngIf="(current$ | async)?.track">
@@ -231,7 +247,7 @@
               </div>
               <div class="col-6 text-right">
                 <div class="volume-slider">
-                  <div id="fill" class="volume-slider-fill" style.width="{{ (volume$ | async)?.volume }}%"></div>
+                  <div class="volume-slider-fill" style.width="{{ (volume$ | async)?.volume }}%"></div>
                   <input
                     class="volume-slider-input"
                     type="range"
@@ -248,5 +264,9 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
+
+  </ng-template>
+
+  <sfm-search *ngSwitchCase="view.SEARCH"></sfm-search>
+</aside>
+

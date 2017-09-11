@@ -49,7 +49,5 @@ export function muteReducer(
 }
 
 export const getMuteLoaded = (state: MuteState) => state.loaded;
-
 export const getMuteLoading = (state: MuteState) => state.loading;
-
 export const getMute = (state: MuteState) => state.mute;

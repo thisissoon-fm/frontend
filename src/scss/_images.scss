@@ -1,0 +1,16 @@
+//
+// Images
+// --------------------------------------------------
+// Extra utilities for images
+
+.img-clip {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  padding-bottom: 100%;
+
+  img {
+    display: none;
+  }
+}

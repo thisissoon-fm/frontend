@@ -4,9 +4,10 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 
-import { QueueItem, Mute, Volume, QueueMeta } from './api';
+import { QueueItem, Mute, Volume, QueueMeta, SearchType } from './api';
 import * as fromStore from './store';
 import { EventService, PlayerEvent } from './event';
+import { View } from './shared';
 
 /**
  * Root component of application, this component should be present
@@ -28,7 +29,7 @@ import { EventService, PlayerEvent } from './event';
 })
 export class AppComponent implements OnInit, OnDestroy {
   /**
-   * Observable of the item currently player in the player
+   * Observable of the item currently playing in the player
    *
    * @type {Observable<QueueItem>}
    * @memberof AppComponent
@@ -89,6 +90,20 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public ngUnsubscribe$: Subject<void> = new Subject<void>();
   /**
+   * Specifies the current view in the sidebar
+   *
+   * @type {Observable<View>}
+   * @memberof AppComponent
+   */
+  public view$: Observable<View>;
+  /**
+   * Store `view` enum as a property in the component
+   * to use in template
+   *
+   * @memberof AppComponent
+   */
+  public view = View;
+  /**
    * Creates an instance of AppComponent.
    * @param {Store<fromStore.PlayerState>} store
    * @memberof AppComponent
@@ -109,6 +124,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.volume$ = this.store.select(fromStore.getVolume);
     this.mute$ = this.store.select(fromStore.getMute);
     this.meta$ = this.store.select(fromStore.getQueueMeta);
+    this.view$ = this.store.select(fromStore.getView);
+
 
     this.store.dispatch(new fromStore.LoadCurrent());
     this.store.dispatch(new fromStore.LoadQueue());
@@ -177,11 +194,20 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Send request to set player volume
    *
-   * @param {Event} $event
+   * @param {number} volume
    * @memberof AppComponent
    */
   public setVolume(volume: number): void {
     this.store.dispatch(new fromStore.SetVolume({ volume }));
+  }
+  /**
+   * Set sidebar view
+   *
+   * @param {View} view
+   * @memberof AppComponent
+   */
+  public setView(view: View): void {
+    this.store.dispatch(new fromStore.SetView(view));
   }
   /**
    * Event handler for events from socket.io event service

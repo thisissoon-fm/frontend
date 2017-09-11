@@ -1,24 +1,25 @@
 @import "../scss/helpers";
 
-.sfm {
+:host {
   align-items: stretch;
   display: flex;
   height: 100vh;
 }
 
-.sfm-left,
-.sfm-right {
+.main,
+.aside {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  overflow: auto;
+  height: 100vh;
 }
 
-.sfm-left {
+.main {
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
   flex: 1 1 60%;
-  height: 100vh;
   position: relative;
 
   &::before {
@@ -32,21 +33,16 @@
   }
 }
 
-.sfm-right {
+.aside {
   flex: 1 1 40%;
 }
 
-.sfm-nav {
+.nav {
   height: 6.875rem; // ~110px
   min-height: 6.875rem; // ~110px
 }
 
-.sfm-playlist,
-.sfm-info {
-  flex-grow: 2;
-}
-
-.sfm-playlist {
+.playlist {
   align-items: stretch;
   display: flex;
   flex-direction: row;
@@ -54,20 +50,20 @@
   position: relative;
 }
 
-.sfm-playlist-heading {
+.playlist-heading {
   display: flex;
-  flex-direction: column;
   flex: 1 1 16.66666667%;
+  flex-direction: column;
   padding-top: 10rem; // ~160px
 }
 
-.sfm-playlist-heading-content {
+.playlist-heading-content {
   border-right: 2px solid $grey-20a;
   flex-grow: 1;
   position: relative;
 }
 
-.sfm-playlist-heading-text {
+.playlist-heading-text {
   position: absolute;
   right: 0;
   transform: rotate(-90deg) translateX(-50%) translateY(100%);
@@ -75,28 +71,22 @@
   top: 0;
 }
 
-.sfm-playlist-tracks {
+.playlist-tracks {
   flex: 1 1 83.33333333%;
   padding-top: 10rem; // ~160px
   overflow: auto;
 }
 
-.sfm-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.sfm-controls {
-  min-height: 19.625rem;
+.controls {
+  min-height: 19.625rem; // ~314px
 }
 
 .img-logo {
   width: 7rem; // ~112px
 }
 
-@media (max-height: 48rem) {
-  .sfm-stats {
+@media (max-height: 48rem) { // ~768px
+  .stats {
     display: none;
   }
 }
