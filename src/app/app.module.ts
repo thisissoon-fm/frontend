@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import * as io from 'socket.io-client';
 
 import { ApiModule, LocalStorageService } from './api';
@@ -31,6 +32,7 @@ export const getSocketIO = () => {
   imports: [
     BrowserModule,
     CommonModule,
+    NgbDropdownModule.forRoot(),
     StoreModule.forRoot([]),
     EffectsModule.forRoot([]),
     fmStoreModule,

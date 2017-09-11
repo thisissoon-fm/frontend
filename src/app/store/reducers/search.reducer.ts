@@ -23,15 +23,12 @@ export function searchReducer(
 ): SearchState {
   switch (action.type) {
     case fromSearch.LOAD_SEARCH_RESULTS: {
-      const data = (<fromSearch.LoadSearchResults>action).payload;
-
       return Object.assign({}, state, {
         loaded: false,
-        loading: true,
-        query: data.query,
-        type: data.type,
+        loading: true
       });
     }
+
     case fromSearch.LOAD_SEARCH_RESULTS_SUCCESS: {
       const results = (<fromSearch.LoadSearchResultsSuccess>action).payload;
 
@@ -43,7 +40,22 @@ export function searchReducer(
     }
 
     case fromSearch.LOAD_SEARCH_RESULTS_FAIL: {
-      return Object.assign({}, initialState);
+      return Object.assign({}, state, {
+        loaded: false,
+        loading: false
+      });
+    }
+
+    case fromSearch.SET_SEARCH_TYPE: {
+      const type = (<fromSearch.SetSearchType>action).payload;
+
+      return Object.assign({}, state, { type });
+    }
+
+    case fromSearch.SET_SEARCH_QUERY: {
+      const query = (<fromSearch.SetSearchQuery>action).payload;
+
+      return Object.assign({}, state, { query });
     }
   }
 

@@ -4,14 +4,14 @@ import { SearchType } from '../../api';
 export const LOAD_SEARCH_RESULTS             = '[Search] Load Search';
 export const LOAD_SEARCH_RESULTS_FAIL        = '[Search] Load Search Fail';
 export const LOAD_SEARCH_RESULTS_SUCCESS     = '[Search] Load Search Success';
+export const SET_SEARCH_QUERY                = '[Search] Set Search Query';
+export const SET_SEARCH_TYPE                 = '[Search] Set Search Type';
 
 /**
  * Load search results actions
  */
 export class LoadSearchResults implements Action {
   readonly type = LOAD_SEARCH_RESULTS;
-
-  constructor(public payload: { query: string, type: SearchType }) { }
 }
 
 export class LoadSearchResultsSuccess implements Action {
@@ -26,8 +26,25 @@ export class LoadSearchResultsFail implements Action {
   constructor(public payload: any) { }
 }
 
+/**
+ * Set search value actions
+ */
+export class SetSearchQuery implements Action {
+  readonly type = SET_SEARCH_QUERY;
+
+  constructor(public payload: string) { }
+}
+
+export class SetSearchType implements Action {
+  readonly type = SET_SEARCH_TYPE;
+
+  constructor(public payload: SearchType) { }
+}
+
 
 export type SearchAction =
   | LoadSearchResults
   | LoadSearchResultsSuccess
-  | LoadSearchResultsFail;
+  | LoadSearchResultsFail
+  | SetSearchType
+  | SetSearchQuery;

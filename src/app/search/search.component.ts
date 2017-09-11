@@ -50,7 +50,7 @@ export class SearchComponent implements OnInit {
       .takeUntil(this.ngUnsubscribe$)
       .filter((query) => query.length > 2)
       .debounceTime(100)
-      .subscribe((query) => this.setSearch(query, 'track'));
+      .subscribe((query) => this.setSearchQuery(query));
 
     this.search$ = this.store.select(fromStore.getSearchState);
   }
@@ -69,11 +69,31 @@ export class SearchComponent implements OnInit {
    * Set search query
    *
    * @param {string} query
+   * @memberof SearchComponent
+   */
+  public loadSearchResults(): void {
+    this.store.dispatch(new fromStore.LoadSearchResults());
+  }
+  /**
+   * Set search type
+   *
+   * @param {string} query
+   * @memberof SearchComponent
+   */
+  public setSearchQuery(query: string): void {
+    this.store.dispatch(new fromStore.SetSearchQuery(query));
+    this.loadSearchResults();
+  }
+  /**
+   * Set search type
+   *
+   * @param {string} query
    * @param {SearchType} search
    * @memberof SearchComponent
    */
-  public setSearch(query: string, type: SearchType): void {
-    this.store.dispatch(new fromStore.LoadSearchResults({ query, type }));
+  public setSearchType(type: SearchType): void {
+    this.store.dispatch(new fromStore.SetSearchType(type));
+    this.loadSearchResults();
   }
   /**
    * Add to queue
