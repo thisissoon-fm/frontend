@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { QueueItem } from './api';
 import * as fromStore from './store';
 import { EventService, PlayerEvent } from './event';
-import { View } from './shared';
+import { View, UtilsService } from './shared';
 
 /**
  * Root component of application, this component should be present
@@ -59,21 +59,37 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public view$: Observable<View>;
   /**
-   * Store `view` enum as a property in the component
+   * Store `View` enum as a property in the component
    * to use in template
    *
    * @memberof AppComponent
    */
   public view = View;
   /**
+   * Returns current image or empty string
+   *
+   * @readonly
+   * @type {string}
+   * @memberof AppComponent
+   */
+  public get currentImage$(): Observable<string> {
+    return this.current$
+      .map((current) => {
+        return (current && current.track) ?
+           this.utilsSvc.getOptimalImage(current.track.album.images, 0) : '';
+      });
+  }
+  /**
    * Creates an instance of AppComponent.
    * @param {Store<fromStore.PlayerState>} store
    * @param {EventService} eventSvc
+   * @param {UtilsService} utilsSvc
    * @memberof AppComponent
    */
   constructor(
     private store: Store<fromStore.PlayerState>,
-    private eventSvc: EventService
+    private eventSvc: EventService,
+    private utilsSvc: UtilsService
   ) { }
   /**
    * Tell store to load player data from api and subscribe to
@@ -95,15 +111,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.eventSvc.messages$
       .takeUntil(this.ngUnsubscribe$)
       .subscribe((event) => this.onEvent(event));
-  }
-  /**
-   * Set sidebar view
-   *
-   * @param {View} view
-   * @memberof AppComponent
-   */
-  public setView(view: View): void {
-    this.store.dispatch(new fromStore.SetView(view));
   }
   /**
    * Event handler for events from socket.io event service

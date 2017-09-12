@@ -16,6 +16,7 @@ import { PlayerModule } from './player';
 import { SharedModule } from './shared/';
 
 import { AppComponent } from './app.component';
+import { NavModule } from './nav/nav.module';
 
 // Factories to be specifically provided for browser platform
 const socketIO = { connect: io };
@@ -45,7 +46,8 @@ export const getSocketIO = () => socketIO;
       { provide: SocketIOService, useFactory: (getSocketIO) }
     ]),
     SearchModule,
-    PlayerModule
+    PlayerModule,
+    NavModule
   ],
   declarations: [
     AppComponent

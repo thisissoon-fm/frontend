@@ -32,5 +32,4 @@ export class QueueComponent implements OnInit {
   public ngOnInit(): void {
     this.queue$ = this.store.select(fromStore.getQueue);
   }
-
 }
