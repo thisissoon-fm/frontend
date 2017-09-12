@@ -1,0 +1,34 @@
+<div
+  class="media align-items-center"
+  [ngClass]="{ 'media-hover': displayImage }">
+
+  <div
+    *ngIf="displayImage"
+    class="media-img d-flex mr-3"
+    style.backgroundImage="url({{ optimalImage }})">
+    <img
+      [src]="optimalImage"
+      [alt]="item.track.name">
+  </div>
+
+  <div class="media-body">
+    <h3 class="h1 mt-0 mb-0 text-truncate">
+      {{ item.track.name }}
+    </h3>
+    <p class="lead mb-0 font-weight-bold text-truncate">
+      {{ artistsJoined }}
+    </p>
+    <p class="lead mb-0 font-weight-bold text-muted text-truncate">
+      {{ item.track.album.name }}
+    </p>
+  </div>
+
+  <div class="media-user d-flex align-items-center ml-3 flex-column">
+    <p class="small mb-1">Added by</p>
+    <img
+      class="rounded-circle img-avatar"
+      [src]="item.user.avatar_url"
+      [alt]="item.user.display_name">
+  </div>
+
+</div>

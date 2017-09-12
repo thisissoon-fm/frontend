@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
-import { QueueItem } from '../models';
+import { QueueItem, SpotifySearch } from '../models';
 
 export type SearchType = 'album' | 'artist' | 'track';
 
@@ -42,13 +42,14 @@ export class PlayerSpotifySearchService {
    * @returns {Observable<any>}
    * @memberof PlayerSpotifySearchService
    */
-  public search(query: string, type: SearchType = 'track'): Observable<any> {
-    const options: any = {};
+  public search(query: string, type: SearchType = 'track'): Observable<SpotifySearch> {
+    const options: any = { observe: 'response'};
     const params = new HttpParams()
       .set('q', `${query}*`)
       .set('type', type)
       .set('market', this.market);
     options.params = params;
-    return this.http.get<any>(this.endpointUrl, options);
+    return this.http.get<SpotifySearch>(this.endpointUrl, options)
+      .map((event: HttpResponse<SpotifySearch>) => event.body);
   }
 }

@@ -1,0 +1,27 @@
+<div class="queue-heading">
+  <div class="queue-heading-content">
+    <p class="text-primary font-weight-bold rotate-90 text-nowrap queue-heading-text mb-0">
+      Upcoming beats
+    </p>
+  </div>
+</div>
+
+<div class="queue-items">
+  <div class="grid-padding">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+
+          <ul class="list-unstyled">
+            <ng-template ngFor let-item [ngForOf]="queue$ | async">
+              <li class="mb-3">
+                <sfm-queue-item [item]="item" [imageIndex]="1"></sfm-queue-item>
+              </li>
+            </ng-template>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

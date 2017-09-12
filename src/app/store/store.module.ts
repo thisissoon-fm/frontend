@@ -11,6 +11,8 @@ import { reducers } from './reducers';
  * Module that stores data, updates all components
  * and keeps them in sync with latest the data using RxJS
  *
+ * @todo Breake up store into feature modules
+ *
  * @export
  * @class StoreModule
  */

@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+@media (max-height: 48rem) { // ~768px
+  :host {
+    display: none;
+  }
+}

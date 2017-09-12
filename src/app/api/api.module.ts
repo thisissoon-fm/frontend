@@ -3,10 +3,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 import { apiProviders } from './services';
-import { interceptors } from './shared';
+import { interceptors, sharedProviders } from './shared';
 
 const defaultProviders = [
   ...apiProviders,
+  ...sharedProviders,
   ...interceptors
 ];
 

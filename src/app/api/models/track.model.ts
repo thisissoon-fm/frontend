@@ -7,7 +7,6 @@ export interface Track {
   uri: string;
   play_count: number;
   artists: Artist[];
-  artistsAsString?: string;
   duration: number;
   id: string;
 }

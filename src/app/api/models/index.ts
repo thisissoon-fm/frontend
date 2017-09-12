@@ -4,6 +4,7 @@ export * from './image.model';
 export * from './mute.model';
 export * from './player.model';
 export * from './queue-item.model';
+export * from './spotify-search.model';
 export * from './track.model';
 export * from './user.model';
 export * from './volume.model';
