@@ -11,40 +11,7 @@
     </div>
   </div>
 
-  <div class="playlist">
-
-    <div class="playlist-heading">
-      <div class="playlist-heading-content">
-        <p class="text-primary font-weight-bold rotate-90 text-nowrap playlist-heading-text mb-0">
-          Upcoming beats
-        </p>
-      </div>
-    </div>
-
-    <div class="playlist-tracks">
-
-      <div class="grid-padding">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-
-              <ul class="list-unstyled">
-                <ng-template ngFor let-item [ngForOf]="queue$ | async">
-                  <li class="mb-3">
-                    <sfm-queue-item [item]="item" [imageIndex]="1"></sfm-queue-item>
-                  </li>
-                </ng-template>
-              </ul>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
+  <sfm-queue></sfm-queue>
 </div>
 
 <aside class="aside" [ngSwitch]="view$ | async">
@@ -95,7 +62,7 @@
       </div>
     </div>
 
-    <div class="d-flex flex-column justify-content-end pt-2">
+    <div class="d-flex flex-column justify-content-end pt-2 stats-now-playing-container">
 
       <div class="row no-gutters pl-3">
         <div class="col-12 mb-4">

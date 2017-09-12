@@ -1,0 +1,36 @@
+@import "../../../scss/helpers";
+
+:host {
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 2;
+  position: relative;
+}
+
+.queue-heading {
+  display: flex;
+  flex: 1 1 16.66666667%;
+  flex-direction: column;
+  padding-top: 10rem; // ~160px
+}
+
+.queue-heading-content {
+  border-right: 2px solid $grey-20a;
+  flex-grow: 1;
+  position: relative;
+}
+
+.queue-heading-text {
+  position: absolute;
+  right: 0;
+  transform: rotate(-90deg) translateX(-50%) translateY(100%);
+  transform-origin: 50% 50% 0;
+  top: 0;
+}
+
+.queue-items {
+  flex: 1 1 83.33333333%;
+  padding-top: 10rem; // ~160px
+  overflow: auto;
+}

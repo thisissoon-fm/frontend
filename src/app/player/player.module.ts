@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { EventModule } from '../event';
 import { SharedModule } from '../shared';
-import { QueueItemComponent } from './queue-item';
 import { NowPlayingComponent } from './now-playing';
-import { StatsComponent } from './stats/stats.component';
+import { QueueComponent } from './queue';
+import { QueueItemComponent } from './queue-item';
+import { StatsComponent } from './stats';
 
 @NgModule({
   imports: [
@@ -14,13 +15,15 @@ import { StatsComponent } from './stats/stats.component';
     EventModule
   ],
   declarations: [
-    QueueItemComponent,
     NowPlayingComponent,
+    QueueComponent,
+    QueueItemComponent,
     StatsComponent
   ],
   exports: [
-    QueueItemComponent,
     NowPlayingComponent,
+    QueueComponent,
+    QueueItemComponent,
     StatsComponent
   ]
 })
