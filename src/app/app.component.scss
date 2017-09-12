@@ -84,9 +84,3 @@
 .img-logo {
   width: 7rem; // ~112px
 }
-
-@media (max-height: 48rem) { // ~768px
-  .stats {
-    display: none;
-  }
-}

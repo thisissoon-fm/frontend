@@ -5,6 +5,7 @@ import { EventModule } from '../event';
 import { SharedModule } from '../shared';
 import { QueueItemComponent } from './queue-item';
 import { NowPlayingComponent } from './now-playing';
+import { StatsComponent } from './stats/stats.component';
 
 @NgModule({
   imports: [
@@ -14,11 +15,13 @@ import { NowPlayingComponent } from './now-playing';
   ],
   declarations: [
     QueueItemComponent,
-    NowPlayingComponent
+    NowPlayingComponent,
+    StatsComponent
   ],
   exports: [
     QueueItemComponent,
-    NowPlayingComponent
+    NowPlayingComponent,
+    StatsComponent
   ]
 })
 export class PlayerModule { }
