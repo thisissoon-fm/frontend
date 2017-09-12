@@ -1,0 +1,83 @@
+<div class="row no-gutters pl-3 pb-3 controls">
+  <div class="col-12">
+
+    <div *ngIf="(current$ | async)?.track">
+      <div class="row no-gutters">
+        <div class="col-6">
+          <p class="font-weight-bold text-primary mb-0">Playing now</p>
+        </div>
+        <div class="col-6">
+          <p class="font-weight-bold text-muted text-right mb-0 pr-3">{{ (meta$ | async)?.play_time | date:'m:ss' }} of playing time</p>
+        </div>
+        <div class="col-12">
+          <hr>
+        </div>
+      </div>
+
+
+      <div class="row no-gutters mb-2 pr-3">
+        <div class="col-12">
+          <sfm-queue-item [item]="current$ | async" [displayImage]="false"></sfm-queue-item>
+        </div>
+      </div>
+
+      <div class="row no-gutters mb-3">
+        <div class="col-6">
+          <!-- TODO: Equaliser -->
+        </div>
+        <div class="col-6 text-right pr-3">
+          <p class="mb-0">{{ (current$ | async)?.player?.elapsed_time | date:'m:ss' }} / {{ (current$ | async)?.track?.duration | date:'m:ss' }}</p>
+        </div>
+      </div>
+
+      <div class="row no-gutters align-items-center pr-3">
+        <div class="col-6">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item pr-2">
+              <button
+                type="button"
+                class="btn btn-icon btn-circle btn-outline-lighter"
+                [ngSwitch]="(current$ | async)?.paused"
+                (click)="togglePause()">
+                <i class="icon icon-play text-white" *ngSwitchCase="true"></i>
+                <i class="icon icon-pause text-white" *ngSwitchCase="false"></i>
+              </button>
+            </li>
+            <li class="list-inline-item pr-2">
+              <button
+                type="button"
+                class="btn btn-icon btn-circle btn-outline-lighter"
+                (click)="skip()">
+                <i class="icon icon-skip text-white"></i>
+              </button>
+            </li>
+            <li class="list-inline-item pr-2">
+              <button
+                type="button"
+                class="btn btn-icon btn-circle btn-outline-lighter"
+                [ngSwitch]="(mute$ | async)?.mute"
+                (click)="toggleMute()">
+                <i class="icon icon-volume-high text-white h5" *ngSwitchCase="false"></i>
+                <i class="icon icon-volume-mute text-white h5" *ngSwitchCase="true"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="col-6 text-right">
+          <div class="volume-slider">
+            <div class="volume-slider-fill" style.width="{{ (volume$ | async)?.volume }}%"></div>
+            <input
+              class="volume-slider-input"
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              [value]="(volume$ | async)?.volume"
+              (input)="onVolumeInputChange($event)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

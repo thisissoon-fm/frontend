@@ -4,14 +4,15 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 
-import { QueueItem, Mute, Volume, QueueMeta, SearchType } from './api';
+import { QueueItem } from './api';
 import * as fromStore from './store';
 import { EventService, PlayerEvent } from './event';
 import { View } from './shared';
 
 /**
  * Root component of application, this component should be present
- * inside `src/index.html`
+ * inside `src/index.html`. Contains most of the logic for getting
+ * data and syncing with the api
  *
  * @example
  * ```
@@ -43,45 +44,6 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public queue$: Observable<QueueItem[]>;
   /**
-   * Observable of volume object that contains
-   * the current volume value
-   *
-   * @type {Observable<Volume>}
-   * @memberof AppComponent
-   */
-  public volume$: Observable<Volume>;
-  /**
-   * Observable of mute object that contains
-   * the current mute status value
-   *
-   * @type {Observable<Mute>}
-   * @memberof AppComponent
-   */
-  public mute$: Observable<Mute>;
-  /**
-   * Observable of queue meta infomation such as
-   * current genres and most active user
-   *
-   * @type {Observable<QueueMeta>}
-   * @memberof AppComponent
-   */
-  public meta$: Observable<QueueMeta>;
-  /**
-   * Observable that emits and event when volume is changed
-   * using the `[input="range"]` slider
-   *
-   * @type {Subject<number>}
-   * @memberof AppComponent
-   */
-  public onVolumeChange$: Subject<number> = new Subject<number>();
-  /**
-   * Interval observable that will update track timer when track is playing
-   *
-   * @type {Subscription}
-   * @memberof AppComponent
-   */
-  public currentTimerSub$: Subscription;
-  /**
    * Observable used to unsubscribe and complete infinite observables
    * on component destroy lifecycle hook
    *
@@ -106,6 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Creates an instance of AppComponent.
    * @param {Store<fromStore.PlayerState>} store
+   * @param {EventService} eventSvc
    * @memberof AppComponent
    */
   constructor(
@@ -121,11 +84,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.current$ = this.store.select(fromStore.getCurrent);
     this.queue$ = this.store.select(fromStore.getQueue);
-    this.volume$ = this.store.select(fromStore.getVolume);
-    this.mute$ = this.store.select(fromStore.getMute);
-    this.meta$ = this.store.select(fromStore.getQueueMeta);
     this.view$ = this.store.select(fromStore.getView);
-
 
     this.store.dispatch(new fromStore.LoadCurrent());
     this.store.dispatch(new fromStore.LoadQueue());
@@ -133,72 +92,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromStore.LoadMute());
     this.store.dispatch(new fromStore.LoadQueueMeta());
 
-    this.startTimer();
-
-    this.onVolumeChange$
-      .takeUntil(this.ngUnsubscribe$)
-      .debounceTime(100)
-      .subscribe((vol) => this.setVolume(vol));
-
     this.eventSvc.messages$
       .takeUntil(this.ngUnsubscribe$)
       .subscribe((event) => this.onEvent(event));
-  }
-  /**
-   * Event handler for volume input, send next value
-   * to `onVolumeChange$` observable
-   *
-   * @param {Event} event
-   * @memberof AppComponent
-   */
-  public onVolumeInputChange(event: Event): void {
-    const volume = parseInt((<HTMLInputElement>event.target).value, 10);
-    // Update UI instantly while we wait for request to go through
-    this.store.dispatch(new fromStore.SetVolumeSuccess({ volume }));
-    this.onVolumeChange$.next(volume);
-  }
-  /**
-   * Sends requests to api to toggle pause status
-   *
-   * @memberof AppComponent
-   */
-  public togglePause(): void {
-    this.current$
-      .take(1)
-      .subscribe((current) =>
-        current.paused ?
-        this.store.dispatch({ type: fromStore.REMOVE_PAUSE }) :
-        this.store.dispatch({ type: fromStore.ADD_PAUSE }));
-  }
-  /**
-   * Sends requests to api to toggle mute status
-   *
-   * @memberof AppComponent
-   */
-  public toggleMute(): void {
-    this.mute$
-      .take(1)
-      .subscribe((mute) =>
-        mute.mute ?
-        this.store.dispatch(new fromStore.RemoveMute()) :
-        this.store.dispatch(new fromStore.AddMute()));
-  }
-  /**
-   * Send request to skip the currently playing track
-   *
-   * @memberof AppComponent
-   */
-  public skip(): void {
-    this.store.dispatch(new fromStore.RemoveCurrent());
-  }
-  /**
-   * Send request to set player volume
-   *
-   * @param {number} volume
-   * @memberof AppComponent
-   */
-  public setVolume(volume: number): void {
-    this.store.dispatch(new fromStore.SetVolume({ volume }));
   }
   /**
    * Set sidebar view
@@ -216,7 +112,6 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onEvent(data: PlayerEvent): void {
-    console.log(`event ${JSON.stringify(data)}`);
     switch (data.event) {
       case 'add':
         this.onAdd(data);
@@ -279,7 +174,6 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onEnd(): void {
-    this.stopTimer();
     this.store.dispatch(new fromStore.RemoveCurrentSuccess(null));
   }
   /**
@@ -288,7 +182,6 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onPause(): void {
-    this.stopTimer();
     this.store.dispatch(new fromStore.AddPauseSuccess(null));
   }
   /**
@@ -297,7 +190,6 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onResume(): void {
-    this.startTimer();
     this.store.dispatch(new fromStore.RemovePauseSuccess(null));
   }
   /**
@@ -321,41 +213,6 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public onVolumeChanged(data: PlayerEvent): void {
     this.store.dispatch(new fromStore.SetVolumeSuccess({ volume: data.volume }));
-  }
-  /**
-   * Start/Resume track timer
-   *
-   * @private
-   * @memberof AppComponent
-   */
-  private startTimer(): void {
-    this.current$
-      .filter((current) => !!(current && current.player))
-      .take(1)
-      .subscribe((current) => {
-        this.stopTimer();
-        this.currentTimerSub$ = Observable.interval(1000)
-          .takeUntil(this.ngUnsubscribe$)
-          .subscribe(() => {
-            if (current.player.elapsed_time >= current.track.duration) {
-              this.stopTimer();
-              this.onEnd();
-              return;
-            }
-            this.store.dispatch(new fromStore.TimerIncrement());
-          });
-    });
-  }
-  /**
-   * Pause/stop track timer
-   *
-   * @private
-   * @memberof AppComponent
-   */
-  private stopTimer(): void {
-    if (this.currentTimerSub$ && this.currentTimerSub$.unsubscribe) {
-      this.currentTimerSub$.unsubscribe();
-    }
   }
   /**
    * Unsubscribe from infinite observable on destroy
