@@ -9,7 +9,6 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import * as io from 'socket.io-client';
 
 import { ApiModule, LocalStorageService } from './api';
-import { StoreModule as fmStoreModule } from './store';
 import { EventModule, SocketIOService } from './event';
 import { SearchModule } from './search';
 import { PlayerModule } from './player';
@@ -39,7 +38,6 @@ export const getSocketIO = () => socketIO;
     StoreModule.forRoot([]),
     EffectsModule.forRoot([]),
     SharedModule.forRoot(),
-    fmStoreModule,
     ApiModule.forRoot([
       { provide: LocalStorageService, useFactory: (getLocalStorage) }
     ]),

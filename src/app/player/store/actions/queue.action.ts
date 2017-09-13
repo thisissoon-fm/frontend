@@ -1,8 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { Action } from '@ngrx/store';
 
-import { QueueItem, QueueMeta } from '../../api';
-import { PlayerEvent } from '../../event';
+import { QueueItem, QueueMeta } from '../../../api';
+import { PlayerEvent } from '../../../event';
 
 export const QUEUE_ADD                 = '[Queue] Queue Add';
 export const QUEUE_ADD_SUCCESS         = '[Queue] Queue Add Success';

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { QueueItem } from '../../api';
+import { QueueItem } from '../../../api';
 
 export const REMOVE_CURRENT           = '[Current] Remove Current';
 export const REMOVE_CURRENT_SUCCESS   = '[Current] Remove Current Success';

@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 
 import { QueueItem } from './api';
-import * as fromStore from './store';
+import * as fromPlayerStore from './player/store';
 import { EventService, PlayerEvent } from './event';
 import { CenterView, UtilsService } from './shared';
 
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @type {Observable<View>}
    * @memberof AppComponent
    */
-  public view$: Observable<fromStore.ViewState>;
+  public view$: Observable<fromPlayerStore.ViewState>;
   /**
    * Store `View` enum as a property in the component
    * to use in template
@@ -92,13 +92,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   /**
    * Creates an instance of AppComponent.
-   * @param {Store<fromStore.PlayerState>} playerStore$
+   * @param {Store<fromPlayerStore.PlayerState>} playerStore$
    * @param {EventService} eventSvc
    * @param {UtilsService} utilsSvc
    * @memberof AppComponent
    */
   constructor(
-    private playerStore$: Store<fromStore.PlayerState>,
+    private playerStore$: Store<fromPlayerStore.PlayerState>,
     private router: Router,
     private eventSvc: EventService,
     private utilsSvc: UtilsService
@@ -114,22 +114,22 @@ export class AppComponent implements OnInit, OnDestroy {
       .filter((event) => event instanceof NavigationEnd)
       .subscribe((event: NavigationEnd) => {
         if (event.url === '/') {
-          this.playerStore$.dispatch(new fromStore.SetRightViewOpen(false));
+          this.playerStore$.dispatch(new fromPlayerStore.SetRightViewOpen(false));
         } else {
-          this.playerStore$.dispatch(new fromStore.SetRightViewOpen(true));
+          this.playerStore$.dispatch(new fromPlayerStore.SetRightViewOpen(true));
         }
       });
     this.router.navigate(['/']);
 
-    this.current$ = this.playerStore$.select(fromStore.getCurrent);
-    this.queue$ = this.playerStore$.select(fromStore.getQueue);
-    this.view$ = this.playerStore$.select(fromStore.getViewState);
+    this.current$ = this.playerStore$.select(fromPlayerStore.getCurrent);
+    this.queue$ = this.playerStore$.select(fromPlayerStore.getQueue);
+    this.view$ = this.playerStore$.select(fromPlayerStore.getViewState);
 
-    this.playerStore$.dispatch(new fromStore.LoadCurrent());
-    this.playerStore$.dispatch(new fromStore.LoadQueue());
-    this.playerStore$.dispatch(new fromStore.LoadVolume());
-    this.playerStore$.dispatch(new fromStore.LoadMute());
-    this.playerStore$.dispatch(new fromStore.LoadQueueMeta());
+    this.playerStore$.dispatch(new fromPlayerStore.LoadCurrent());
+    this.playerStore$.dispatch(new fromPlayerStore.LoadQueue());
+    this.playerStore$.dispatch(new fromPlayerStore.LoadVolume());
+    this.playerStore$.dispatch(new fromPlayerStore.LoadMute());
+    this.playerStore$.dispatch(new fromPlayerStore.LoadQueueMeta());
 
     this.eventSvc.messages$
       .takeUntil(this.ngUnsubscribe$)
@@ -178,7 +178,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onAdd(data: PlayerEvent): void {
-    this.playerStore$.dispatch(new fromStore.LoadQueueItem(data));
+    this.playerStore$.dispatch(new fromPlayerStore.LoadQueueItem(data));
   }
   /**
    * Removes track from queue
@@ -187,7 +187,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onDelete(data: PlayerEvent): void {
-    this.playerStore$.dispatch(new fromStore.QueueRemoveSuccess(data.uuid));
+    this.playerStore$.dispatch(new fromPlayerStore.QueueRemoveSuccess(data.uuid));
   }
   /**
    * Remove first queue item from playlist and load the current track
@@ -195,8 +195,8 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onPlay(): void {
-    this.playerStore$.dispatch(new fromStore.QueueShift());
-    this.playerStore$.dispatch(new fromStore.LoadCurrent());
+    this.playerStore$.dispatch(new fromPlayerStore.QueueShift());
+    this.playerStore$.dispatch(new fromPlayerStore.LoadCurrent());
   }
   /**
    * Remove current track data from store
@@ -204,7 +204,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onEnd(): void {
-    this.playerStore$.dispatch(new fromStore.RemoveCurrentSuccess(null));
+    this.playerStore$.dispatch(new fromPlayerStore.RemoveCurrentSuccess(null));
   }
   /**
    * Stop timer and update pause status
@@ -212,7 +212,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onPause(): void {
-    this.playerStore$.dispatch(new fromStore.AddPauseSuccess(null));
+    this.playerStore$.dispatch(new fromPlayerStore.AddPauseSuccess(null));
   }
   /**
    * Restart timer and update pause status
@@ -220,7 +220,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onResume(): void {
-    this.playerStore$.dispatch(new fromStore.RemovePauseSuccess(null));
+    this.playerStore$.dispatch(new fromPlayerStore.RemovePauseSuccess(null));
   }
   /**
    * Set mute status
@@ -230,9 +230,9 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public onMuteChanged(data: PlayerEvent): void {
     if (data.mute) {
-      this.playerStore$.dispatch(new fromStore.AddMuteSuccess({ mute: data.mute }));
+      this.playerStore$.dispatch(new fromPlayerStore.AddMuteSuccess({ mute: data.mute }));
     } else {
-      this.playerStore$.dispatch(new fromStore.RemoveMuteSuccess({ mute: data.mute }));
+      this.playerStore$.dispatch(new fromPlayerStore.RemoveMuteSuccess({ mute: data.mute }));
     }
   }
   /**
@@ -242,7 +242,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onVolumeChanged(data: PlayerEvent): void {
-    this.playerStore$.dispatch(new fromStore.SetVolumeSuccess({ volume: data.volume }));
+    this.playerStore$.dispatch(new fromPlayerStore.SetVolumeSuccess({ volume: data.volume }));
   }
   /**
    * Unsubscribe from infinite observable on destroy

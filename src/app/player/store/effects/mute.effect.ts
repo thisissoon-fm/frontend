@@ -4,7 +4,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import * as muteActions from '../actions/mute.action';
-import { PlayerMuteService } from '../../api';
+import { PlayerMuteService } from '../../../api';
 
 @Injectable()
 export class MuteEffects {

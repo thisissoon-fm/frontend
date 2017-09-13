@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { User } from '../../api';
+import { User } from '../../../api';
 
 export const LOAD_ME               = '[User] Load Me';
 export const LOAD_ME_FAIL          = '[User] Load Me Fail';

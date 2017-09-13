@@ -4,7 +4,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import * as volumeActions from '../actions/volume.action';
-import { PlayerVolumeService } from '../../api';
+import { PlayerVolumeService } from '../../../api';
 
 @Injectable()
 export class VolumeEffects {

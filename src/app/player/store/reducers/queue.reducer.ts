@@ -1,5 +1,5 @@
 import * as fromQueue from '../actions/queue.action';
-import { QueueItem, QueueMeta } from '../../api';
+import { QueueItem, QueueMeta } from '../../../api';
 
 export interface QueueState {
   loaded: boolean;

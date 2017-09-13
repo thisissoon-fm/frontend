@@ -1,5 +1,5 @@
 import * as fromMute from '../actions/mute.action';
-import { Mute } from '../../api';
+import { Mute } from '../../../api';
 
 export interface MuteState {
   loaded: boolean;

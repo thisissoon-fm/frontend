@@ -4,7 +4,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import * as currentActions from '../actions/current.action';
-import { PlayerCurrentService, PlayerPauseService } from '../../api';
+import { PlayerCurrentService, PlayerPauseService } from '../../../api';
 
 @Injectable()
 export class CurrentEffects {

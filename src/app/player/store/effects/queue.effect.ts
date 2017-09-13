@@ -4,8 +4,8 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import * as queueActions from '../actions/queue.action';
-import { PlayerQueueService, Track, TrackService, User, UserService, QueueItem } from '../../api';
-import { PlayerEvent } from '../../event';
+import { PlayerQueueService, Track, TrackService, User, UserService, QueueItem } from '../../../api';
+import { PlayerEvent } from '../../../event';
 
 @Injectable()
 export class QueueEffects {

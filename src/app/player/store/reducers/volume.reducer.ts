@@ -1,5 +1,5 @@
 import * as fromVolume from '../actions/volume.action';
-import { Volume } from '../../api';
+import { Volume } from '../../../api';
 
 export interface VolumeState {
   loaded: boolean;

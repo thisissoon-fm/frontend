@@ -1,5 +1,5 @@
 import * as fromUser from '../actions/user.action';
-import { User } from '../../api';
+import { User } from '../../../api';
 
 export interface UserState {
   loaded: boolean;

@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 
 import { QueueItem, Volume, Mute, QueueMeta } from '../../api';
-import * as fromStore from '../../store';
+import * as fromStore from '../store';
 import { EventService, PlayerEvent } from '../../event';
 
 /**

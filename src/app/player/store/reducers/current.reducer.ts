@@ -1,5 +1,5 @@
 import * as fromCurrent from '../actions/current.action';
-import { QueueItem } from '../../api';
+import { QueueItem } from '../../../api';
 
 export interface CurrentState {
   loaded: boolean;

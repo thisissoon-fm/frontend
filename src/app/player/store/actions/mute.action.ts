@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Mute } from '../../api';
+import { Mute } from '../../../api';
 
 export const ADD_MUTE              = '[Mute] Add Mute';
 export const ADD_MUTE_SUCCESS      = '[Mute] Add Mute Success';

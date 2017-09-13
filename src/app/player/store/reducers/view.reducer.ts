@@ -1,5 +1,5 @@
 import * as fromView from '../actions/view.action';
-import { CenterView } from '../../shared';
+import { CenterView } from '../../../shared';
 
 export interface ViewState {
   centerView: CenterView;

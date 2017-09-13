@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import * as fromSearchStore from '../store';
-import * as fromPlayerStore from '../../store';
+import * as fromPlayerStore from '../../player/store';
 import { SearchType } from '../../api';
 import { CenterView } from '../../shared';
 

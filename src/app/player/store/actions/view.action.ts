@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CenterView } from '../../shared';
+import { CenterView } from '../../../shared';
 
 export const SET_CENTER_VIEW             = '[View] Set Center View';
 export const SET_RIGHT_VIEW_OPEN         = '[View] Set Right view Open';

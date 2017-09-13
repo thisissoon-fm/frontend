@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Volume } from '../../api';
+import { Volume } from '../../../api';
 
 export const SET_VOLUME              = '[Volume] Set Volume';
 export const SET_VOLUME_SUCCESS      = '[Volume] Set Volume Success';
