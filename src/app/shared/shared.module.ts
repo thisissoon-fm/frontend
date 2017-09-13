@@ -1,5 +1,6 @@
 import { NgModule, ModuleWithProviders, Provider } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store';
 
 import { UtilsService } from './utils';
 
@@ -10,7 +11,7 @@ const providers: Provider[] = [
 
 @NgModule({
   imports: [
-    CommonModule
+    StoreModule.forFeature('shared', reducers)
   ],
   declarations: []
 })
@@ -26,10 +27,10 @@ export class SharedModule {
    */
  public static forRoot(): ModuleWithProviders {
    return {
-     ngModule: SharedModule,
-     providers: [
-       ...providers
-     ]
-   };
- }
- }
+      ngModule: SharedModule,
+      providers: [
+        ...providers
+      ]
+    };
+  }
+}

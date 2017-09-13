@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { UtilsService } from '../../shared';
-import * as fromPlayerStore from '../../store';
+import * as fromPlayerStore from '../../player/store';
 import { SpotifyAlbum, SpotifyTracks, AlbumDetail } from '../../api';
 
 @Component({

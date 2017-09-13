@@ -4,7 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import * as fromSearchStore from '../store';
-import * as fromPlayerStore from '../../store';
+import * as fromPlayerStore from '../../player/store';
+import * as fromSharedStore from '../../shared/store';
 import { SearchType } from '../../api';
 import { CenterView } from '../../shared';
 
@@ -32,26 +33,28 @@ export class SearchComponent implements OnInit {
   /**
    * Observable of search status
    *
-   * @type {Observable<fromStore.SearchState>}
+   * @type {Observable<fromSearchStore.SearchState>}
    * @memberof SearchComponent
    */
   public search$: Observable<fromSearchStore.SearchState>;
   /**
    * Observable of view status
    *
-   * @type {Observable<fromStore.PlayerStore>}
+   * @type {Observable<fromSharedStore.ViewState>}
    * @memberof SearchComponent
    */
-  public view$: Observable<fromPlayerStore.ViewState>;
+  public view$: Observable<fromSharedStore.ViewState>;
   /**
    * Creates an instance of SearchComponent.
    * @param {Store<fromSearchStore.SearchState>} searchStore$
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
+   * @param {Store<fromSharedStore.PlayerState>} sharedStore$
    * @memberof SearchComponent
    */
   constructor(
     private searchStore$: Store<fromSearchStore.SearchState>,
-    private playerStore$: Store<fromPlayerStore.PlayerState>
+    private playerStore$: Store<fromPlayerStore.PlayerState>,
+    private sharedStore$: Store<fromSharedStore.SharedState>
   ) { }
   /**
    * Subscribe to search
@@ -66,7 +69,7 @@ export class SearchComponent implements OnInit {
       .subscribe((query) => this.setSearchQuery(query));
 
     this.search$ = this.searchStore$.select(fromSearchStore.getSearchState);
-    this.view$ = this.playerStore$.select(fromPlayerStore.getViewState);
+    this.view$ = this.playerStore$.select(fromSharedStore.getViewState);
   }
   /**
    * Event handler for search input change, send next value
@@ -124,6 +127,6 @@ export class SearchComponent implements OnInit {
    * @memberof SearchComponent
    */
   public close(): void {
-    this.searchStore$.dispatch(new fromPlayerStore.SetCenterView(CenterView.STATS));
+    this.sharedStore$.dispatch(new fromSharedStore.SetCenterView(CenterView.STATS));
   }
 }

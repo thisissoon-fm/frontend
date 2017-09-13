@@ -12,10 +12,13 @@ const defaultProviders = [
 ];
 
 /**
- * Api module makes request to the FM API and returns
+ * @todo Split into their feature modules
+ *
+ *  Api module makes request to the FM API and returns
  * player data. Automatically authenticates requests
  * if auth token exists in storage and modifies some
  * responses to make some data easier to use.
+ *
  *
  * @export
  * @class ApiModule
