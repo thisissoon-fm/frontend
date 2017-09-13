@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.img-clip.img-hero {
+  padding-bottom: 50%;
+}
+
+.media-list {
+  flex-shrink: 3;
+  overflow: auto;
+}

@@ -13,10 +13,11 @@ import { StoreModule as fmStoreModule } from './store';
 import { EventModule, SocketIOService } from './event';
 import { SearchModule } from './search';
 import { PlayerModule } from './player';
+import { NavModule } from './nav';
 import { SharedModule } from './shared/';
 
 import { AppComponent } from './app.component';
-import { NavModule } from './nav/nav.module';
+import { AppRoutingModule } from './app-routing.module';
 
 // Factories to be specifically provided for browser platform
 const socketIO = { connect: io };
@@ -47,7 +48,8 @@ export const getSocketIO = () => socketIO;
     ]),
     SearchModule,
     PlayerModule,
-    NavModule
+    NavModule,
+    AppRoutingModule
   ],
   declarations: [
     AppComponent

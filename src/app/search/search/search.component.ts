@@ -3,8 +3,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import * as fromStore from '../../store';
+import * as fromSearchStore from '../store';
+import * as fromPlayerStore from '../../store';
 import { SearchType } from '../../api';
+import { CenterView, RightView } from '../../shared';
 
 @Component({
   selector: 'sfm-search',
@@ -33,13 +35,24 @@ export class SearchComponent implements OnInit {
    * @type {Observable<fromStore.SearchState>}
    * @memberof SearchComponent
    */
-  public search$: Observable<fromStore.SearchState>;
+  public search$: Observable<fromSearchStore.SearchState>;
   /**
-   * Creates an instance of SearchComponent.
-   * @param {Store<fromStore.PlayerState>} store
+   * Observable of view status
+   *
+   * @type {Observable<fromStore.PlayerStore>}
    * @memberof SearchComponent
    */
-  constructor(private store: Store<fromStore.PlayerState>) { }
+  public view$: Observable<fromPlayerStore.ViewState>;
+  /**
+   * Creates an instance of SearchComponent.
+   * @param {Store<fromSearchStore.SearchState>} searchStore$
+   * @param {Store<fromPlayerStore.PlayerState>} playerStore$
+   * @memberof SearchComponent
+   */
+  constructor(
+    private searchStore$: Store<fromSearchStore.SearchState>,
+    private playerStore$: Store<fromPlayerStore.PlayerState>
+  ) { }
   /**
    * Subscribe to search
    *
@@ -52,7 +65,8 @@ export class SearchComponent implements OnInit {
       .debounceTime(100)
       .subscribe((query) => this.setSearchQuery(query));
 
-    this.search$ = this.store.select(fromStore.getSearchState);
+    this.search$ = this.searchStore$.select(fromSearchStore.getSearchState);
+    this.view$ = this.playerStore$.select(fromPlayerStore.getViewState);
   }
   /**
    * Event handler for search input change, send next value
@@ -72,7 +86,7 @@ export class SearchComponent implements OnInit {
    * @memberof SearchComponent
    */
   public loadSearchResults(): void {
-    this.store.dispatch(new fromStore.LoadSearchResults());
+    this.searchStore$.dispatch(new fromSearchStore.LoadSearchResults());
   }
   /**
    * Set search type
@@ -81,7 +95,7 @@ export class SearchComponent implements OnInit {
    * @memberof SearchComponent
    */
   public setSearchQuery(query: string): void {
-    this.store.dispatch(new fromStore.SetSearchQuery(query));
+    this.searchStore$.dispatch(new fromSearchStore.SetSearchQuery(query));
     this.loadSearchResults();
   }
   /**
@@ -92,7 +106,7 @@ export class SearchComponent implements OnInit {
    * @memberof SearchComponent
    */
   public setSearchType(type: SearchType): void {
-    this.store.dispatch(new fromStore.SetSearchType(type));
+    this.searchStore$.dispatch(new fromSearchStore.SetSearchType(type));
     this.loadSearchResults();
   }
   /**
@@ -102,7 +116,16 @@ export class SearchComponent implements OnInit {
    * @memberof SearchComponent
    */
   public addToQueue(uri: string): void {
-    this.store.dispatch(new fromStore.QueueAdd(uri));
+    this.playerStore$.dispatch(new fromPlayerStore.QueueAdd(uri));
+  }
+  /**
+   * Opens right side view
+   *
+   * @param {string} id
+   * @memberof SearchComponent
+   */
+  public openRightView(id: string): void {
+    this.playerStore$.dispatch(new fromPlayerStore.SetRightViewOpen(true));
   }
   /**
    * Close search
@@ -110,6 +133,7 @@ export class SearchComponent implements OnInit {
    * @memberof SearchComponent
    */
   public close(): void {
-    this.store.dispatch(new fromStore.SetDefaultView());
+    this.searchStore$.dispatch(new fromPlayerStore.SetCenterView(CenterView.STATS));
+    this.searchStore$.dispatch(new fromPlayerStore.SetRightViewOpen(false));
   }
 }

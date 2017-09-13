@@ -8,31 +8,37 @@
       <div class="col-6">
 
         <ul class="list-inline text-right mb-0">
-          <li class="list-inline-item pr-3">
+          <li class="list-inline-item pr-3" *ngIf="!(view$ | async).rightViewOpen && (view$ | async).centerView === centerView.STATS">
             <a
               class="text-white h4"
-              href="#"
               role="button"
-              (click)="setView(view.STATS)">
+              (click)="setView(centerView.STATS)">
               <i class="icon icon-stats-dots"></i>
             </a>
           </li>
-          <li class="list-inline-item pr-3">
+          <li class="list-inline-item pr-3" *ngIf="!(view$ | async).rightViewOpen && (view$ | async).centerView === centerView.STATS">
             <a
               class="text-white h4"
-              href="#"
               role="button"
-              (click)="setView(view.HISTORY)">
+              (click)="setView(centerView.HISTORY)">
               <i class="icon icon-history"></i>
             </a>
           </li>
-          <li class="list-inline-item">
+          <li class="list-inline-item" *ngIf="!(view$ | async).rightViewOpen && (view$ | async).centerView === centerView.STATS">
             <a
               class="text-white h4"
-              href="#"
               role="button"
-              (click)="setView(view.SEARCH)">
+              (click)="setView(centerView.SEARCH)">
               <i class="icon icon-search"></i>
+            </a>
+          </li>
+          <li class="list-inline-item pr-3" *ngIf="(view$ | async).rightViewOpen">
+            <a
+              class="text-white h4"
+              role="button"
+              [routerLink]="['/']"
+              (click)="closeRightView()">
+              <i class="icon icon-arrow-left"></i>
             </a>
           </li>
         </ul>

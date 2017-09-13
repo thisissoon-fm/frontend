@@ -4,8 +4,8 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromSearchActions from '../actions/search.action';
-import { SearchState, PlayerState, getSearchState } from '../reducers';
-import { PlayerSpotifySearchService } from '../../api';
+import { SearchState, getSearchState } from '../reducers';
+import { PlayerSpotifySearchService, PlayerSpotifyArtistService } from '../../../api';
 
 @Injectable()
 export class SearchEffects {
@@ -14,6 +14,7 @@ export class SearchEffects {
   public loadSearchResults$: Observable<Action> = this.actions$
     .ofType(fromSearchActions.LOAD_SEARCH_RESULTS)
     .withLatestFrom(this.store$.select(getSearchState))
+    .filter((value: [Action, SearchState]) => value[1].query && value[1].query.length > 2)
     .switchMap((value: [Action, SearchState]) => {
       const state = value[1];
       return this.spotifySearchSvc.search(state.query, state.type)
@@ -26,7 +27,7 @@ export class SearchEffects {
 
   constructor(
     private actions$: Actions,
-    private store$: Store<PlayerState>,
+    private store$: Store<SearchState>,
     private spotifySearchSvc: PlayerSpotifySearchService
   ) { }
 }

@@ -1,5 +1,10 @@
-export enum View {
-  SEARCH = 0,
-  HISTORY = 1,
-  STATS = 2
+export enum CenterView {
+  STATS,
+  HISTORY,
+  SEARCH
+}
+
+export enum RightView {
+  ARTIST,
+  ALBUM
 }

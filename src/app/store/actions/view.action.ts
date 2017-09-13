@@ -1,23 +1,33 @@
 import { Action } from '@ngrx/store';
-import { View } from '../../shared';
+import { CenterView, RightView } from '../../shared';
 
-export const SET_VIEW             = '[View] Set View';
-export const SET_DEFAULT_VIEW     = '[View] Set Default View';
+export const SET_CENTER_VIEW             = '[View] Set Center View';
+export const SET_RIGHT_VIEW              = '[View] Set Right View';
+export const SET_RIGHT_VIEW_OPEN         = '[View] Set Right view Open';
 
 /**
  * Set view actions
  */
-export class SetView implements Action {
-  readonly type = SET_VIEW;
+export class SetCenterView implements Action {
+  readonly type = SET_CENTER_VIEW;
 
-  constructor(public payload: View) { }
+  constructor(public payload: CenterView) { }
 }
 
-export class SetDefaultView implements Action {
-  readonly type = SET_DEFAULT_VIEW;
+export class SetRightView implements Action {
+  readonly type = SET_RIGHT_VIEW;
+
+  constructor(public payload: RightView) { }
+}
+
+export class SetRightViewOpen implements Action {
+  readonly type = SET_RIGHT_VIEW_OPEN;
+
+  constructor(public payload: boolean) { }
 }
 
 
 export type ViewAction =
-  | SetView
-  | SetDefaultView;
+  | SetCenterView
+  | SetRightView
+  | SetRightViewOpen;

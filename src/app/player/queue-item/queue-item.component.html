@@ -5,7 +5,7 @@
   <div
     *ngIf="displayImage"
     class="media-img d-flex mr-3"
-    style.backgroundImage="url({{ optimalImage }})">
+    [ngStyle]="{'background-image': 'url(' + optimalImage + ')'}">
     <img
       [src]="optimalImage"
       [alt]="item.track.name">

@@ -5,7 +5,6 @@ import { View } from '../../shared';
 import * as fromCurrent from './current.reducer';
 import * as fromMute from './mute.reducer';
 import * as fromQueue from './queue.reducer';
-import * as fromSearch from './search.reducer';
 import * as fromView from './view.reducer';
 import * as fromVolume from './volume.reducer';
 import * as fromUser from './user.reducer';
@@ -15,9 +14,8 @@ export interface PlayerState {
   current: fromCurrent.CurrentState;
   mute: fromMute.MuteState;
   queue: fromQueue.QueueState;
-  search: fromSearch.SearchState;
   user: fromUser.UserState;
-  view: View;
+  view: fromView.ViewState;
   volume: fromVolume.VolumeState;
 }
 
@@ -25,7 +23,6 @@ export const reducers = {
   current: fromCurrent.currentReducer,
   mute: fromMute.muteReducer,
   queue: fromQueue.queueReducer,
-  search: fromSearch.searchReducer,
   user: fromUser.userReducer,
   view: fromView.viewReducer,
   volume: fromVolume.volumeReducer
@@ -81,11 +78,6 @@ export const getVolume = createSelector(
   fromVolume.getVolume
 );
 
-export const getSearchState = createSelector(
-  getPlayerState,
-  (state: PlayerState) => state.search
-);
-
 export const getViewState = createSelector(
   getPlayerState,
   (state: PlayerState) => state.view
@@ -93,7 +85,12 @@ export const getViewState = createSelector(
 
 export const getView = createSelector(
   getViewState,
-  (state: View) => state
+  (state: fromView.ViewState) => state.view
 );
 
-export { SearchState } from './search.reducer';
+export const getSidebarOpen = createSelector(
+  getViewState,
+  (state: fromView.ViewState) => state.sidebarOpen
+);
+
+export { ViewState } from './view.reducer';

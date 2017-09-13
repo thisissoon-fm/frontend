@@ -1,4 +1,4 @@
-<div class="grid-padding">
+<div class="grid-padding search-bar">
   <div class="container-fluid pt-3 pb-3">
     <div class="row">
       <div class="col-12">
@@ -61,10 +61,12 @@
       <div class="container-fluid">
         <ul class="row list-unstyled">
           <li
-            class="pt-3 pb-3 bg-white text-secondary col-6"
+            class="pb-2 bg-white text-secondary col-6"
             *ngFor="let item of (search$ | async)?.results">
 
-            <sfm-artist [item]="item" [imageIndex]="1"></sfm-artist>
+            <a class="d-block" [routerLink]="['search/artists', item.id]" (click)="openRightView()">
+              <sfm-artist [item]="item" [imageIndex]="1"></sfm-artist>
+            </a>
 
           </li>
         </ul>
@@ -77,7 +79,7 @@
       <div class="container-fluid">
         <ul class="row list-unstyled">
           <li
-            class="pb-3 bg-white text-secondary col-6"
+            class="pb-2 bg-white text-secondary col-6"
             *ngFor="let item of (search$ | async)?.results">
 
             <sfm-album [item]="item" [imageIndex]="1"></sfm-album>
@@ -87,4 +89,6 @@
       </div>
     </div>
   </ng-template>
+
 </div>
+

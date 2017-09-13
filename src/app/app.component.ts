@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
@@ -6,8 +7,9 @@ import { Store } from '@ngrx/store';
 
 import { QueueItem } from './api';
 import * as fromStore from './store';
+import * as fromSearch from './search';
 import { EventService, PlayerEvent } from './event';
-import { View, UtilsService } from './shared';
+import { CenterView, UtilsService } from './shared';
 
 /**
  * Root component of application, this component should be present
@@ -57,39 +59,51 @@ export class AppComponent implements OnInit, OnDestroy {
    * @type {Observable<View>}
    * @memberof AppComponent
    */
-  public view$: Observable<View>;
+  public view$: Observable<fromStore.ViewState>;
   /**
    * Store `View` enum as a property in the component
    * to use in template
    *
    * @memberof AppComponent
    */
-  public view = View;
+  public centerView = CenterView;
   /**
    * Returns current image or empty string
    *
    * @readonly
-   * @type {string}
+   * @type {Observable<string>}
    * @memberof AppComponent
    */
   public get currentImage$(): Observable<string> {
     return this.current$
-      .map((current) => {
-        return (current && current.track) ?
-           this.utilsSvc.getOptimalImage(current.track.album.images, 0) : '';
-      });
+      .map((current) =>
+        (current && current.track) ?
+           this.utilsSvc.getOptimalImage(current.track.album.images, 0) : ''
+      );
+  }
+  /**
+   * Returns true if right view is open
+   *
+   * @readonly
+   * @type {Observable<boolean>}
+   * @memberof AppComponent
+   */
+  public get rightViewOpen$(): Observable<boolean> {
+    return this.view$
+      .map((view) => view.rightViewOpen);
   }
   /**
    * Creates an instance of AppComponent.
-   * @param {Store<fromStore.PlayerState>} store
+   * @param {Store<fromStore.PlayerState>} playerStore$
    * @param {EventService} eventSvc
    * @param {UtilsService} utilsSvc
    * @memberof AppComponent
    */
   constructor(
-    private store: Store<fromStore.PlayerState>,
+    private playerStore$: Store<fromStore.PlayerState>,
     private eventSvc: EventService,
-    private utilsSvc: UtilsService
+    private utilsSvc: UtilsService,
+    private router: Router
   ) { }
   /**
    * Tell store to load player data from api and subscribe to
@@ -98,15 +112,17 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public ngOnInit(): void {
-    this.current$ = this.store.select(fromStore.getCurrent);
-    this.queue$ = this.store.select(fromStore.getQueue);
-    this.view$ = this.store.select(fromStore.getView);
+    this.router.navigate(['/']);
 
-    this.store.dispatch(new fromStore.LoadCurrent());
-    this.store.dispatch(new fromStore.LoadQueue());
-    this.store.dispatch(new fromStore.LoadVolume());
-    this.store.dispatch(new fromStore.LoadMute());
-    this.store.dispatch(new fromStore.LoadQueueMeta());
+    this.current$ = this.playerStore$.select(fromStore.getCurrent);
+    this.queue$ = this.playerStore$.select(fromStore.getQueue);
+    this.view$ = this.playerStore$.select(fromStore.getViewState);
+
+    this.playerStore$.dispatch(new fromStore.LoadCurrent());
+    this.playerStore$.dispatch(new fromStore.LoadQueue());
+    this.playerStore$.dispatch(new fromStore.LoadVolume());
+    this.playerStore$.dispatch(new fromStore.LoadMute());
+    this.playerStore$.dispatch(new fromStore.LoadQueueMeta());
 
     this.eventSvc.messages$
       .takeUntil(this.ngUnsubscribe$)
@@ -155,7 +171,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onAdd(data: PlayerEvent): void {
-    this.store.dispatch(new fromStore.LoadQueueItem(data));
+    this.playerStore$.dispatch(new fromStore.LoadQueueItem(data));
   }
   /**
    * Removes track from queue
@@ -164,7 +180,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onDelete(data: PlayerEvent): void {
-    this.store.dispatch(new fromStore.QueueRemoveSuccess(data.uuid));
+    this.playerStore$.dispatch(new fromStore.QueueRemoveSuccess(data.uuid));
   }
   /**
    * Remove first queue item from playlist and load the current track
@@ -172,8 +188,8 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onPlay(): void {
-    this.store.dispatch(new fromStore.QueueShift());
-    this.store.dispatch(new fromStore.LoadCurrent());
+    this.playerStore$.dispatch(new fromStore.QueueShift());
+    this.playerStore$.dispatch(new fromStore.LoadCurrent());
   }
   /**
    * Remove current track data from store
@@ -181,7 +197,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onEnd(): void {
-    this.store.dispatch(new fromStore.RemoveCurrentSuccess(null));
+    this.playerStore$.dispatch(new fromStore.RemoveCurrentSuccess(null));
   }
   /**
    * Stop timer and update pause status
@@ -189,7 +205,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onPause(): void {
-    this.store.dispatch(new fromStore.AddPauseSuccess(null));
+    this.playerStore$.dispatch(new fromStore.AddPauseSuccess(null));
   }
   /**
    * Restart timer and update pause status
@@ -197,7 +213,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onResume(): void {
-    this.store.dispatch(new fromStore.RemovePauseSuccess(null));
+    this.playerStore$.dispatch(new fromStore.RemovePauseSuccess(null));
   }
   /**
    * Set mute status
@@ -207,9 +223,9 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public onMuteChanged(data: PlayerEvent): void {
     if (data.mute) {
-      this.store.dispatch(new fromStore.AddMuteSuccess({ mute: data.mute }));
+      this.playerStore$.dispatch(new fromStore.AddMuteSuccess({ mute: data.mute }));
     } else {
-      this.store.dispatch(new fromStore.RemoveMuteSuccess({ mute: data.mute }));
+      this.playerStore$.dispatch(new fromStore.RemoveMuteSuccess({ mute: data.mute }));
     }
   }
   /**
@@ -219,7 +235,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onVolumeChanged(data: PlayerEvent): void {
-    this.store.dispatch(new fromStore.SetVolumeSuccess({ volume: data.volume }));
+    this.playerStore$.dispatch(new fromStore.SetVolumeSuccess({ volume: data.volume }));
   }
   /**
    * Unsubscribe from infinite observable on destroy

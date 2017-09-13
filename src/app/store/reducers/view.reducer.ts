@@ -1,20 +1,36 @@
 import * as fromView from '../actions/view.action';
-import { View } from '../../shared';
+import { CenterView, RightView } from '../../shared';
 
-const initialState: View = View.STATS;
+export interface ViewState {
+  centerView: CenterView;
+  rightView: RightView;
+  rightViewOpen: boolean;
+}
+
+const initialState: ViewState = {
+  centerView: CenterView.STATS,
+  rightView: null,
+  rightViewOpen: false
+};
 
 export function viewReducer(
   state = initialState,
   action: fromView.ViewAction
-): View {
+): ViewState {
   switch (action.type) {
-    case fromView.SET_VIEW: {
-      const view = (<fromView.SetView>action).payload;
-      return view;
+    case fromView.SET_CENTER_VIEW: {
+      const centerView = (<fromView.SetCenterView>action).payload;
+      return Object.assign({}, state, { centerView });
     }
 
-    case fromView.SET_DEFAULT_VIEW: {
-      return initialState;
+    case fromView.SET_RIGHT_VIEW: {
+      const rightView = (<fromView.SetRightView>action).payload;
+      return Object.assign({}, state, { rightView });
+    }
+
+    case fromView.SET_RIGHT_VIEW_OPEN: {
+      const rightViewOpen = (<fromView.SetRightViewOpen>action).payload;
+      return Object.assign({}, state, { rightViewOpen });
     }
   }
 

@@ -8,5 +8,6 @@ require('../examples/tracks/search.html');
 require('../examples/albums/index.html');
 require('../examples/buttons/index.html');
 require('../examples/search/index.html');
+require('../examples/search/artist-detail.html');
 require('../examples/leaderboard/index.html');
 require('../examples/now-playing/index.html');
