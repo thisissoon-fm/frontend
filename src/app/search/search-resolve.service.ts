@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
-import { SpotifyArtist, SpotifySearch, SpotifyAlbums, PlayerSpotifyArtistService } from '../api';
+import {
+  SpotifyArtist, SpotifySearch, SpotifyAlbums,
+  PlayerSpotifyArtistService, PlayerSpotifyAlbumService,
+  SpotifyAlbum, SpotifyTracks
+} from '../api';
 
 @Injectable()
 export class ArtistDetailResolveService implements Resolve<SpotifyArtist> {
@@ -76,7 +80,7 @@ export class ArtistSinglesResolveService implements Resolve<SpotifyAlbums> {
    */
   constructor(private spotifyArtistService: PlayerSpotifyArtistService) { }
   /**
-   * Gets artists albums
+   * Gets artists singles
    *
    * @param {ActivatedRouteSnapshot} route
    * @returns {Observable<SpotifyAlbums>}
@@ -97,7 +101,7 @@ export class ArtistRelatedResolveService implements Resolve<SpotifySearch> {
    */
   constructor(private spotifyArtistService: PlayerSpotifyArtistService) { }
   /**
-   * Gets artists albums
+   * Gets related tracks
    *
    * @param {ActivatedRouteSnapshot} route
    * @returns {Observable<SpotifySearch>}
@@ -109,10 +113,54 @@ export class ArtistRelatedResolveService implements Resolve<SpotifySearch> {
   }
 }
 
+@Injectable()
+export class AlbumDetailResolveService implements Resolve<SpotifyAlbum> {
+  /**
+   * Creates an instance of AlbumDetailResolveService.
+   * @param {PlayerSpotifyAlbumService} spotifyAlbumService
+   * @memberof ArtistRelatedResolveService
+   */
+  constructor(private spotifyAlbumService: PlayerSpotifyAlbumService) { }
+  /**
+   * Gets album details
+   *
+   * @param {ActivatedRouteSnapshot} route
+   * @returns {Observable<SpotifySearch>}
+   * @memberof ArtistRelatedResolveService
+   */
+  resolve(route: ActivatedRouteSnapshot): Observable<SpotifyAlbum> {
+    const id = route.params['id'];
+    return this.spotifyAlbumService.get(id);
+  }
+}
+
+@Injectable()
+export class AlbumTracksResolveService implements Resolve<SpotifyTracks> {
+  /**
+   * Creates an instance of AlbumDetailResolveService.
+   * @param {PlayerSpotifyAlbumService} spotifyAlbumService
+   * @memberof AlbumTracksResolveService
+   */
+  constructor(private spotifyAlbumService: PlayerSpotifyAlbumService) { }
+  /**
+   * Gets album details
+   *
+   * @param {ActivatedRouteSnapshot} route
+   * @returns {Observable<SpotifySearch>}
+   * @memberof AlbumTracksResolveService
+   */
+  resolve(route: ActivatedRouteSnapshot): Observable<SpotifyTracks> {
+    const id = route.params['id'];
+    return this.spotifyAlbumService.getTracks(id);
+  }
+}
+
 export const resolveProviders: any[] = [
   ArtistDetailResolveService,
   ArtistTopTracksResolveService,
   ArtistAlbumsResolveService,
   ArtistSinglesResolveService,
-  ArtistRelatedResolveService
+  ArtistRelatedResolveService,
+  AlbumDetailResolveService,
+  AlbumTracksResolveService
 ];

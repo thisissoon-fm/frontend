@@ -11,19 +11,18 @@
         <h2>{{ artist?.name }}</h2>
       </div>
 
-      <div class="col-6 text-right">
-        <div id="dropdown" class="dropdown">
-          <button class="btn btn-link text-white dropdown-toggle text-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Top Tracks
-            <i class="icon icon-caret-down ml-1 small"></i>
-          </button>
-          <div id="dropdownMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Albums</a>
-            <a class="dropdown-item" href="#">Singles</a>
-            <a class="dropdown-item" href="#">Related artists</a>
-          </div>
+      <!-- <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-link dropdown-toggle text-secondary text-capitalize" id="search-type-dropdown" ngbDropdownToggle>
+          Top tracks
+          <i class="icon icon-caret-down ml-1 small"></i>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="search-type-dropdown">
+          <button class="dropdown-item">Top tracks</button>
+          <button class="dropdown-item">Albums</button>
+          <button class="dropdown-item">Singles</button>
+          <button class="dropdown-item">Related artists</button>
         </div>
-      </div>
+      </div> -->
 
     </div>
 
@@ -31,21 +30,18 @@
 </div>
 
 <div class="media-list row no-gutters pl-3">
+  <ul class="list-unstyled w-100">
+    <li
+      class="pb-3 text-white"
+      *ngFor="let item of topTracks.tracks">
 
-  <!-- <ng-template> -->
-    <ul class="list-unstyled w-100">
-      <li
-        class="pb-3 text-white"
-        *ngFor="let item of topTracks.tracks">
+      <div class="row no-gutters">
+        <div class="col-12">
 
-        <div class="row no-gutters">
-          <div class="col-12">
+          <sfm-track [item]="item" [small]="true" [dark]="true" [hideArtist]="true" (onButtonClick)="addToQueue($event)" [imageIndex]="1"></sfm-track>
 
-            <sfm-track [item]="item" [small]="true" [dark]="true" (onButtonClick)="addToQueue($event)" [imageIndex]="1"></sfm-track>
-
-          </div>
         </div>
-      </li>
-    </ul>
-  <!-- </ng-template> -->
+      </div>
+    </li>
+  </ul>
 </div>

@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 
 import { QueueItem } from './api';
 import * as fromStore from './store';
-import * as fromSearch from './search';
 import { EventService, PlayerEvent } from './event';
 import { CenterView, UtilsService } from './shared';
 
@@ -101,9 +99,9 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   constructor(
     private playerStore$: Store<fromStore.PlayerState>,
+    private router: Router,
     private eventSvc: EventService,
-    private utilsSvc: UtilsService,
-    private router: Router
+    private utilsSvc: UtilsService
   ) { }
   /**
    * Tell store to load player data from api and subscribe to
@@ -112,6 +110,15 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public ngOnInit(): void {
+    this.router.events
+      .filter((event) => event instanceof NavigationEnd)
+      .subscribe((event: NavigationEnd) => {
+        if (event.url === '/') {
+          this.playerStore$.dispatch(new fromStore.SetRightViewOpen(false));
+        } else {
+          this.playerStore$.dispatch(new fromStore.SetRightViewOpen(true));
+        }
+      });
     this.router.navigate(['/']);
 
     this.current$ = this.playerStore$.select(fromStore.getCurrent);

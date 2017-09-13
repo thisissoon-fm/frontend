@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 import { CenterView, RightView } from '../../shared';
 
 export const SET_CENTER_VIEW             = '[View] Set Center View';
-export const SET_RIGHT_VIEW              = '[View] Set Right View';
 export const SET_RIGHT_VIEW_OPEN         = '[View] Set Right view Open';
 
 /**
@@ -14,12 +13,6 @@ export class SetCenterView implements Action {
   constructor(public payload: CenterView) { }
 }
 
-export class SetRightView implements Action {
-  readonly type = SET_RIGHT_VIEW;
-
-  constructor(public payload: RightView) { }
-}
-
 export class SetRightViewOpen implements Action {
   readonly type = SET_RIGHT_VIEW_OPEN;
 
@@ -29,5 +22,4 @@ export class SetRightViewOpen implements Action {
 
 export type ViewAction =
   | SetCenterView
-  | SetRightView
   | SetRightViewOpen;

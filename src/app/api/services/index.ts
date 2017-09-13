@@ -7,6 +7,7 @@ import { UserService } from './user.service';
 import { TrackService } from './track.service';
 import { PlayerSpotifySearchService } from './player-spotify-search.service';
 import { PlayerSpotifyArtistService } from './player-spotify-artist.service';
+import { PlayerSpotifyAlbumService } from './player-spotify-album.service';
 
 export const apiProviders = [
   PlayerQueueService,
@@ -17,7 +18,8 @@ export const apiProviders = [
   UserService,
   TrackService,
   PlayerSpotifySearchService,
-  PlayerSpotifyArtistService
+  PlayerSpotifyArtistService,
+  PlayerSpotifyAlbumService
 ];
 
 export * from './player-queue.service';
@@ -29,4 +31,5 @@ export * from './user.service';
 export * from './track.service';
 export * from './player-spotify-search.service';
 export * from './player-spotify-artist.service';
+export * from './player-spotify-album.service';
 

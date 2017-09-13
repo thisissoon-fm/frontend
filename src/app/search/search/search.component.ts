@@ -119,21 +119,11 @@ export class SearchComponent implements OnInit {
     this.playerStore$.dispatch(new fromPlayerStore.QueueAdd(uri));
   }
   /**
-   * Opens right side view
-   *
-   * @param {string} id
-   * @memberof SearchComponent
-   */
-  public openRightView(id: string): void {
-    this.playerStore$.dispatch(new fromPlayerStore.SetRightViewOpen(true));
-  }
-  /**
    * Close search
    *
    * @memberof SearchComponent
    */
   public close(): void {
     this.searchStore$.dispatch(new fromPlayerStore.SetCenterView(CenterView.STATS));
-    this.searchStore$.dispatch(new fromPlayerStore.SetRightViewOpen(false));
   }
 }

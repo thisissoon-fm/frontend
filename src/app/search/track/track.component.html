@@ -8,14 +8,33 @@
   </div>
 
   <div class="media-body align-items-center">
-    <h3 class="h5 mt-0 mb-1 text-truncate">{{ item.name }}</h3>
-    <p *ngIf="!small" class="lead mb-0 text-light text-truncate">{{ artistsJoined }}</p>
+    <h3 class="h5 mt-0 text-truncate" [ngClass]="{'mb-1': !small, 'mb-0': small}">{{ item.name }}</h3>
     <p
-      class="lead mb-2 text-truncate"
-      [ngClass]="{'text-light': !dark, 'text-muted': dark}">
-      {{ item.album.name }}
+      *ngIf="!hideArtist"
+      class="lead text-light text-truncate"
+      [ngClass]="{
+        'text-light': !dark,
+        'text-muted': dark,
+        'mb-2': !small,
+        'mb-0': small
+      }">
+      {{ artistsJoined }}
     </p>
-    <p *ngIf="!small" class="mb-0">{{ item.duration_ms | date:'m:ss' }}  <!-- TODO: Add genre if possible <span class="seperator"></span> Rap--></p>
+    <p
+      *ngIf="!hideAlbum"
+      class="lead text-truncate"
+      [ngClass]="{
+        'text-light': !dark,
+        'text-muted': dark,
+        'mb-2': !small,
+        'mb-0': small
+      }">
+      {{ item.album?.name }}
+    </p>
+    <p *ngIf="!small" class="mb-0">
+      {{ item.duration_ms | date:'m:ss' }}
+      <!-- TODO: Add genre if possible <span class="seperator"></span> Rap-->
+    </p>
   </div>
 
   <div

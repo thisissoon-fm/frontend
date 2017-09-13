@@ -20,9 +20,33 @@ export class ArtistDetailComponent implements OnInit {
    * @memberof ArtistDetailComponent
    */
   public artist: SpotifyArtist;
+  /**
+   * List of artists top tracks
+   *
+   * @type {SpotifySearch}
+   * @memberof ArtistDetailComponent
+   */
   public topTracks: SpotifySearch;
+  /**
+   * List of artist's albums
+   *
+   * @type {SpotifyAlbums}
+   * @memberof ArtistDetailComponent
+   */
   public albums: SpotifyAlbums;
+  /**
+   * List of artist's singles
+   *
+   * @type {SpotifyAlbums}
+   * @memberof ArtistDetailComponent
+   */
   public single: SpotifyAlbums;
+  /**
+   * List of related artists
+   *
+   * @type {SpotifySearch}
+   * @memberof ArtistDetailComponent
+   */
   public related: SpotifySearch;
   /**
    * Returns artist image or empty string if one doesn't exist
@@ -47,7 +71,8 @@ export class ArtistDetailComponent implements OnInit {
     private utilsSvc: UtilsService
   ) { }
   /**
-   * Get artist details
+   * Get artist details from router service
+   * and save to properties in component
    *
    * @memberof ArtistDetailComponent
    */

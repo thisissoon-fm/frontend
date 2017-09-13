@@ -3,8 +3,3 @@ export enum CenterView {
   HISTORY,
   SEARCH
 }
-
-export enum RightView {
-  ARTIST,
-  ALBUM
-}

@@ -5,8 +5,10 @@ import { ArtistDetailComponent } from './artist-detail';
 import {
   ArtistDetailResolveService, ArtistAlbumsResolveService,
   ArtistRelatedResolveService, ArtistSinglesResolveService,
-  ArtistTopTracksResolveService, resolveProviders
+  ArtistTopTracksResolveService, resolveProviders, AlbumTracksResolveService,
+  AlbumDetailResolveService
 } from './search-resolve.service';
+import { AlbumDetailComponent } from './album-detail';
 
 const routes: Routes = [
   {
@@ -18,6 +20,14 @@ const routes: Routes = [
       albums: ArtistAlbumsResolveService,
       singles: ArtistSinglesResolveService,
       related: ArtistRelatedResolveService,
+    }
+  },
+  {
+    path: 'search/albums/:id',
+    component: AlbumDetailComponent,
+    resolve: {
+      album: AlbumDetailResolveService,
+      tracks: AlbumTracksResolveService,
     }
   },
 ];
@@ -32,5 +42,6 @@ const routes: Routes = [
 export class SearchRoutingModule { }
 
 export const routedComponents = [
-  ArtistDetailComponent
+  ArtistDetailComponent,
+  AlbumDetailComponent
 ];

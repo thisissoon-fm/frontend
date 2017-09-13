@@ -25,9 +25,9 @@
             </div>
           </div>
 
-          <button class="btn btn-link text-secondary" (click)="close()">
+          <a [routerLink]="['/']" class="btn btn-link text-secondary" (click)="close()">
             <i class="icon icon-close"></i>
-          </button>
+          </a>
 
         </div>
 
@@ -64,7 +64,7 @@
             class="pb-2 bg-white text-secondary col-6"
             *ngFor="let item of (search$ | async)?.results">
 
-            <a class="d-block" [routerLink]="['search/artists', item.id]" (click)="openRightView()">
+            <a class="d-block" [routerLink]="['search/artists', item.id]">
               <sfm-artist [item]="item" [imageIndex]="1"></sfm-artist>
             </a>
 
@@ -82,7 +82,9 @@
             class="pb-2 bg-white text-secondary col-6"
             *ngFor="let item of (search$ | async)?.results">
 
-            <sfm-album [item]="item" [imageIndex]="1"></sfm-album>
+            <a class="d-block" [routerLink]="['search/albums', item.id]">
+              <sfm-album [item]="item" [imageIndex]="1"></sfm-album>
+            </a>
 
           </li>
         </ul>

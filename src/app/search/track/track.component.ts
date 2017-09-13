@@ -34,6 +34,20 @@ export class TrackComponent {
   @Input()
   public small = false;
   /**
+   * Hide artist info
+   *
+   * @memberof TrackComponent
+   */
+  @Input()
+  public hideArtist = false;
+  /**
+   * Hide album info
+   *
+   * @memberof TrackComponent
+   */
+  @Input()
+  public hideAlbum = false;
+  /**
    * If true means the component is on a dark background
    *
    * @type {boolean}

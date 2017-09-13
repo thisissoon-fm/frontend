@@ -110,3 +110,8 @@ export interface ArtistDetail {
   singles: SpotifyAlbums;
   related: SpotifySearch;
 }
+
+export interface AlbumDetail {
+  album: SpotifyAlbum;
+  tracks: SpotifyTracks;
+}
