@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { QueueItem } from './api';
 import * as fromPlayerStore from './player/store';
+import * as fromSharedStore from './shared/store';
 import { EventService, PlayerEvent } from './event';
 import { CenterView, UtilsService } from './shared';
 
@@ -52,14 +53,14 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public ngUnsubscribe$: Subject<void> = new Subject<void>();
   /**
-   * Specifies the current view in the sidebar
+   * Specifies the current view in the center section
    *
-   * @type {Observable<View>}
+   * @type {Observable<fromSharedStore.ViewState>}
    * @memberof AppComponent
    */
-  public view$: Observable<fromPlayerStore.ViewState>;
+  public view$: Observable<fromSharedStore.ViewState>;
   /**
-   * Store `View` enum as a property in the component
+   * Store `CenterView` enum as a property in the component
    * to use in template
    *
    * @memberof AppComponent
@@ -93,12 +94,15 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Creates an instance of AppComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
+   * @param {Store<fromSharedStore.SharedState>} sharedStore$
+   * @param {Router} router
    * @param {EventService} eventSvc
    * @param {UtilsService} utilsSvc
    * @memberof AppComponent
    */
   constructor(
     private playerStore$: Store<fromPlayerStore.PlayerState>,
+    private sharedStore$: Store<fromSharedStore.SharedState>,
     private router: Router,
     private eventSvc: EventService,
     private utilsSvc: UtilsService
@@ -114,16 +118,16 @@ export class AppComponent implements OnInit, OnDestroy {
       .filter((event) => event instanceof NavigationEnd)
       .subscribe((event: NavigationEnd) => {
         if (event.url === '/') {
-          this.playerStore$.dispatch(new fromPlayerStore.SetRightViewOpen(false));
+          this.playerStore$.dispatch(new fromSharedStore.SetRightViewOpen(false));
         } else {
-          this.playerStore$.dispatch(new fromPlayerStore.SetRightViewOpen(true));
+          this.playerStore$.dispatch(new fromSharedStore.SetRightViewOpen(true));
         }
       });
     this.router.navigate(['/']);
 
     this.current$ = this.playerStore$.select(fromPlayerStore.getCurrent);
     this.queue$ = this.playerStore$.select(fromPlayerStore.getQueue);
-    this.view$ = this.playerStore$.select(fromPlayerStore.getViewState);
+    this.view$ = this.sharedStore$.select(fromSharedStore.getViewState);
 
     this.playerStore$.dispatch(new fromPlayerStore.LoadCurrent());
     this.playerStore$.dispatch(new fromPlayerStore.LoadQueue());

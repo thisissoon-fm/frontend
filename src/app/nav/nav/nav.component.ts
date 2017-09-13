@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import * as fromStore from '../../player/store';
+import * as fromSharedStore from '../../shared/store';
 import { CenterView } from '../../shared';
 
 @Component({
@@ -21,23 +21,23 @@ export class NavComponent implements OnInit {
   /**
    * Current view state
    *
-   * @type {Observable<fromStore.ViewState>}
+   * @type {Observable<fromSharedStore.ViewState>}
    * @memberof NavComponent
    */
-  public view$: Observable<fromStore.ViewState>;
+  public view$: Observable<fromSharedStore.ViewState>;
   /**
    * Creates an instance of NavComponent.
-   * @param {Store<fromStore.PlayerState>} store$
+   * @param {Store<fromSharedStore.PlayerState>} sharedStore$
    * @memberof NavComponent
    */
-  constructor(private store$: Store<fromStore.PlayerState>) { }
+  constructor(private sharedStore$: Store<fromSharedStore.SharedState>) { }
   /**
    * Get view state from store
    *
    * @memberof NavComponent
    */
   public ngOnInit(): void {
-    this.view$ = this.store$.select(fromStore.getViewState);
+    this.view$ = this.sharedStore$.select(fromSharedStore.getViewState);
   }
   /**
    * close right section
@@ -46,7 +46,7 @@ export class NavComponent implements OnInit {
    * @memberof NavComponent
    */
   public closeRightView(event: Event): void {
-    this.store$.dispatch(new fromStore.SetRightViewOpen(false));
+    this.sharedStore$.dispatch(new fromSharedStore.SetRightViewOpen(false));
   }
   /**
    * Set sidebar view
@@ -55,6 +55,6 @@ export class NavComponent implements OnInit {
    * @memberof NavComponent
    */
   public setView(centerView: CenterView): void {
-    this.store$.dispatch(new fromStore.SetCenterView(centerView));
+    this.sharedStore$.dispatch(new fromSharedStore.SetCenterView(centerView));
   }
 }

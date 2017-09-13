@@ -3,7 +3,6 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromCurrent from './current.reducer';
 import * as fromMute from './mute.reducer';
 import * as fromQueue from './queue.reducer';
-import * as fromView from './view.reducer';
 import * as fromVolume from './volume.reducer';
 import * as fromUser from './user.reducer';
 
@@ -13,7 +12,6 @@ export interface PlayerState {
   mute: fromMute.MuteState;
   queue: fromQueue.QueueState;
   user: fromUser.UserState;
-  view: fromView.ViewState;
   volume: fromVolume.VolumeState;
 }
 
@@ -22,11 +20,8 @@ export const reducers = {
   mute: fromMute.muteReducer,
   queue: fromQueue.queueReducer,
   user: fromUser.userReducer,
-  view: fromView.viewReducer,
   volume: fromVolume.volumeReducer
 };
-
-
 
 export const getPlayerState = createFeatureSelector<PlayerState>('player');
 
@@ -75,20 +70,3 @@ export const getVolume = createSelector(
   getVolumeState,
   fromVolume.getVolume
 );
-
-export const getViewState = createSelector(
-  getPlayerState,
-  (state: PlayerState) => state.view
-);
-
-export const getCenterView = createSelector(
-  getViewState,
-  (state: fromView.ViewState) => state.centerView
-);
-
-export const getRightViewOpen = createSelector(
-  getViewState,
-  (state: fromView.ViewState) => state.rightViewOpen
-);
-
-export { ViewState } from './view.reducer';
