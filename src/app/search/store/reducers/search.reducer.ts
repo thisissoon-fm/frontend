@@ -58,6 +58,10 @@ export function searchReducer(
 
       return Object.assign({}, state, { query });
     }
+
+    case fromSearch.CLEAR_SEARCH: {
+      return Object.assign({}, initialState);
+    }
   }
 
   return state;

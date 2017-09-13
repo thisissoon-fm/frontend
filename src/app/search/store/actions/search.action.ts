@@ -6,6 +6,7 @@ export const LOAD_SEARCH_RESULTS_FAIL        = '[Search] Load Search Fail';
 export const LOAD_SEARCH_RESULTS_SUCCESS     = '[Search] Load Search Success';
 export const SET_SEARCH_QUERY                = '[Search] Set Search Query';
 export const SET_SEARCH_TYPE                 = '[Search] Set Search Type';
+export const CLEAR_SEARCH                    = '[Search] Clear Search';
 
 /**
  * Load search results actions
@@ -41,9 +42,18 @@ export class SetSearchType implements Action {
   constructor(public payload: SearchType) { }
 }
 
+
+/**
+ * Clear search
+ */
+export class ClearSearch implements Action {
+  readonly type = CLEAR_SEARCH;
+}
+
 export type SearchAction =
   | LoadSearchResults
   | LoadSearchResultsSuccess
   | LoadSearchResultsFail
   | SetSearchType
-  | SetSearchQuery;
+  | SetSearchQuery
+  | ClearSearch;
