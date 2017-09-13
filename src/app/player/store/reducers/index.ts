@@ -4,14 +4,12 @@ import * as fromCurrent from './current.reducer';
 import * as fromMute from './mute.reducer';
 import * as fromQueue from './queue.reducer';
 import * as fromVolume from './volume.reducer';
-import * as fromUser from './user.reducer';
 
-// TODO: split into multiple states
+
 export interface PlayerState {
   current: fromCurrent.CurrentState;
   mute: fromMute.MuteState;
   queue: fromQueue.QueueState;
-  user: fromUser.UserState;
   volume: fromVolume.VolumeState;
 }
 
@@ -19,7 +17,6 @@ export const reducers = {
   current: fromCurrent.currentReducer,
   mute: fromMute.muteReducer,
   queue: fromQueue.queueReducer,
-  user: fromUser.userReducer,
   volume: fromVolume.volumeReducer
 };
 

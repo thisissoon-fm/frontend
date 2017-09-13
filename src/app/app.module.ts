@@ -13,7 +13,8 @@ import { EventModule, SocketIOService } from './event';
 import { SearchModule } from './search';
 import { PlayerModule } from './player';
 import { NavModule } from './nav';
-import { SharedModule } from './shared/';
+import { SharedModule } from './shared';
+import { UserModule } from './user';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -47,6 +48,7 @@ export const getSocketIO = () => socketIO;
     SearchModule,
     PlayerModule,
     NavModule,
+    UserModule,
     AppRoutingModule
   ],
   declarations: [
