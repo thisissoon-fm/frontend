@@ -127,6 +127,7 @@ export class SearchComponent implements OnInit {
    * @memberof SearchComponent
    */
   public close(): void {
+    this.searchStore$.dispatch(new fromSearchStore.ClearSearch());
     this.sharedStore$.dispatch(new fromSharedStore.SetCenterView(CenterView.STATS));
   }
 }

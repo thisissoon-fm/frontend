@@ -30,6 +30,11 @@
   width: 60%;
 }
 
+.section-left,
+.section-center {
+  @include darken-transition();
+}
+
 .section-left {
   background-position: center center;
   background-size: cover;
@@ -51,6 +56,7 @@
 
 .section-center {
   left: 60%;
+  overflow: hidden;
   width: 40%;
 }
 
@@ -58,12 +64,31 @@
   left: 100%;
 }
 
+sfm-search {
+  bottom: 0;
+  left: 100%;
+  position: absolute;
+  top: 0;
+  transition: $transition-base;
+  width: 100%;
+  z-index: $zindex-fixed - 1;
+}
+
 .stats-now-playing-container {
   height: 100%;
   padding-top: 8.125rem; // ~130px
 }
 
-.center-view-stats {
+.center-view-search {
+  .section-left,
+  .section-center {
+    @include darken();
+  }
+
+  sfm-search {
+    left: 0;
+  }
+
   sfm-nav {
     right: 40%;
   }
@@ -84,16 +109,7 @@
 
   sfm-search {
     overflow: hidden;
-
-    &::after {
-      background-color: rgba($black, .5);
-      bottom: 0;
-      content: "";
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
+    @include darken();
 
     &::ng-deep .search-bar {
       opacity: 0;

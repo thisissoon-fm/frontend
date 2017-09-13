@@ -1,7 +1,8 @@
 <div
   [ngClass]="{
     'right-view-open': (rightViewOpen$ | async),
-    'center-view-stats': (view$ | async).centerView !== centerView.STATS
+    'center-view-stats': (view$ | async).centerView === centerView.STATS,
+    'center-view-search': (view$ | async).centerView === centerView.SEARCH
   }">
 
   <nav>
@@ -11,32 +12,29 @@
   <main class="main">
     <section
       class="section-left"
-      [ngStyle]="{'background-image': 'url(' + (currentImage$ | async) + ')'}"
-      [ngClass]="{'section-hidex': (view$ | async).rightViewOpen$}">
+      [ngStyle]="{'background-image': 'url(' + (currentImage$ | async) + ')'}">
       <sfm-queue></sfm-queue>
     </section>
 
-    <section class="section-center" [ngSwitch]="(view$ | async).centerView">
+    <section class="section-center">
 
-      <ng-template ngSwitchDefault>
-        <div class="d-flex flex-column justify-content-end stats-now-playing-container">
+      <div class="d-flex flex-column justify-content-end stats-now-playing-container">
 
-          <div class="row no-gutters pl-3">
-            <div class="col-12 mb-4">
-              <sfm-stats></sfm-stats>
-            </div>
+        <div class="row no-gutters pl-3">
+          <div class="col-12 mb-4">
+            <sfm-stats></sfm-stats>
           </div>
-
-          <div class="row no-gutters pl-3 pb-3">
-            <div class="col-12">
-              <sfm-now-playing></sfm-now-playing>
-            </div>
-          </div>
-
         </div>
-      </ng-template>
 
-      <sfm-search *ngSwitchCase="centerView.SEARCH"></sfm-search>
+        <div class="row no-gutters pl-3 pb-3">
+          <div class="col-12">
+            <sfm-now-playing></sfm-now-playing>
+          </div>
+        </div>
+
+      </div>
+
+      <sfm-search></sfm-search>
     </section>
 
     <section class="section-right">
