@@ -26,6 +26,36 @@ export class TrackComponent {
   @Input()
   public imageIndex = 0;
   /**
+   * If true will render a smaller version of track component
+   *
+   * @type {boolean}
+   * @memberof TrackComponent
+   */
+  @Input()
+  public small = false;
+  /**
+   * Hide artist info
+   *
+   * @memberof TrackComponent
+   */
+  @Input()
+  public hideArtist = false;
+  /**
+   * Hide album info
+   *
+   * @memberof TrackComponent
+   */
+  @Input()
+  public hideAlbum = false;
+  /**
+   * If true means the component is on a dark background
+   *
+   * @type {boolean}
+   * @memberof TrackComponent
+   */
+  @Input()
+  public dark = false;
+  /**
    * Outputs cta button click events
    *
    * @type {EventEmitter<string>}
@@ -42,7 +72,10 @@ export class TrackComponent {
    * @memberof TrackComponent
    */
   public get optimalImage(): string {
-    return this.utilsSvc.getOptimalImage(this.item.album.images, this.imageIndex);
+    if (this.item.album && this.item.album.images) {
+      return this.utilsSvc.getOptimalImage(this.item.album.images, this.imageIndex);
+    }
+    return '';
   }
   /**
    * Return artists as a string of names

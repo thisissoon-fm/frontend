@@ -102,3 +102,16 @@ export interface SpotifyArtist {
 export interface ExternalUrls {
   spotify: string;
 }
+
+export interface ArtistDetail {
+  artist: SpotifyArtist;
+  topTracks: SpotifySearch;
+  albums: SpotifyAlbums;
+  singles: SpotifyAlbums;
+  related: SpotifySearch;
+}
+
+export interface AlbumDetail {
+  album: SpotifyAlbum;
+  tracks: SpotifyTracks;
+}

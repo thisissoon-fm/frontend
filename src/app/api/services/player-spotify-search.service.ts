@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
-import { QueueItem, SpotifySearch } from '../models';
+import { SpotifySearch } from '../models';
 
 export type SearchType = 'album' | 'artist' | 'track';
 

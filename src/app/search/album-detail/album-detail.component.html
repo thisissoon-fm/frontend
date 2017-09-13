@@ -1,0 +1,33 @@
+<div class="img-clip img-hero" [ngStyle]="{'background-image': 'url(' + albumImage + ')'}">
+  <img [src]="albumImage" [alt]="album?.name">
+</div>
+
+<div class="grid-padding">
+  <div class="container-fluid">
+
+    <div class="row no-gutters mb-3 pt-3">
+
+      <div class="col-12">
+        <h2>{{ album?.name }} <small class="text-muted">{{ artistsJoined }}</small></h2>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="media-list row no-gutters pl-3">
+  <ul class="list-unstyled w-100">
+    <li
+      class="pb-3 text-white"
+      *ngFor="let item of tracks.items">
+
+      <div class="row no-gutters">
+        <div class="col-12">
+
+          <sfm-track [item]="item" [small]="true" [dark]="true" [hideAlbum]="true" (onButtonClick)="addToQueue($event)" [imageIndex]="1"></sfm-track>
+
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

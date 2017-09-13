@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { SearchType } from '../../api';
+import { SearchType, SpotifyArtist, SpotifySearch, SpotifyAlbums } from '../../../api';
 
 export const LOAD_SEARCH_RESULTS             = '[Search] Load Search';
 export const LOAD_SEARCH_RESULTS_FAIL        = '[Search] Load Search Fail';
@@ -40,7 +40,6 @@ export class SetSearchType implements Action {
 
   constructor(public payload: SearchType) { }
 }
-
 
 export type SearchAction =
   | LoadSearchResults

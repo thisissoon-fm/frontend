@@ -1,5 +1,5 @@
 import * as fromSearch from '../actions/search.action';
-import { SearchType } from '../../api';
+import { SearchType, SpotifyArtist, SpotifySearch, SpotifyAlbums } from '../../../api';
 
 export interface SearchState {
   loaded: boolean;
@@ -42,7 +42,8 @@ export function searchReducer(
     case fromSearch.LOAD_SEARCH_RESULTS_FAIL: {
       return Object.assign({}, state, {
         loaded: false,
-        loading: false
+        loading: false,
+        results: []
       });
     }
 

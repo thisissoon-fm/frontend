@@ -1,20 +1,53 @@
 <div class="media align-items-center">
-  <div class="media-img media-img-lg d-flex mr-3" style.backgroundImage="url({{ optimalImage }})">
+
+  <div
+    class="media-img d-flex mr-3"
+    [ngClass]="{'media-img-lg': !small}"
+    [ngStyle]="{'background-image': 'url(' + optimalImage + ')'}">
     <img [src]="optimalImage" [alt]="item.name">
   </div>
+
   <div class="media-body align-items-center">
-    <h3 class="h5 mt-0 mb-1 text-truncate">{{ item.name }}</h3>
-    <p class="lead mb-0 text-light text-truncate">{{ artistsJoined }}</p>
-    <p class="lead mb-2 text-light text-truncate">{{ item.album.name }}</p>
-    <p class="mb-0">{{ item.duration_ms | date:'m:ss' }}  <!-- TODO: Add genre if possible <span class="seperator"></span> Rap--></p>
+    <h3 class="h5 mt-0 text-truncate" [ngClass]="{'mb-1': !small, 'mb-0': small}">{{ item.name }}</h3>
+    <p
+      *ngIf="!hideArtist"
+      class="lead text-light text-truncate"
+      [ngClass]="{
+        'text-light': !dark,
+        'text-muted': dark,
+        'mb-2': !small,
+        'mb-0': small
+      }">
+      {{ artistsJoined }}
+    </p>
+    <p
+      *ngIf="!hideAlbum"
+      class="lead text-truncate"
+      [ngClass]="{
+        'text-light': !dark,
+        'text-muted': dark,
+        'mb-2': !small,
+        'mb-0': small
+      }">
+      {{ item.album?.name }}
+    </p>
+    <p *ngIf="!small" class="mb-0">
+      {{ item.duration_ms | date:'m:ss' }}
+      <!-- TODO: Add genre if possible <span class="seperator"></span> Rap-->
+    </p>
   </div>
-  <div class="media-cta d-flex align-self-start align-items-start ml-3 flex-column">
+
+  <div
+    class="media-cta d-flex align-self-start align-items-start ml-3 flex-column"
+    [ngClass]="{'media-cta-lg': !small}">
     <button
       type="button"
-      class="btn btn-primary text-secondary rotate-90"
+      class="btn btn- text-secondary rotate-90"
+      [ngClass]="{'btn-primary': !dark, 'btn-white': dark}"
       (click)="onClick()">
-      <i class="icon icon-plus pr-2"></i>
-      <span class="small font-weight-bold">Add to playlist</span>
+      <i class="icon icon-plus" [ngClass]="{'pr-2': !small}"></i>
+      <span *ngIf="!small" class="small font-weight-bold">Add to playlist</span>
     </button>
   </div>
+
 </div>
