@@ -1,6 +1,7 @@
 @import "../../../scss/helpers";
 
 :host {
+  display: block;
   left: 0;
   height: 6.875rem; // ~110px
   min-height: 6.875rem; // ~110px

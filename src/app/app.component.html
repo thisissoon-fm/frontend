@@ -1,46 +1,5 @@
-<div
-  [ngClass]="{
-    'right-view-open': (rightViewOpen$ | async),
-    'center-view-stats': (view$ | async).centerView === centerView.STATS,
-    'center-view-search': (view$ | async).centerView === centerView.SEARCH
-  }">
+<sfm-nav [@navFade]="isLoadingPage ? 'out' : 'in'"></sfm-nav>
 
-  <nav>
-    <sfm-nav></sfm-nav>
-  </nav>
+<a class="btn btn-primary text-secondary" routerLink="/home" role="button">Home</a>
 
-  <main class="main">
-    <section
-      class="section-left"
-      [ngStyle]="{'background-image': 'url(' + (currentImage$ | async) + ')'}">
-      <sfm-queue></sfm-queue>
-    </section>
-
-    <section class="section-center">
-
-      <div class="d-flex flex-column justify-content-end stats-now-playing-container">
-
-        <div class="row no-gutters pl-3">
-          <div class="col-12 mb-4">
-            <sfm-stats></sfm-stats>
-          </div>
-        </div>
-
-        <div class="row no-gutters pl-3 pb-3">
-          <div class="col-12">
-            <sfm-now-playing></sfm-now-playing>
-          </div>
-        </div>
-
-      </div>
-
-      <sfm-search></sfm-search>
-    </section>
-
-    <section class="section-right">
-      <router-outlet></router-outlet>
-    </section>
-
-  </main>
-
-</div>
+<router-outlet></router-outlet>

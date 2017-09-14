@@ -67,3 +67,12 @@ export const getVolume = createSelector(
   getVolumeState,
   fromVolume.getVolume
 );
+
+export const getLoadedState = createSelector(
+  getPlayerState,
+  (state: PlayerState) =>
+    state.queue.loaded &&
+    state.current.loaded &&
+    state.mute.loaded &&
+    state.volume.loaded
+);

@@ -1,121 +1,20 @@
 @import "../scss/helpers";
 
 :host {
-  display: block;
-}
-
-.main {
-  @include clearfix();
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-}
-
-.section-left,
-.section-center,
-.section-right {
-  bottom: 0;
-  display: inline-flex;
+  align-items: center;
+  display: flex;
   flex-direction: column;
-  flex-wrap: nowrap;
-  float: left;
-  overflow: auto;
-  position: absolute;
-  top: 0;
-  transition: $transition-base;
-}
-
-.section-left,
-.section-right {
-  width: 60%;
-}
-
-.section-left,
-.section-center {
-  @include darken-transition();
-}
-
-.section-left {
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  left: 0;
-  padding-top: 6.875rem; // ~110px
-
-
-  &::before {
-    background-image: linear-gradient(to bottom, rgba($black, .7), $black);
-    bottom: 0;
-    content: "";
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-}
-
-.section-center {
-  left: 60%;
-  overflow: hidden;
-  width: 40%;
-}
-
-.section-right {
-  left: 100%;
-}
-
-sfm-search {
-  bottom: 0;
-  left: 100%;
-  position: absolute;
-  top: 0;
-  transition: $transition-base;
-  width: 100%;
-  z-index: $zindex-fixed - 1;
-}
-
-.stats-now-playing-container {
-  height: 100%;
-  padding-top: 8.125rem; // ~130px
+  height: 100vh;
+  justify-content: center;
 }
 
 .center-view-search {
-  .section-left,
-  .section-center {
-    @include darken();
-  }
-
-  sfm-search {
-    left: 0;
-  }
-
   sfm-nav {
     right: 40%;
   }
 }
 
 .right-view-open {
-  .section-left {
-    left: -60%;
-  }
-
-  .section-center {
-    left: 0%;
-  }
-
-  .section-right {
-    left: 40%;
-  }
-
-  sfm-search {
-    overflow: hidden;
-    @include darken();
-
-    &::ng-deep .search-bar {
-      opacity: 0;
-    }
-  }
-
   sfm-nav {
     right: 60%;
   }

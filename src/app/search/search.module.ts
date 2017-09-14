@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -25,12 +26,13 @@ const components = [
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     StoreModule.forFeature('search', reducers),
     EffectsModule.forFeature(effects),
     NgbDropdownModule,
     SharedModule,
     PlayerModule,
-    SearchRoutingModule
+    // SearchRoutingModule
   ],
   exports: [
     ...components
