@@ -8,7 +8,8 @@
   position: fixed;
   right: 0;
   top: 0;
-  z-index: $zindex-fixed;
+  transition: $transition-base;
+  z-index: $zindex-nav;
 }
 
 .img-logo {

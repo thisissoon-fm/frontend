@@ -1,21 +1,52 @@
 @import "../scss/helpers";
 
 :host {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  justify-content: center;
+  display: block;
 }
 
-.center-view-search {
-  sfm-nav {
-    right: 40%;
+.router-default,
+.router-search {
+  bottom: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  transition: $transition-base;
+}
+
+.router-default {
+  @include darken-transition();
+  left: 0;
+  z-index: $zindex-router-default;
+}
+
+.router-search {
+  background-color: $body-bg;
+  display: flex;
+  left: 100vw;
+  z-index: $zindex-router-search;
+
+  sfm-search {
+    flex: 1 1 40vw;
+    max-width: 40vw;
   }
 }
 
-.right-view-open {
+:host(.is-router-search-active) {
   sfm-nav {
-    right: 60%;
+    right: 40vw;
+  }
+
+  .router-default {
+    @include darken();
+  }
+
+  .router-search {
+    left: 0;
+  }
+}
+
+:host(.is-search-page) {
+  .router-search {
+    left: 60vw;
   }
 }

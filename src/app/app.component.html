@@ -1,5 +1,10 @@
 <sfm-nav [@navFade]="isLoadingPage ? 'out' : 'in'"></sfm-nav>
 
-<a class="btn btn-primary text-secondary" routerLink="/home" role="button">Home</a>
+<div class="router-default">
+  <router-outlet></router-outlet>
+</div>
 
-<router-outlet></router-outlet>
+<div class="router-search">
+  <sfm-search></sfm-search>
+  <router-outlet name="search"></router-outlet>
+</div>

@@ -2,18 +2,25 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ArtistDetailComponent } from './artist-detail';
+import { AlbumDetailComponent } from './album-detail';
+import { EmptyComponent } from './empty';
 import {
   ArtistDetailResolveService, ArtistAlbumsResolveService,
   ArtistRelatedResolveService, ArtistSinglesResolveService,
-  ArtistTopTracksResolveService, resolveProviders, AlbumTracksResolveService,
-  AlbumDetailResolveService
+  ArtistTopTracksResolveService, resolveProviders,
+  AlbumTracksResolveService, AlbumDetailResolveService
 } from './search-resolve.service';
-import { AlbumDetailComponent } from './album-detail';
 
 const routes: Routes = [
   {
-    path: 'search/artists/:id',
+    path: 'search',
+    outlet: 'search',
+    component: EmptyComponent
+  },
+  {
+    path: 'artists/:id',
     component: ArtistDetailComponent,
+    outlet: 'search',
     resolve: {
       artist: ArtistDetailResolveService,
       topTracks: ArtistTopTracksResolveService,
@@ -23,8 +30,9 @@ const routes: Routes = [
     }
   },
   {
-    path: 'search/albums/:id',
+    path: 'albums/:id',
     component: AlbumDetailComponent,
+    outlet: 'search',
     resolve: {
       album: AlbumDetailResolveService,
       tracks: AlbumTracksResolveService,
@@ -43,5 +51,6 @@ export class SearchRoutingModule { }
 
 export const routedComponents = [
   ArtistDetailComponent,
-  AlbumDetailComponent
+  AlbumDetailComponent,
+  EmptyComponent
 ];

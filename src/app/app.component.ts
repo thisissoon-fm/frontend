@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 
@@ -7,7 +7,6 @@ import * as fromPlayerStore from './player/store';
 import * as fromSharedStore from './shared/store';
 import { EventService, PlayerEvent } from './event';
 import { navFade } from './shared/';
-import { Observable } from 'rxjs/Observable';
 
 /**
  * Root component of application, this component should be present
@@ -27,11 +26,30 @@ import { Observable } from 'rxjs/Observable';
   selector: 'sfm-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [
-    navFade
-  ]
+  animations: [navFade]
 })
 export class AppComponent implements OnInit, OnDestroy {
+  /**
+   * If true means the app is currently on the loading page
+   *
+   * @memberof AppComponent
+   */
+  @HostBinding('class.is-loading-page')
+  public isLoadingPage = false;
+  /**
+   * If true means the search view is current active
+   *
+   * @memberof AppComponent
+   */
+  @HostBinding('class.is-search-page')
+  public isSearchPage = false;
+  /**
+   * If true means the search router is active
+   *
+   * @memberof AppComponent
+   */
+  @HostBinding('class.is-router-search-active')
+  public isSearchRouterActive = false;
   /**
    * Observable used to unsubscribe and complete infinite observables
    * on component destroy lifecycle hook
@@ -40,20 +58,6 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public ngUnsubscribe$: Subject<void> = new Subject<void>();
-  /**
-   * If data has been loaded
-   *
-   * @type {Observable<boolean>}
-   * @memberof AppComponent
-   */
-  public loaded$: Observable<boolean>;
-  /**
-   * If true means the app the current on the loading page
-   *
-   * @memberof AppComponent
-   */
-  @HostBinding('class.is-loading-page')
-  public isLoadingPage = false;
   /**
    * Creates an instance of AppComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
@@ -76,20 +80,21 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public ngOnInit(): void {
     this.router.events
-      .filter((event) => event instanceof NavigationEnd)
-      .subscribe((event: NavigationEnd) => {
-        if (event.url === '/') {
-          this.playerStore$.dispatch(new fromSharedStore.SetRightViewOpen(false));
-          this.isLoadingPage = true;
-        } else {
-          this.playerStore$.dispatch(new fromSharedStore.SetRightViewOpen(true));
-          this.isLoadingPage = false;
-        }
+      .filter((event) => event instanceof NavigationStart)
+      .subscribe((event: NavigationStart) => {
+        this.isLoadingPage = (event.url === '/');
+        this.isSearchPage = event.url.includes('(search:search)');
+        this.isSearchRouterActive = event.url.includes('(search:');
+        this.sharedStore$.dispatch(new fromSharedStore.SetSearchPageActive(this.isSearchPage));
+        this.sharedStore$.dispatch(new fromSharedStore.SetRouterSearchActive(this.isSearchRouterActive));
       });
 
     this.router.navigate(['/']);
 
-    this.loaded$ = this.playerStore$.select(fromPlayerStore.getLoadedState);
+    this.playerStore$.select(fromPlayerStore.getLoadedState)
+      .takeUntil(this.ngUnsubscribe$)
+      .filter(loaded => loaded)
+      .subscribe(() => this.router.navigate(['/home']));
 
     this.playerStore$.dispatch(new fromPlayerStore.LoadCurrent());
     this.playerStore$.dispatch(new fromPlayerStore.LoadQueue());

@@ -1,8 +1,12 @@
+@import "../../../scss/helpers";
+
 :host {
+  background-color: $black;
   display: flex;
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
+  width: 60vw;
 }
 
 .img-clip.img-hero {

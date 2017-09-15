@@ -12,6 +12,7 @@ import * as io from 'socket.io-client';
 import { ApiModule, LocalStorageService } from './api';
 import { EventModule, SocketIOService } from './event';
 import { NavModule } from './nav';
+import { SearchModule } from './search';
 import { PlayerModule } from './player';
 import { SharedModule } from './shared';
 
@@ -46,6 +47,7 @@ export const getSocketIO = () => socketIO;
       { provide: SocketIOService, useFactory: (getSocketIO) }
     ]),
     NavModule,
+    SearchModule,
     PlayerModule,
     AppRoutingModule
   ],
