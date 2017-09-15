@@ -1,7 +1,7 @@
 @import "../../../scss/helpers";
 
 :host {
-  display: block;
+  display: flex;
   left: 0;
   height: 6.875rem; // ~110px
   min-height: 6.875rem; // ~110px
@@ -14,4 +14,12 @@
 
 .img-logo {
   width: 7rem; // ~112px
+}
+
+.nav-left {
+  flex: 1 1 60%;
+}
+
+.nav-right {
+  flex: 1 1 40%;
 }

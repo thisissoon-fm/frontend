@@ -1,8 +1,18 @@
 //
 // Icons
 // --------------------------------------------------
-// Made using `https://icomoon.io/`. Use the `src/assets/fonts/icomoon/selection.json`
-// file to add more icons.
+// Made using `https://icomoon.io/`.
+//
+// Steps to add icons:
+// 1. go to `https://icomoon.io/` and upload the `src/assets/fonts/icomoon/selection.json` file to load
+//    the current icons in the project.
+// 2. Use the "set" context menu to upload svg files to the current set.
+// 3. Generate the new font files and download the zip file extract and copy the font files into:
+//    `src/assets/fonts/icomoon/` and override the existing files.
+// 4. Copy the `selection.json` file in the zip file  to `src/assets/fonts/icomoon/` and replace the
+//    existing file.
+// 5. Update the variables in `src/assets/scss/_variables.scss` and add the new file icon codes
+// 6. Update this file with the new icon classes.
 
 
 @font-face {
@@ -36,6 +46,7 @@
 .icon-history                     { &::before { content: $icon-history; }}
 .icon-stats-dots                  { &::before { content: $icon-stats-dots; }}
 .icon-arrow-left                  { &::before { content: $icon-arrow-left; }}
+.icon-profile                     { &::before { content: $icon-profile; }}
 .icon-search                      { &::before { content: $icon-search; }}
 .icon-volume-high                 { &::before { content: $icon-volume-high; }}
 .icon-volume-medium               { &::before { content: $icon-volume-medium; }}
