@@ -1,13 +1,15 @@
 @import "../../../scss/helpers";
 
 :host {
+  display: block;
   left: 0;
   height: 6.875rem; // ~110px
   min-height: 6.875rem; // ~110px
   position: fixed;
   right: 0;
   top: 0;
-  z-index: $zindex-fixed;
+  transition: $transition-base;
+  z-index: $zindex-nav;
 }
 
 .img-logo {

@@ -4,119 +4,49 @@
   display: block;
 }
 
-.main {
-  @include clearfix();
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-}
-
-.section-left,
-.section-center,
-.section-right {
+.router-default,
+.router-search {
   bottom: 0;
-  display: inline-flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  float: left;
-  overflow: auto;
-  position: absolute;
+  position: fixed;
   top: 0;
+  width: 100vw;
   transition: $transition-base;
 }
 
-.section-left,
-.section-right {
-  width: 60%;
-}
-
-.section-left,
-.section-center {
+.router-default {
   @include darken-transition();
-}
-
-.section-left {
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
   left: 0;
-  padding-top: 6.875rem; // ~110px
+  z-index: $zindex-router-default;
+}
 
+.router-search {
+  background-color: $body-bg;
+  display: flex;
+  left: 100vw;
+  z-index: $zindex-router-search;
 
-  &::before {
-    background-image: linear-gradient(to bottom, rgba($black, .7), $black);
-    bottom: 0;
-    content: "";
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
+  sfm-search {
+    flex: 1 1 40vw;
+    max-width: 40vw;
   }
 }
 
-.section-center {
-  left: 60%;
-  overflow: hidden;
-  width: 40%;
-}
+:host(.is-router-search-active) {
+  sfm-nav {
+    right: 40vw;
+  }
 
-.section-right {
-  left: 100%;
-}
-
-sfm-search {
-  bottom: 0;
-  left: 100%;
-  position: absolute;
-  top: 0;
-  transition: $transition-base;
-  width: 100%;
-  z-index: $zindex-fixed - 1;
-}
-
-.stats-now-playing-container {
-  height: 100%;
-  padding-top: 8.125rem; // ~130px
-}
-
-.center-view-search {
-  .section-left,
-  .section-center {
+  .router-default {
     @include darken();
   }
 
-  sfm-search {
+  .router-search {
     left: 0;
-  }
-
-  sfm-nav {
-    right: 40%;
   }
 }
 
-.right-view-open {
-  .section-left {
-    left: -60%;
-  }
-
-  .section-center {
-    left: 0%;
-  }
-
-  .section-right {
-    left: 40%;
-  }
-
-  sfm-search {
-    overflow: hidden;
-    @include darken();
-
-    &::ng-deep .search-bar {
-      opacity: 0;
-    }
-  }
-
-  sfm-nav {
-    right: 60%;
+:host(.is-search-page) {
+  .router-search {
+    left: 60vw;
   }
 }

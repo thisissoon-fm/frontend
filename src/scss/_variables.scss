@@ -243,6 +243,15 @@ $icon-volume-low:                   "\ea28";
 $icon-volume-mute:                  "\ea2a";
 
 
+// Z-index master list
+//
+// List of zindex values to have a top down overview
+
+$zindex-router-default:             900;
+$zindex-nav:                        910;
+$zindex-router-search:              920;
+
+
 // Volume slider
 //
 //

@@ -43,7 +43,8 @@ export class AlbumComponent {
    * @memberof AlbumComponent
    */
   public get artistsJoined(): string {
-    return this.utilsSvc.getArtistsJoined(this.item.artists);
+    return (this.item && this.item.artists) ?
+      this.utilsSvc.getArtistsJoined(this.item.artists) : '';
   }
   /**
    * Creates an instance of AlbumComponent.

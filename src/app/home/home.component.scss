@@ -1,0 +1,53 @@
+@import "../../scss/helpers";
+
+:host {
+  @include clearfix();
+  display: block;
+  overflow: hidden;
+  position: relative;
+  height: 100vh;
+  width: 100%;
+}
+
+.section-left,
+.section-right {
+  bottom: 0;
+  display: inline-flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  float: left;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  transition: $transition-base;
+}
+
+.section-left {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  left: 0;
+  padding-top: 6.875rem; // ~110px
+  width: 60%;
+
+  &::before {
+    background-image: linear-gradient(to bottom, rgba($black, .7), $black);
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.section-right {
+  left: 60%;
+  overflow: hidden;
+  width: 40%;
+}
+
+.stats-now-playing-container {
+  height: 100%;
+  padding-top: 8.125rem; // ~130px
+}

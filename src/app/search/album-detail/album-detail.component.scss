@@ -1,8 +1,14 @@
+@import "../../../scss/helpers";
+
 :host {
+  background-color: $black;
   display: flex;
   flex-direction: column;
   height: 100vh;
+  opacity: 1;
   overflow: hidden;
+  width: 60vw;
+  transition: $transition-base;
 }
 
 .img-clip.img-hero {
@@ -12,4 +18,8 @@
 .media-list {
   flex-shrink: 3;
   overflow: auto;
+}
+
+:host(.is-loading) {
+  opacity: 0;
 }

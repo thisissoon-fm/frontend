@@ -1,0 +1,23 @@
+<section
+  class="section-left"
+  [ngStyle]="{'background-image': 'url(' + (currentImage$ | async) + ')'}">
+  <sfm-queue></sfm-queue>
+</section>
+
+<section class="section-right">
+  <div class="d-flex flex-column justify-content-end stats-now-playing-container">
+
+    <div class="row no-gutters pl-3">
+      <div class="col-12 mb-4">
+        <sfm-stats></sfm-stats>
+      </div>
+    </div>
+
+    <div class="row no-gutters pl-3 pb-3">
+      <div class="col-12">
+        <sfm-now-playing></sfm-now-playing>
+      </div>
+    </div>
+
+  </div>
+</section>

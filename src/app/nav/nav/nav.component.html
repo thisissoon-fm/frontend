@@ -1,44 +1,27 @@
 <div class="grid-padding">
   <div class="container-fluid pt-3 pb-3">
     <div class="row">
+
       <div class="col-6">
-        <img class="img-logo" src="/assets/img/logo/logo-white.svg" alt="SOON FM_">
+        <img class="img-logo nav-item-animate" src="/assets/img/logo/logo-white.svg" alt="SOON FM_">
       </div>
 
       <div class="col-6">
 
         <ul class="list-inline text-right mb-0">
-          <li class="list-inline-item pr-3" *ngIf="!(view$ | async).rightViewOpen && (view$ | async).centerView === centerView.STATS">
-            <a
-              class="text-white h4"
-              role="button"
-              (click)="setView(centerView.STATS)">
+          <li class="list-inline-item pr-3 nav-item-animate">
+            <a class="text-white h4">
               <i class="icon icon-stats-dots"></i>
             </a>
           </li>
-          <li class="list-inline-item pr-3" *ngIf="!(view$ | async).rightViewOpen && (view$ | async).centerView === centerView.STATS">
-            <a
-              class="text-white h4"
-              role="button"
-              (click)="setView(centerView.HISTORY)">
+          <li class="list-inline-item pr-3 nav-item-animate">
+            <a class="text-white h4">
               <i class="icon icon-history"></i>
             </a>
           </li>
-          <li class="list-inline-item" *ngIf="!(view$ | async).rightViewOpen && (view$ | async).centerView === centerView.STATS">
-            <a
-              class="text-white h4"
-              role="button"
-              (click)="setView(centerView.SEARCH)">
+          <li class="list-inline-item nav-item-animate">
+            <a class="text-white h4" [routerLink]="['/home', { outlets: { search: 'search' } }]">
               <i class="icon icon-search"></i>
-            </a>
-          </li>
-          <li class="list-inline-item pr-3" *ngIf="(view$ | async).rightViewOpen">
-            <a
-              class="text-white h4"
-              role="button"
-              [routerLink]="['/']"
-              (click)="closeRightView()">
-              <i class="icon icon-arrow-left"></i>
             </a>
           </li>
         </ul>

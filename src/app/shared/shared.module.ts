@@ -12,8 +12,7 @@ const providers: Provider[] = [
 @NgModule({
   imports: [
     StoreModule.forFeature('shared', reducers)
-  ],
-  declarations: []
+  ]
 })
 export class SharedModule {
   /**

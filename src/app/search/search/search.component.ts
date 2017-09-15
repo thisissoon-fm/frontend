@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import * as fromSearchStore from '../store';
 import * as fromPlayerStore from '../../player/store';
-import * as fromSharedStore from '../../shared/store';
 import { SearchType } from '../../api';
-import { CenterView } from '../../shared';
+
 
 @Component({
   selector: 'sfm-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   /**
    * Observable that emits and event when search input is changed
    *
@@ -22,6 +21,13 @@ export class SearchComponent implements OnInit {
    * @memberof SearchComponent
    */
   public onSearchChange$: Subject<string> = new Subject<string>();
+  /**
+   * Observable of search status
+   *
+   * @type {Observable<fromSearchStore.SearchState>}
+   * @memberof SearchComponent
+   */
+  public search$: Observable<fromSearchStore.SearchState>;
   /**
    * Observable used to unsubscribe and complete infinite observables
    * on component destroy lifecycle hook
@@ -31,30 +37,14 @@ export class SearchComponent implements OnInit {
    */
   public ngUnsubscribe$: Subject<void> = new Subject<void>();
   /**
-   * Observable of search status
-   *
-   * @type {Observable<fromSearchStore.SearchState>}
-   * @memberof SearchComponent
-   */
-  public search$: Observable<fromSearchStore.SearchState>;
-  /**
-   * Observable of view status
-   *
-   * @type {Observable<fromSharedStore.ViewState>}
-   * @memberof SearchComponent
-   */
-  public view$: Observable<fromSharedStore.ViewState>;
-  /**
    * Creates an instance of SearchComponent.
    * @param {Store<fromSearchStore.SearchState>} searchStore$
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
-   * @param {Store<fromSharedStore.PlayerState>} sharedStore$
    * @memberof SearchComponent
    */
   constructor(
     private searchStore$: Store<fromSearchStore.SearchState>,
-    private playerStore$: Store<fromPlayerStore.PlayerState>,
-    private sharedStore$: Store<fromSharedStore.SharedState>
+    private playerStore$: Store<fromPlayerStore.PlayerState>
   ) { }
   /**
    * Subscribe to search
@@ -69,7 +59,6 @@ export class SearchComponent implements OnInit {
       .subscribe((query) => this.setSearchQuery(query));
 
     this.search$ = this.searchStore$.select(fromSearchStore.getSearchState);
-    this.view$ = this.playerStore$.select(fromSharedStore.getViewState);
   }
   /**
    * Event handler for search input change, send next value
@@ -128,6 +117,14 @@ export class SearchComponent implements OnInit {
    */
   public close(): void {
     this.searchStore$.dispatch(new fromSearchStore.ClearSearch());
-    this.sharedStore$.dispatch(new fromSharedStore.SetCenterView(CenterView.STATS));
+  }
+  /**
+   * Unsubscribe from infinite observable on destroy
+   *
+   * @memberof SearchComponent
+   */
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe$.complete();
+    this.ngUnsubscribe$.unsubscribe();
   }
 }

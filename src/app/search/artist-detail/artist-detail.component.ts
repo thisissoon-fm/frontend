@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { UtilsService } from '../../shared';
 import * as fromPlayerStore from '../../player/store';
-import { ArtistDetail, SpotifyArtist, SpotifyAlbums, SpotifySearch } from '../../api';
+import { SpotifyArtist, SpotifySearch, SpotifyAlbums, PlayerSpotifyArtistService } from '../../api';
 
 @Component({
   selector: 'sfm-artist-detail',
@@ -49,6 +49,14 @@ export class ArtistDetailComponent implements OnInit {
    */
   public related: SpotifySearch;
   /**
+   * True if component is loading data
+   *
+   * @type {boolean}
+   * @memberof AlbumDetailComponent
+   */
+  @HostBinding('class.is-loading')
+  public loading = true;
+  /**
    * Returns artist image or empty string if one doesn't exist
    *
    * @readonly
@@ -62,11 +70,14 @@ export class ArtistDetailComponent implements OnInit {
   /**
    * Creates an instance of ArtistDetailComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
+   * @param {PlayerSpotifyArtistService} spotifyArtistService
+   * @param {ActivatedRoute} route
    * @param {UtilsService} utilsSvc
    * @memberof ArtistDetailComponent
    */
   constructor(
     private playerStore$: Store<fromPlayerStore.PlayerState>,
+    private spotifyArtistService: PlayerSpotifyArtistService,
     private route: ActivatedRoute,
     private utilsSvc: UtilsService
   ) { }
@@ -77,13 +88,25 @@ export class ArtistDetailComponent implements OnInit {
    * @memberof ArtistDetailComponent
    */
   public ngOnInit(): void {
-    this.route.data
-      .subscribe((data: ArtistDetail) => {
-        this.artist = data.artist;
-        this.albums = data.albums;
-        this.single = data.singles;
-        this.topTracks = data.topTracks;
-        this.related = data.related;
+    this.route.params
+    .take(1)
+    .subscribe(params => {
+      const id = params['id'];
+      Observable.forkJoin([
+        this.spotifyArtistService.get(id),
+        this.spotifyArtistService.getAlbums(id),
+        this.spotifyArtistService.getSingles(id),
+        this.spotifyArtistService.getTopTracks(id),
+        this.spotifyArtistService.getRelatedArtists(id)
+      ])
+        .subscribe((res: any[]) => {
+          this.artist = res[0];
+          this.albums = res[1];
+          this.single = res[2];
+          this.topTracks = res[3];
+          this.related = res[4];
+          this.loading = false;
+        });
       });
   }
   /**

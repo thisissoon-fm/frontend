@@ -1,14 +1,12 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Router, NavigationStart } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 
-import { QueueItem } from './api';
 import * as fromPlayerStore from './player/store';
 import * as fromSharedStore from './shared/store';
 import { EventService, PlayerEvent } from './event';
-import { CenterView, UtilsService } from './shared';
+import { navFade } from './shared/';
 
 /**
  * Root component of application, this component should be present
@@ -27,23 +25,31 @@ import { CenterView, UtilsService } from './shared';
 @Component({
   selector: 'sfm-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [navFade]
 })
 export class AppComponent implements OnInit, OnDestroy {
   /**
-   * Observable of the item currently playing in the player
+   * If true means the app is currently on the loading page
    *
-   * @type {Observable<QueueItem>}
    * @memberof AppComponent
    */
-  public current$: Observable<QueueItem>;
+  @HostBinding('class.is-loading-page')
+  public isLoadingPage = false;
   /**
-   * Observable of list of items in the queue
+   * If true means the search view is current active
    *
-   * @type {Observable<QueueItem[]>}
    * @memberof AppComponent
    */
-  public queue$: Observable<QueueItem[]>;
+  @HostBinding('class.is-search-page')
+  public isSearchPage = false;
+  /**
+   * If true means the search router is active
+   *
+   * @memberof AppComponent
+   */
+  @HostBinding('class.is-router-search-active')
+  public isSearchRouterActive = false;
   /**
    * Observable used to unsubscribe and complete infinite observables
    * on component destroy lifecycle hook
@@ -53,59 +59,18 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public ngUnsubscribe$: Subject<void> = new Subject<void>();
   /**
-   * Specifies the current view in the center section
-   *
-   * @type {Observable<fromSharedStore.ViewState>}
-   * @memberof AppComponent
-   */
-  public view$: Observable<fromSharedStore.ViewState>;
-  /**
-   * Store `CenterView` enum as a property in the component
-   * to use in template
-   *
-   * @memberof AppComponent
-   */
-  public centerView = CenterView;
-  /**
-   * Returns current image or empty string
-   *
-   * @readonly
-   * @type {Observable<string>}
-   * @memberof AppComponent
-   */
-  public get currentImage$(): Observable<string> {
-    return this.current$
-      .map((current) =>
-        (current && current.track) ?
-           this.utilsSvc.getOptimalImage(current.track.album.images, 0) : ''
-      );
-  }
-  /**
-   * Returns true if right view is open
-   *
-   * @readonly
-   * @type {Observable<boolean>}
-   * @memberof AppComponent
-   */
-  public get rightViewOpen$(): Observable<boolean> {
-    return this.view$
-      .map((view) => view.rightViewOpen);
-  }
-  /**
    * Creates an instance of AppComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
    * @param {Store<fromSharedStore.SharedState>} sharedStore$
    * @param {Router} router
    * @param {EventService} eventSvc
-   * @param {UtilsService} utilsSvc
    * @memberof AppComponent
    */
   constructor(
     private playerStore$: Store<fromPlayerStore.PlayerState>,
     private sharedStore$: Store<fromSharedStore.SharedState>,
     private router: Router,
-    private eventSvc: EventService,
-    private utilsSvc: UtilsService
+    private eventSvc: EventService
   ) { }
   /**
    * Tell store to load player data from api and subscribe to
@@ -115,19 +80,21 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public ngOnInit(): void {
     this.router.events
-      .filter((event) => event instanceof NavigationEnd)
-      .subscribe((event: NavigationEnd) => {
-        if (event.url === '/') {
-          this.playerStore$.dispatch(new fromSharedStore.SetRightViewOpen(false));
-        } else {
-          this.playerStore$.dispatch(new fromSharedStore.SetRightViewOpen(true));
-        }
+      .filter((event) => event instanceof NavigationStart)
+      .subscribe((event: NavigationStart) => {
+        this.isLoadingPage = (event.url === '/');
+        this.isSearchPage = event.url.includes('(search:search)');
+        this.isSearchRouterActive = event.url.includes('(search:');
+        this.sharedStore$.dispatch(new fromSharedStore.SetSearchPageActive(this.isSearchPage));
+        this.sharedStore$.dispatch(new fromSharedStore.SetRouterSearchActive(this.isSearchRouterActive));
       });
+
     this.router.navigate(['/']);
 
-    this.current$ = this.playerStore$.select(fromPlayerStore.getCurrent);
-    this.queue$ = this.playerStore$.select(fromPlayerStore.getQueue);
-    this.view$ = this.sharedStore$.select(fromSharedStore.getViewState);
+    this.playerStore$.select(fromPlayerStore.getLoadedState)
+      .takeUntil(this.ngUnsubscribe$)
+      .filter(loaded => loaded)
+      .subscribe(() => this.router.navigate(['/home']));
 
     this.playerStore$.dispatch(new fromPlayerStore.LoadCurrent());
     this.playerStore$.dispatch(new fromPlayerStore.LoadQueue());

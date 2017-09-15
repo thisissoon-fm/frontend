@@ -6,7 +6,13 @@
   <div class="container-fluid">
 
     <div class="row no-gutters mb-3 pt-3">
-
+      <div class="col-1 d-flex align-items-center">
+        <a
+          class="text-white h1"
+          [routerLink]="['/home', { outlets: { search: ['search'] } }]">
+          <i class="icon icon-arrow-left"></i>
+        </a>
+      </div>
       <div class="col-6">
         <h2>{{ artist?.name }}</h2>
       </div>
@@ -33,7 +39,7 @@
   <ul class="list-unstyled w-100">
     <li
       class="pb-3 text-white"
-      *ngFor="let item of topTracks.tracks">
+      *ngFor="let item of topTracks?.tracks">
 
       <div class="row no-gutters">
         <div class="col-12">
