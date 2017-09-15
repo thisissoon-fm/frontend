@@ -1,14 +1,11 @@
 import * as fromViewActions from '../actions/view.action';
-import { CenterView } from '../../../shared/view.enum';
 
 export interface ViewState {
-  centerView: CenterView;
   routerSearchActive: boolean;
   searchPageActive: boolean;
 }
 
 const initialState: ViewState = {
-  centerView: CenterView.STATS,
   routerSearchActive: false,
   searchPageActive: false
 };
@@ -18,11 +15,6 @@ export function viewReducer(
   action: fromViewActions.ViewAction
 ): ViewState {
   switch (action.type) {
-    case fromViewActions.SET_CENTER_VIEW: {
-      const centerView = (<fromViewActions.SetCenterView>action).payload;
-      return Object.assign({}, state, { centerView });
-    }
-
     case fromViewActions.SET_ROUTER_SEARCH_ACTIVE: {
       const rightViewOpen = (<fromViewActions.SetRouterSearchActive>action).payload;
       return Object.assign({}, state, { rightViewOpen });
@@ -37,5 +29,5 @@ export function viewReducer(
   return state;
 }
 
-export const getCenterView = (state: ViewState) => state.centerView;
+export const getSearchPageActive = (state: ViewState) => state.searchPageActive;
 export const getRouterSearchActive = (state: ViewState) => state.routerSearchActive;
