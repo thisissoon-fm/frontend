@@ -22,7 +22,7 @@
               <li class="list-inline-item pr-3 nav-item-animate mr-auto">
                 <a class="text-white h4 text-nowrap">
                   <i class="icon icon-profile mr-2"></i>
-                  <span class="h6">Profile</span>
+                  <span class="h6">{{ (user$ | async)?.user?.given_name || 'Profile' }}</span>
                 </a>
               </li>
               <li class="list-inline-item pr-3 nav-item-animate">

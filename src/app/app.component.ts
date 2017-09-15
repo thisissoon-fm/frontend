@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromPlayerStore from './player/store';
 import * as fromSharedStore from './shared/store';
+import * as fromUserStore from './user/store';
 import { EventService, PlayerEvent } from './event';
 import { navFade } from './shared/';
 
@@ -69,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private playerStore$: Store<fromPlayerStore.PlayerState>,
     private sharedStore$: Store<fromSharedStore.SharedState>,
+    private userStore$: Store<fromUserStore.UserState>,
     private router: Router,
     private eventSvc: EventService
   ) { }
@@ -101,6 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.playerStore$.dispatch(new fromPlayerStore.LoadVolume());
     this.playerStore$.dispatch(new fromPlayerStore.LoadMute());
     this.playerStore$.dispatch(new fromPlayerStore.LoadQueueMeta());
+    this.userStore$.dispatch(new fromUserStore.LoadMe());
 
     this.eventSvc.messages$
       .takeUntil(this.ngUnsubscribe$)

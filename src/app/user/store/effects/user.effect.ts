@@ -11,7 +11,7 @@ export class UserEffects {
 
   @Effect()
   public LoadCurrentUser$: Observable<Action> = this.actions$
-    .ofType(userActions.LOAD_USER)
+    .ofType(userActions.LOAD_ME)
     .switchMap(() =>
       this.userSvc.me()
         .map((res) => new userActions.LoadMeSuccess(res))

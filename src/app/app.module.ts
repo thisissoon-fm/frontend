@@ -15,6 +15,7 @@ import { NavModule } from './nav';
 import { SearchModule } from './search';
 import { PlayerModule } from './player';
 import { SharedModule } from './shared';
+import { UserModule } from './user';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,6 +48,7 @@ export const getSocketIO = () => socketIO;
       { provide: SocketIOService, useFactory: (getSocketIO) }
     ]),
     NavModule,
+    UserModule,
     SearchModule,
     PlayerModule,
     AppRoutingModule

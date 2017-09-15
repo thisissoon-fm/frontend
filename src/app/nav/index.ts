@@ -1,2 +1,2 @@
-export * from './nav';
+export * from './nav.component';
 export * from './nav.module';
