@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
+import { SpotifyAlbums, PlayerSpotifyAlbumService, SpotifyAlbum, SpotifyTracks } from '../../api';
 import { UtilsService } from '../../shared';
 import * as fromPlayerStore from '../../player/store';
-import { SpotifyAlbum, SpotifyTracks, AlbumDetail } from '../../api';
 
 @Component({
   selector: 'sfm-album-detail',
@@ -28,7 +28,15 @@ export class AlbumDetailComponent implements OnInit {
    */
   public tracks: SpotifyTracks;
   /**
-   * Returns artist image or empty string if one doesn't exist
+   * True if component is loading data
+   *
+   * @type {boolean}
+   * @memberof AlbumDetailComponent
+   */
+  @HostBinding('class.is-loading')
+  public loading = true;
+  /**
+   * Returns album image or empty string if one doesn't exist
    *
    * @readonly
    * @type {string}
@@ -41,26 +49,38 @@ export class AlbumDetailComponent implements OnInit {
   /**
    * Creates an instance of AlbumDetailComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
-   * @param {UtilsService} utilsSvc
+   * @param {PlayerSpotifyAlbumService} spotifyAlbumService
+   * @param {ActivatedRoute} utilsSvc
+   * @param {UtilsService} route
    * @memberof AlbumDetailComponent
    */
   constructor(
     private playerStore$: Store<fromPlayerStore.PlayerState>,
+    private spotifyAlbumService: PlayerSpotifyAlbumService,
     private route: ActivatedRoute,
     private utilsSvc: UtilsService
   ) { }
   /**
-   * Get artist details
+   * Get album details
    *
    * @memberof AlbumDetailComponent
    */
   public ngOnInit(): void {
-    this.route.data
-      .subscribe((data: AlbumDetail) => {
-        this.album = data.album;
-        this.tracks = data.tracks;
-        this.tracks.items.forEach((item) => item.album = this.album);
-      });
+    this.route.params
+      .take(1)
+      .subscribe(params => {
+        const id = params['id'];
+        Observable.forkJoin([
+          this.spotifyAlbumService.get(id),
+          this.spotifyAlbumService.getTracks(id)
+        ])
+          .subscribe((res: any[]) => {
+            this.album = <SpotifyAlbum>res[0];
+            this.tracks = <SpotifyTracks>res[1];
+            this.tracks.items.forEach((item) => item.album = this.album);
+            this.loading = false;
+          });
+        });
   }
   /**
    * Return artists as a string of names
@@ -69,7 +89,8 @@ export class AlbumDetailComponent implements OnInit {
    * @memberof AlbumDetailComponent
    */
   public get artistsJoined(): string {
-    return this.utilsSvc.getArtistsJoined(this.album.artists);
+    return (this.album && this.album.artists) ?
+      this.utilsSvc.getArtistsJoined(this.album.artists) : '';
   }
   /**
    * Add to queue
