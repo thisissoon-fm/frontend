@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { LocalStorageService } from './local-storage.service';
 
+import { LocalStorageService } from './local-storage.service';
 import { environment } from '../../../environments/environment';
 
 /**
@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
    * @memberof AuthInterceptor
    */
   private get authToken(): string {
-    return this.localStorageSvc.getItem(this.storageName) || null;
+    return this.localStorageSvc.getItem(this.storageName) || '';
   }
   /**
    * Creates an instance of AuthInterceptor.

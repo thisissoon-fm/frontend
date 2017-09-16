@@ -19,10 +19,14 @@
         <div class="col">
 
           <ul class="list-inline d-flex justify-content-end mb-0">
-              <li class="list-inline-item pr-3 nav-item-animate mr-auto">
-                <a class="text-white h4 text-nowrap">
+              <li class="list-inline-item pr-3 nav-item-animate mr-auto" [ngSwitch]="(user$ | async)?.authenticated">
+                <a class="text-white h4 text-nowrap" *ngSwitchCase="true">
                   <i class="icon icon-profile mr-2"></i>
-                  <span class="h6">{{ (user$ | async)?.user?.given_name || 'Profile' }}</span>
+                  <span class="h6">{{ (user$ | async).user.given_name }}</span>
+                </a>
+                <a class="text-white h4 text-nowrap" *ngSwitchDefault (click)="login()">
+                  <i class="icon icon-profile mr-2"></i>
+                  <span class="h6">Sign in</span>
                 </a>
               </li>
               <li class="list-inline-item pr-3 nav-item-animate">

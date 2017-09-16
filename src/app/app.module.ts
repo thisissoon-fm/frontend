@@ -1,5 +1,3 @@
-import './rxjs';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -7,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { Ng2UiAuthModule, AuthService } from 'ng2-ui-auth';
 import * as io from 'socket.io-client';
 
 import { ApiModule, LocalStorageService } from './api';
@@ -16,8 +15,9 @@ import { SearchModule } from './search';
 import { PlayerModule } from './player';
 import { SharedModule } from './shared';
 import { UserModule } from './user';
+import { AuthModule, AuthConfig, OAuthService } from './auth';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routedComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 // Factories to be specifically provided for browser platform
@@ -40,12 +40,16 @@ export const getSocketIO = () => socketIO;
     NgbDropdownModule.forRoot(),
     StoreModule.forRoot([]),
     EffectsModule.forRoot([]),
+    Ng2UiAuthModule.forRoot(AuthConfig),
     SharedModule.forRoot(),
     ApiModule.forRoot([
       { provide: LocalStorageService, useFactory: (getLocalStorage) }
     ]),
     EventModule.forRoot([
       { provide: SocketIOService, useFactory: (getSocketIO) }
+    ]),
+    AuthModule.forRoot([
+      { provide: OAuthService, useClass: AuthService }
     ]),
     NavModule,
     UserModule,
@@ -54,6 +58,7 @@ export const getSocketIO = () => socketIO;
     AppRoutingModule
   ],
   declarations: [
+    ...routedComponents,
     AppComponent
   ],
   bootstrap: [AppComponent]

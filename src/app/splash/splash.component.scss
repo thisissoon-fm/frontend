@@ -1,0 +1,16 @@
+@import "../../scss/helpers";
+
+:host {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  position: relative;
+  width: 100vw;
+  z-index: $zindex-splash;
+}
+
+.img-logo {
+  width: 18.75rem; // ~300px
+}

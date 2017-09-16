@@ -34,7 +34,7 @@ export function userReducer(
         loaded: true,
         loading: false,
         user,
-        authenicated: true
+        authenticated: true
       });
     }
 
@@ -53,4 +53,5 @@ export function userReducer(
 
 export const getUserLoaded = (state: UserState) => state.loaded;
 export const getUserLoading = (state: UserState) => state.loading;
+export const getUserAuthenticated = (state: UserState) => state.authenticated;
 export const getUser = (state: UserState) => state.user;

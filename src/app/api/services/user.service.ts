@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
+import { LocalStorageService } from '../shared';
 import { User } from '../models';
 
 /**
@@ -23,9 +24,13 @@ export class UserService {
   /**
    * Creates an instance of UserService.
    * @param {HttpClient} http
+   * @param {LocalStorageService} localStorageSvc
    * @memberof UserService
    */
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private localStorageSvc: LocalStorageService
+  ) { }
   /**
    * Returns user data for currently authenticated user
    *
@@ -33,7 +38,11 @@ export class UserService {
    * @memberof UserService
    */
   public me(): Observable<User> {
-    return this.http.get<User>(`${this.endpointUrl}authenticated`);
+    const storageName = `${environment.googleAuthTokenPrefix}_${environment.googleAuthTokenName}`;
+    if (this.localStorageSvc.getItem(storageName)) {
+      return this.http.get<User>(`${this.endpointUrl}authenticated`);
+    }
+    return Observable.throw(null);
   }
   /**
    * Get user data by `id`
