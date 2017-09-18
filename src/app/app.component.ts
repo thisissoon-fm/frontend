@@ -5,8 +5,9 @@ import { Store } from '@ngrx/store';
 
 import * as fromPlayerStore from './player/store';
 import * as fromSharedStore from './shared/store';
+import * as fromUserStore from './user/store';
 import { EventService, PlayerEvent } from './event';
-import { navFade } from './shared/';
+import { navFadeAnimation } from './shared/';
 
 /**
  * Root component of application, this component should be present
@@ -26,7 +27,7 @@ import { navFade } from './shared/';
   selector: 'sfm-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [navFade]
+  animations: [navFadeAnimation]
 })
 export class AppComponent implements OnInit, OnDestroy {
   /**
@@ -69,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private playerStore$: Store<fromPlayerStore.PlayerState>,
     private sharedStore$: Store<fromSharedStore.SharedState>,
+    private userStore$: Store<fromUserStore.UserState>,
     private router: Router,
     private eventSvc: EventService
   ) { }
@@ -91,16 +93,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.router.navigate(['/']);
 
-    this.playerStore$.select(fromPlayerStore.getLoadedState)
-      .takeUntil(this.ngUnsubscribe$)
-      .filter(loaded => loaded)
-      .subscribe(() => this.router.navigate(['/home']));
-
     this.playerStore$.dispatch(new fromPlayerStore.LoadCurrent());
     this.playerStore$.dispatch(new fromPlayerStore.LoadQueue());
     this.playerStore$.dispatch(new fromPlayerStore.LoadVolume());
     this.playerStore$.dispatch(new fromPlayerStore.LoadMute());
     this.playerStore$.dispatch(new fromPlayerStore.LoadQueueMeta());
+    this.userStore$.dispatch(new fromUserStore.LoadMe());
 
     this.eventSvc.messages$
       .takeUntil(this.ngUnsubscribe$)

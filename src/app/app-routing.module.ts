@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { SplashComponent } from './splash';
+
+export const routedComponents: any[] = [
+  SplashComponent
+];
 
 const routes: Routes = [
+  { path: '', component: SplashComponent },
   { path: 'home', loadChildren: './home/home.module#HomeModule' },
   { path: 'search', loadChildren: './search/search.module#SearchModule'},
   { path: '*', redirectTo: '' }

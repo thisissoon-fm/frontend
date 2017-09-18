@@ -6,4 +6,25 @@ export const reducers = fromUser.userReducer;
 
 export const getUserState = createFeatureSelector<fromUser.UserState>('user');
 
-export * from './user.reducer';
+export const getUserLoaded = createSelector(
+  getUserState,
+  fromUser.getUserLoaded
+);
+
+export const getUserLoading = createSelector(
+  getUserState,
+  fromUser.getUserLoading
+);
+
+export const getUserAuthenticated = createSelector(
+  getUserState,
+  fromUser.getUserAuthenticated
+);
+
+export const getUser = createSelector(
+  getUserState,
+  fromUser.getUser
+);
+
+export { UserState } from './user.reducer';
+
