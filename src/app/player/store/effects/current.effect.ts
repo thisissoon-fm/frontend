@@ -7,7 +7,7 @@ import { Title } from '@angular/platform-browser';
 import * as currentActions from '../actions/current.action';
 import { PlayerCurrentService, PlayerPauseService, QueueItem } from '../../../api';
 import { NotificationService } from '../../../notification';
-import { UtilsService } from '../../../shared/index';
+import { UtilsService } from '../../../shared';
 
 @Injectable()
 export class CurrentEffects {
