@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs/Subject';
 
 import { OAuthService } from '../auth';
 import * as fromUserStore from '../user/store';
@@ -13,7 +14,15 @@ import { fadeAnimation } from '../shared';
   styleUrls: ['./splash.component.scss'],
   animations: [ fadeAnimation ]
 })
-export class SplashComponent implements OnInit {
+export class SplashComponent implements OnInit, OnDestroy {
+  /**
+   * Observable used to unsubscribe and complete infinite observables
+   * on component destroy lifecycle hook
+   *
+   * @type {Subject<void>}
+   * @memberof AppComponent
+   */
+  public ngUnsubscribe$: Subject<void> = new Subject<void>();
   /**
    * Store logged in user state as component property
    *
@@ -33,6 +42,7 @@ export class SplashComponent implements OnInit {
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
    * @param {Store<fromUserStore.UserState>} userStore$
    * @param {Router} router
+   * @param {OAuthService} oauthSvc
    * @memberof SplashComponent
    */
   constructor(
@@ -51,6 +61,7 @@ export class SplashComponent implements OnInit {
     const dataLoaded$ = this.playerStore$.select(fromPlayerStore.getLoadedState);
 
     dataLoaded$.combineLatest(authenticated$)
+      .takeUntil(this.ngUnsubscribe$)
       .subscribe((data) =>  {
         this.playerDataLoaded = data[0];
         this.isAuthenticated = data[1];
@@ -74,5 +85,14 @@ export class SplashComponent implements OnInit {
           .filter(user => !!(user && user.id))
           .subscribe(user => this.router.navigate(['/home']));
       });
+  }
+  /**
+   * Unsubscribe from infinite observable on destroy
+   *
+   * @memberof SplashComponent
+   */
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe$.complete();
+    this.ngUnsubscribe$.unsubscribe();
   }
 }

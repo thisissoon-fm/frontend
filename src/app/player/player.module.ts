@@ -5,35 +5,37 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { EventModule } from '../event';
 import { SharedModule } from '../shared';
+import { NotificationModule } from '../notification';
+import { ApiModule } from '../api';
+
 import { NowPlayingComponent } from './now-playing';
 import { QueueComponent } from './queue';
 import { QueueItemComponent } from './queue-item';
 import { StatsComponent } from './stats';
-import { ApiModule } from '../api';
+import { effects, reducers } from './store';
 
-import { effects } from './store/effects';
-import { reducers } from './store/reducers';
+const components: any[] = [
+  NowPlayingComponent,
+  QueueComponent,
+  QueueItemComponent,
+  StatsComponent
+];
 
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule,
-    EventModule,
     StoreModule.forFeature('player', reducers),
     EffectsModule.forFeature(effects),
-    ApiModule
-  ],
-  declarations: [
-    NowPlayingComponent,
-    QueueComponent,
-    QueueItemComponent,
-    StatsComponent
+    SharedModule,
+    EventModule,
+    ApiModule,
+    NotificationModule
   ],
   exports: [
-    NowPlayingComponent,
-    QueueComponent,
-    QueueItemComponent,
-    StatsComponent
+    ...components
+  ],
+  declarations: [
+    ...components
   ]
 })
 export class PlayerModule { }

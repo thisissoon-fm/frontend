@@ -16,14 +16,18 @@ import { PlayerModule } from './player';
 import { SharedModule } from './shared';
 import { UserModule } from './user';
 import { AuthModule, AuthConfig, OAuthService } from './auth';
+import { NotificationModule, NotificationService } from './notification';
 
 import { AppRoutingModule, routedComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 // Factories to be specifically provided for browser platform
 const socketIO = { connect: io };
+const notification = new NotificationService();
+notification.nativeNotification = Notification;
 export const getLocalStorage = () => localStorage;
 export const getSocketIO = () => socketIO;
+export const getNotification = () => notification;
 
 /**
  * Root module that imports all other modules and is
@@ -47,6 +51,9 @@ export const getSocketIO = () => socketIO;
     ]),
     EventModule.forRoot([
       { provide: SocketIOService, useFactory: (getSocketIO) }
+    ]),
+    NotificationModule.forRoot([
+      { provide: NotificationService, useFactory: (getNotification) }
     ]),
     AuthModule.forRoot([
       { provide: OAuthService, useClass: AuthService }

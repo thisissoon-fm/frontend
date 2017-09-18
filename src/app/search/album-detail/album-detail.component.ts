@@ -70,13 +70,13 @@ export class AlbumDetailComponent implements OnInit {
       .take(1)
       .subscribe(params => {
         const id = params['id'];
-        Observable.forkJoin([
+        Observable.forkJoin(
           this.spotifyAlbumService.get(id),
           this.spotifyAlbumService.getTracks(id)
-        ])
-          .subscribe((res: any[]) => {
-            this.album = <SpotifyAlbum>res[0];
-            this.tracks = <SpotifyTracks>res[1];
+        )
+          .subscribe((res) => {
+            this.album = res[0];
+            this.tracks = res[1];
             this.tracks.items.forEach((item) => item.album = this.album);
             this.loading = false;
           });
