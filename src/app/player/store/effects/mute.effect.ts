@@ -19,17 +19,17 @@ export class MuteEffects {
     );
 
   @Effect({ dispatch: false })
-  public AddMute$: Observable<Action> = this.actions$
+  public AddMute$ = this.actions$
     .ofType(muteActions.ADD_MUTE)
-    .mergeMap(() =>
+    .do(() =>
       this.playerMuteSvc.post()
         .catch((err) => Observable.of(err))
     );
 
   @Effect({dispatch: false})
-  public removeMute$: Observable<Action> = this.actions$
+  public removeMute$ = this.actions$
     .ofType(muteActions.REMOVE_MUTE)
-    .mergeMap(() =>
+    .do(() =>
       this.playerMuteSvc.delete()
         .catch((err) => Observable.of(err))
     );

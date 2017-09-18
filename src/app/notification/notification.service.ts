@@ -12,10 +12,10 @@ export class NotificationService {
   /**
    * Current notification permission status from the browser
    *
-   * @type {('denied' | 'granted')}
+   * @type {('default' | 'denied' | 'granted')}
    * @memberof NotificationService
    */
-  public get permission(): 'denied' | 'granted' {
+  public get permission(): 'default' | 'denied' | 'granted' {
     return this.nativeNotification.permission;
   }
   /**
@@ -28,10 +28,10 @@ export class NotificationService {
   /**
    * Request permission from browser to display notifications
    *
-   * @param {Function} callback
+   * @param {Function} [callback]
    * @memberof NotificationService
    */
-  public requestPermission(callback: Function): any {
+  public requestPermission(callback?: Function): any {
     return this.nativeNotification.requestPermission(callback);
   }
   /**
@@ -43,6 +43,10 @@ export class NotificationService {
    * @memberof NotificationService
    */
   public push(msg: string, options?: NotificationOptions): any {
-    return new this.nativeNotification(msg, options);
+    if (this.permission === 'default') {
+      return this.requestPermission(() => new this.nativeNotification(msg, options));
+    } else if (this.permission === 'granted') {
+      return new this.nativeNotification(msg, options);
+    }
   }
 }
