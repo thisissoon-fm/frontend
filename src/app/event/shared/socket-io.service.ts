@@ -5,7 +5,7 @@ import { PlayerEvent } from './player-event.model';
 
 /**
  * Reference to socket-io library, can be replaced with
- * any appropriate store service depending on the platform
+ * any appropriate websocket service depending on the platform
  *
  * @export
  * @class SocketIOService

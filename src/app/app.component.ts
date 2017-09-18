@@ -8,6 +8,7 @@ import * as fromSharedStore from './shared/store';
 import * as fromUserStore from './user/store';
 import { EventService, PlayerEvent } from './event';
 import { navFadeAnimation } from './shared/';
+import { NotificationService } from './notification/';
 
 /**
  * Root component of application, this component should be present
@@ -72,7 +73,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private sharedStore$: Store<fromSharedStore.SharedState>,
     private userStore$: Store<fromUserStore.UserState>,
     private router: Router,
-    private eventSvc: EventService
+    private eventSvc: EventService,
+    private notificationSvc: NotificationService
   ) { }
   /**
    * Tell store to load player data from api and subscribe to

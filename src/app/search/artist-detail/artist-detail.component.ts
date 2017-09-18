@@ -92,14 +92,14 @@ export class ArtistDetailComponent implements OnInit {
     .take(1)
     .subscribe(params => {
       const id = params['id'];
-      Observable.forkJoin([
+      Observable.forkJoin(
         this.spotifyArtistService.get(id),
         this.spotifyArtistService.getAlbums(id),
         this.spotifyArtistService.getSingles(id),
         this.spotifyArtistService.getTopTracks(id),
         this.spotifyArtistService.getRelatedArtists(id)
-      ])
-        .subscribe((res: any[]) => {
+      )
+        .subscribe((res) => {
           this.artist = res[0];
           this.albums = res[1];
           this.single = res[2];

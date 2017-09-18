@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import * as queueActions from '../actions/queue.action';
 import { PlayerQueueService, Track, TrackService, User, UserService, QueueItem } from '../../../api';
 import { PlayerEvent } from '../../../event';
+import { NotificationService } from '../../../notification';
+import { UtilsService } from '../../../shared';
 
 @Injectable()
 export class QueueEffects {
@@ -59,17 +61,29 @@ export class QueueEffects {
       return Observable.forkJoin(track, user)
         .map((results) =>
           new queueActions.LoadQueueItemSuccess({
-            track: <Track>results[0],
-            user: <User>results[1],
+            track: results[0],
+            user: results[1],
             uuid: null // TODO: update api to get uuid
           }))
         .catch((err) => Observable.of(new queueActions.LoadQueueItemFail(err)));
     });
 
+  @Effect({dispatch: false})
+  public loadQueueItemSuccess$ = this.actions$
+    .ofType(queueActions.LOAD_QUEUE_ITEM_SUCCESS)
+    .map((action: queueActions.LoadQueueItemSuccess) => action.payload)
+    .do((item: QueueItem) =>
+      this.notificationSvc.push(`${item.user.given_name} added a track on SOON FM_`, {
+        body: `${item.track.name} by ${this.utilsSvc.getArtistsJoined(item.track.artists)}`,
+        icon: item.user.avatar_url
+      }));
+
   constructor(
     private actions$: Actions,
     private playerQueueSvc: PlayerQueueService,
     private trackSvc: TrackService,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private notificationSvc: NotificationService,
+    private utilsSvc: UtilsService
   ) { }
 }
