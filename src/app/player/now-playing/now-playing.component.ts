@@ -173,6 +173,9 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
    */
   public onEvent(data: PlayerEvent): void {
     switch (data.event) {
+      case 'play':
+        this.startTimer();
+        break;
       case 'end':
       case 'stop':
         this.onEnd();
