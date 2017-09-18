@@ -8,6 +8,12 @@
   @include hover() {
     cursor: pointer;
   }
+
+  &[disabled] {
+    @include hover() {
+      cursor: not-allowed;
+    }
+  }
 }
 
 .btn-circle {

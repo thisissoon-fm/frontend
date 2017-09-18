@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -24,6 +25,7 @@ const components: any[] = [
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     StoreModule.forFeature('player', reducers),
     EffectsModule.forFeature(effects),
     SharedModule,
