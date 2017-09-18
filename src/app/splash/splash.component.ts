@@ -60,13 +60,14 @@ export class SplashComponent implements OnInit, OnDestroy {
     const authenticated$ = this.userStore$.select(fromUserStore.getUserAuthenticated);
     const dataLoaded$ = this.playerStore$.select(fromPlayerStore.getLoadedState);
 
-    dataLoaded$.combineLatest(authenticated$)
+    const combine$ = dataLoaded$.combineLatest(authenticated$)
       .takeUntil(this.ngUnsubscribe$)
       .subscribe((data) =>  {
         this.playerDataLoaded = data[0];
         this.isAuthenticated = data[1];
         if (this.playerDataLoaded && this.isAuthenticated) {
           this.router.navigate(['/home']);
+          combine$.unsubscribe();
         }
       });
   }
@@ -79,10 +80,12 @@ export class SplashComponent implements OnInit, OnDestroy {
   public login(): void {
     this.oauthSvc
       .authenticate('google')
+      .takeUntil(this.ngUnsubscribe$)
       .subscribe(() => {
         this.userStore$.dispatch(new fromUserStore.LoadMe());
         this.userStore$.select(fromUserStore.getUser)
           .filter(user => !!(user && user.id))
+          .take(1)
           .subscribe(user => this.router.navigate(['/home']));
       });
   }
