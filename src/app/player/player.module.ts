@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { InfiniteScrollModule } from '@thisissoon/angular-infinite-scroll';
 
 import { EventModule } from '../event';
 import { SharedModule } from '../shared';
@@ -28,6 +29,7 @@ const components: any[] = [
     RouterModule,
     StoreModule.forFeature('player', reducers),
     EffectsModule.forFeature(effects),
+    InfiniteScrollModule,
     SharedModule,
     EventModule,
     ApiModule,

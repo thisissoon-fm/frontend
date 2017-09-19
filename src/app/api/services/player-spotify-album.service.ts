@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
@@ -21,13 +21,6 @@ export class PlayerSpotifyAlbumService {
    */
   private endpointUrl = `${environment.apiUrlPlayer}spotify/albums`;
   /**
-   * Market code to filter search results
-   *
-   * @private
-   * @memberof PlayerSpotifyAlbumService
-   */
-  private readonly market = environment.spotifyMarket;
-  /**
    * Creates an instance of PlayerSpotifyAlbumService.
    * @param {HttpClient} http
    * @memberof PlayerSpotifyAlbumService
@@ -47,10 +40,15 @@ export class PlayerSpotifyAlbumService {
    * Get list of artist albums
    *
    * @param {string} id
+   * @param {HttpParams} [params=new HttpParams()]
    * @returns {Observable<SpotifyTracks>}
    * @memberof PlayerSpotifyAlbumService
    */
-  public getTracks(id: string): Observable<SpotifyTracks> {
-    return this.http.get<SpotifyTracks>(`${this.endpointUrl}/${id}/tracks`);
+  public getTracks(id: string, params: HttpParams = new HttpParams()): Observable<SpotifyTracks> {
+    const options: any = { params, observe: 'response' };
+    const paramsWithLimit = new HttpParams({ fromString: params.toString() })
+      .set('limit', `${environment.apiLimit}`);
+    return this.http.get<SpotifyTracks>(`${this.endpointUrl}/${id}/tracks`, options)
+      .map((event: HttpResponse<SpotifyTracks>) => event.body);
   }
 }

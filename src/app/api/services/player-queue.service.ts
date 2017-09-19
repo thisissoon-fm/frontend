@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse, HttpParams, HttpEvent } from '@angular/common
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
-import { QueueItem, QueueMeta } from '../models';
+import { QueueItem, QueueMeta, QueueResponse } from '../models';
 
 /**
  * Get queue items, add a track to queue or remove a track from queue
@@ -33,10 +33,20 @@ export class PlayerQueueService {
    * @returns {Observable<QueueItem[]>}
    * @memberof PlayerQueueService
    */
-  public query(params?: HttpParams): Observable<QueueItem[]> {
+  public query(params: HttpParams = new HttpParams()): Observable<QueueResponse> {
     const options: any = { params, observe: 'response' };
+    const paramsWithLimit = new HttpParams({ fromString: params.toString() })
+      .set('limit', `${environment.apiLimit}`);
+    options.params = paramsWithLimit;
     return this.http.get<QueueItem[]>(this.endpointUrl, options)
-      .map((event: HttpResponse<QueueItem[]>) => event.body);
+      .map((res: HttpResponse<QueueItem[]>) => {
+        const totalCount = parseInt(res.headers.get('Total-Count'), 10) || 0;
+        const totalPages = parseInt(res.headers.get('Total-Pages'), 10) || 1;
+        return {
+          items: res.body,
+          pagination: { totalCount, totalPages }
+        };
+      });
   }
   /**
    * Add a track to the queue

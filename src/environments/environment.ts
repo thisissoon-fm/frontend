@@ -13,5 +13,6 @@ export const environment = {
   googleRedirectUri: 'http://localhost:3000/',
   googleAuthTokenPrefix: 'sn_fm',
   googleAuthTokenName: 'access_token',
-  spotifyMarket: 'GB'
+  spotifyMarket: 'GB',
+  apiLimit: 20
 };

@@ -23,13 +23,6 @@ export class PlayerSpotifySearchService {
    */
   private endpointUrl = `${environment.apiUrlPlayer}spotify/search`;
   /**
-   * Market code to filter search results
-   *
-   * @private
-   * @memberof PlayerSpotifySearchService
-   */
-  private readonly market = environment.spotifyMarket;
-  /**
    * Creates an instance of PlayerSpotifySearchService.
    * @param {HttpClient} http
    * @memberof PlayerSpotifySearchService
@@ -42,13 +35,13 @@ export class PlayerSpotifySearchService {
    * @returns {Observable<any>}
    * @memberof PlayerSpotifySearchService
    */
-  public search(query: string, type: SearchType = 'track'): Observable<SpotifySearch> {
+  public search(query: string, type: SearchType = 'track', params: HttpParams = new HttpParams()): Observable<SpotifySearch> {
     const options: any = { observe: 'response'};
-    const params = new HttpParams()
+    const paramsWithLimit = new HttpParams({ fromString: params.toString() })
       .set('q', `${query}*`)
       .set('type', type)
-      .set('market', this.market);
-    options.params = params;
+      .set('market', `${environment.spotifyMarket}`);
+    options.params = paramsWithLimit;
     return this.http.get<SpotifySearch>(this.endpointUrl, options)
       .map((event: HttpResponse<SpotifySearch>) => event.body);
   }

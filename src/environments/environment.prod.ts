@@ -8,5 +8,6 @@ export const environment = {
   googleRedirectUri: 'https://thisissoon.fm/',
   googleAuthTokenPrefix: 'sn_fm',
   googleAuthTokenName: 'access_token',
-  spotifyMarket: 'GB'
+  spotifyMarket: 'GB',
+  apiLimit: 20
 };
