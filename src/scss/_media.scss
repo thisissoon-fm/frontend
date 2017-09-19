@@ -15,33 +15,30 @@
   }
 
   .media-img {
+    @include size(5.5rem); // ~88px
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-  }
 
-  .media-img img {
-    display: none;
-  }
+    &.media-img-lg {
+      @include size(9.375rem); // ~150px
+    }
 
-  .media-img {
-    @include size(5.5rem); // ~88px
-  }
-
-  .media-img.media-img-lg {
-    @include size(9.375rem); // ~150px
+    img {
+      display: none;
+    }
   }
 
   .media-cta {
     width: 2.9375rem; // ~47px
-  }
 
-  .media-cta .btn {
-    width: 5.5rem; // ~88px
-  }
+    .btn {
+      width: 5.5rem; // ~88px
+    }
 
-  .media-cta.media-cta-lg .btn {
-    width: 9.375rem; // ~150px
+    &.media-cta-lg .btn {
+      width: 9.375rem; // ~150px
+    }
   }
 
   .seperator {

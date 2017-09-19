@@ -26,6 +26,7 @@
   z-index: $zindex-router-search;
 
   sfm-search {
+    @include darken-transition();
     flex: 1 1 40vw;
     max-width: 40vw;
   }
@@ -48,5 +49,12 @@
 :host(.is-search-page) {
   .router-search {
     left: 60vw;
+  }
+}
+
+:host(.is-router-search-active:not(.is-search-page)) {
+  sfm-search {
+    @include darken();
+    overflow: hidden;
   }
 }

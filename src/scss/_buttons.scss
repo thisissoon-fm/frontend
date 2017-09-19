@@ -5,6 +5,8 @@
 // by modifying variables
 
 .btn {
+  border-width: $btn-border-width;
+
   @include hover() {
     cursor: pointer;
   }
@@ -14,6 +16,10 @@
       cursor: not-allowed;
     }
   }
+}
+
+.btn-rounded {
+  border-radius: $btn-rounded-border-radius;
 }
 
 .btn-circle {

@@ -1,10 +1,16 @@
-<div class="card">
+<div class="d-flex flex-row align-items-center">
   <div
-    class="card-img-top img-clip"
+    class="img-clip rounded-circle align-items-center mr-3"
     [ngStyle]="{'background-image': 'url(' + optimalImage + ')'}">
     <img class="card-img-top" [src]="optimalImage" [alt]="item.name">
   </div>
-  <div class="card-body">
-    <p class="card-text text-secondary text-truncate mb-0">{{ item.name }}</p>
+
+  <div>
+    <h3 class="h1">{{ item.name }}</h3>
+    <p class="text-light">{{ item.followers?.total | number }} followers</p>
+  </div>
+
+  <div class="ml-auto">
+    <!-- <button type="button" class="btn btn-primary btn-sm pl-2 pr-2 btn-rounded">Following</button> -->
   </div>
 </div>

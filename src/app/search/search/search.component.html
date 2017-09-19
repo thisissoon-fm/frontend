@@ -14,8 +14,8 @@
           </div>
 
           <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-link dropdown-toggle text-secondary text-capitalize" id="search-type-dropdown" ngbDropdownToggle>
-              {{ (search$ | async)?.type }}s
+            <button class="btn btn-link dropdown-toggle text-secondary" id="search-type-dropdown" ngbDropdownToggle>
+              {{ (search$ | async)?.type | titlecase }}s
               <i class="icon icon-caret-down ml-1 small"></i>
             </button>
             <div ngbDropdownMenu aria-labelledby="search-type-dropdown">
@@ -39,64 +39,51 @@
   </div>
 </div>
 
-<div [ngSwitch]="(search$ | async)?.type">
 
-  <ng-template ngSwitchCase="track">
-    <ul class="list-unstyled">
+<ul
+  class="list-unstyled"
+  [ngClass]="{'grid-padding': (search$ | async)?.type !== 'track'}">
+
+  <div  [ngClass]="{'container-fluid': (search$ | async)?.type !== 'track'}">
+
+    <div
+      class="row"
+      [ngSwitch]="(search$ | async)?.type"
+      [ngClass]="{'no-gutters': (search$ | async)?.type === 'track'}">
+
+
       <li
-        class="pb-3 bg-white text-secondary"
-        *ngFor="let item of (search$ | async)?.results">
+        class="pb-3"
+        *ngFor="let item of (search$ | async)?.results"
+        [ngSwitch]="(search$ | async)?.type"
+        [ngClass]="{
+          'col-6': (search$ | async)?.type === 'album',
+          'col-12': (search$ | async)?.type !== 'album'
+        }">
 
-        <div class="row no-gutters">
-          <div class="col-12">
+        <sfm-track
+          *ngSwitchDefault
+          [item]="item"
+          (onButtonClick)="addToQueue($event)"
+          [imageIndex]="1">
+        </sfm-track>
 
-            <sfm-track [item]="item" (onButtonClick)="addToQueue($event)" [imageIndex]="1"></sfm-track>
+        <a
+          class="d-block text-secondary"
+          [routerLink]="['/home', { outlets: { search: ['artists', item.id] } }]"
+          *ngSwitchCase="'artist'">
+          <sfm-artist [item]="item" [imageIndex]="1"></sfm-artist>
+        </a>
 
-          </div>
-        </div>
+        <a
+          class="d-block text-secondary"
+          [routerLink]="['/home', { outlets: { search: ['albums', item.id] } }]"
+          *ngSwitchCase="'album'">
+          <sfm-album [item]="item" [imageIndex]="1"></sfm-album>
+        </a>
+
       </li>
-    </ul>
-  </ng-template>
-
-  <ng-template ngSwitchCase="artist">
-    <div class="grid-padding">
-      <div class="container-fluid">
-        <ul class="row list-unstyled">
-          <li
-            class="pb-2 bg-white text-secondary col-6"
-            *ngFor="let item of (search$ | async)?.results">
-
-            <a
-              class="d-block"
-              [routerLink]="['/home', { outlets: { search: ['artists', item.id] } }]">
-              <sfm-artist [item]="item" [imageIndex]="1"></sfm-artist>
-            </a>
-
-          </li>
-        </ul>
-      </div>
     </div>
-  </ng-template>
+  </div>
 
-  <ng-template ngSwitchCase="album">
-    <div class="grid-padding">
-      <div class="container-fluid">
-        <ul class="row list-unstyled">
-          <li
-            class="pb-2 bg-white text-secondary col-6"
-            *ngFor="let item of (search$ | async)?.results">
-
-            <a
-              class="d-block"
-              [routerLink]="['/home', { outlets: { search: ['albums', item.id] } }]">
-              <sfm-album [item]="item" [imageIndex]="1"></sfm-album>
-            </a>
-
-          </li>
-        </ul>
-      </div>
-    </div>
-  </ng-template>
-
-</div>
-
+</ul>

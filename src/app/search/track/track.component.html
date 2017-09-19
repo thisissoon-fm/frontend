@@ -11,18 +11,16 @@
     <h3 class="h5 mt-0 text-truncate" [ngClass]="{'mb-1': !small, 'mb-0': small}">{{ item.name }}</h3>
     <p
       *ngIf="!hideArtist"
-      class="lead text-light text-truncate"
+      class="text-truncate mb-0"
       [ngClass]="{
         'text-light': !dark,
-        'text-muted': dark,
-        'mb-2': !small,
-        'mb-0': small
+        'text-muted': dark
       }">
       {{ artistsJoined }}
     </p>
     <p
       *ngIf="!hideAlbum"
-      class="lead text-truncate"
+      class="text-truncate"
       [ngClass]="{
         'text-light': !dark,
         'text-muted': dark,
@@ -38,15 +36,18 @@
   </div>
 
   <div
-    class="media-cta d-flex align-self-start align-items-start ml-3 flex-column"
+    class="media-cta d-flex align-self-start align-items-start ml-3 flex-column align-self-stretch"
     [ngClass]="{'media-cta-lg': !small}">
     <button
       type="button"
-      class="btn btn- text-secondary rotate-90"
-      [ngClass]="{'btn-primary': !dark, 'btn-white': dark}"
+      class="btn btn-link text-uppercase text-xsmall rotate-90 border-0"
+      [ngClass]="{'text-secondary': !dark, 'text-muted': dark}"
+      [disabled]="added"
+      [ngSwitch]="added"
       (click)="onClick()">
-      <i class="icon icon-plus" [ngClass]="{'pr-2': !small}"></i>
-      <span *ngIf="!small" class="small font-weight-bold">Add to playlist</span>
+      <i class="icon icon-plus" *ngIf="!added" [ngClass]="{'pr-2': !small}"></i>
+      <span class="font-weight-bold" *ngSwitchDefault>Add to FM</span>
+      <span class="font-weight-bold" *ngSwitchCase="true">Added</span>
     </button>
   </div>
 
