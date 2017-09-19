@@ -56,6 +56,13 @@ export class TrackComponent {
   @Input()
   public dark = false;
   /**
+   * If true means track has been added to queue
+   *
+   * @type {boolean}
+   * @memberof TrackComponent
+   */
+  public added = false;
+  /**
    * Outputs cta button click events
    *
    * @type {EventEmitter<string>}
@@ -98,6 +105,7 @@ export class TrackComponent {
    * @memberof TrackComponent
    */
   public onClick(): void {
+    this.added = true;
     this.onButtonClick.emit(this.item.uri);
   }
 }

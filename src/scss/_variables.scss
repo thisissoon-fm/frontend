@@ -171,9 +171,11 @@ $btn-active-box-shadow:             none;
 
 
 // Allows for customizing button radius independently from global border radius
-$btn-border-radius:                 1.875rem; // ~30px
-$btn-border-radius-lg:              1.875rem; // ~30px
-$btn-border-radius-sm:              1.875rem; // ~30px
+$btn-rounded-border-radius:         1.875rem; // ~30px
+
+$btn-border-radius:                 0;
+$btn-border-radius-lg:              0;
+$btn-border-radius-sm:              0;
 
 
 // Forms
