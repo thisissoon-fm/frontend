@@ -32,7 +32,7 @@ export class PlayerSpotifySearchService {
    * Search spotify for tracks, artists or albums with a query string
    *
    * @param {string} query
-   * @returns {Observable<any>}
+   * @returns {Observable<SpotifySearch>}
    * @memberof PlayerSpotifySearchService
    */
   public search(query: string, type: SearchType = 'track', params: HttpParams = new HttpParams()): Observable<SpotifySearch> {

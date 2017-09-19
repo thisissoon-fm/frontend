@@ -37,6 +37,17 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public ngUnsubscribe$: Subject<void> = new Subject<void>();
   /**
+   * Returns true if all tracks have been loaded
+   *
+   * @readonly
+   * @type {Observable<boolean>}
+   * @memberof SearchComponent
+   */
+  public get allTracksLoaded(): Observable<boolean> {
+    return this.search$
+      .map((state) => (state.pagination.currentPage >= state.pagination.totalPages));
+  }
+  /**
    * Creates an instance of SearchComponent.
    * @param {Store<fromSearchStore.SearchState>} searchStore$
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
@@ -117,6 +128,14 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public close(): void {
     this.searchStore$.dispatch(new fromSearchStore.ClearSearch());
+  }
+  /**
+   * On scroll end load more tracks if needed
+   *
+   * @memberof SearchComponent
+   */
+  public onScrollEnd(): void {
+    this.searchStore$.dispatch(new fromSearchStore.LoadSearchResultsNextPage());
   }
   /**
    * Unsubscribe from infinite observable on destroy

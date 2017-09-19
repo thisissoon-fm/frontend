@@ -1,10 +1,11 @@
 import * as fromSearch from '../actions/search.action';
-import { SearchType, SpotifyArtist, SpotifySearch, SpotifyAlbums } from '../../../api';
+import { SearchType, SpotifyArtist, SpotifySearch, SpotifyAlbums, Pagination } from '../../../api';
 
 export interface SearchState {
   loaded: boolean;
   loading: boolean;
   results: any[];
+  pagination: Pagination;
   type: SearchType;
   query: string;
 }
@@ -14,6 +15,7 @@ const initialState: SearchState = {
   loading: false,
   results: [],
   type: 'track',
+  pagination: { totalCount: 0, totalPages: 1, currentPage: 1 },
   query: null
 };
 
@@ -30,12 +32,19 @@ export function searchReducer(
     }
 
     case fromSearch.LOAD_SEARCH_RESULTS_SUCCESS: {
-      const results = (<fromSearch.LoadSearchResultsSuccess>action).payload;
+      const res = (<fromSearch.LoadSearchResultsSuccess>action).payload[`${state.type}s`];
+      const items = res.items;
+      const pagination: Pagination = {
+        currentPage: 1,
+        totalCount: res.total,
+        totalPages: Math.ceil(res.total / res.limit)
+      };
 
       return Object.assign({}, state, {
         loaded: true,
         loading: false,
-        results
+        results: items,
+        pagination
       });
     }
 
@@ -43,7 +52,39 @@ export function searchReducer(
       return Object.assign({}, state, {
         loaded: false,
         loading: false,
-        results: []
+        results: [],
+        pagination: Object.assign({}, initialState.pagination)
+      });
+    }
+
+    case fromSearch.LOAD_SEARCH_RESULTS_NEXT_PAGE: {
+      return Object.assign({}, state, {
+        loaded: false,
+        loading: true
+      });
+    }
+
+    case fromSearch.LOAD_SEARCH_RESULTS_NEXT_PAGE_SUCCESS: {
+      const res = (<fromSearch.LoadSearchResultsNextPageSuccess>action).payload[`${state.type}s`];
+      const items = [...state.results, ...res.items];
+      const pagination: Pagination = {
+        currentPage: state.pagination.currentPage + 1,
+        totalCount: res.total,
+        totalPages: Math.ceil(res.total / res.limit)
+      };
+
+      return Object.assign({}, state, {
+        loaded: true,
+        loading: false,
+        results: items,
+        pagination
+      });
+    }
+
+    case fromSearch.LOAD_SEARCH_RESULTS_NEXT_PAGE_FAIL: {
+      return Object.assign({}, state, {
+        loaded: false,
+        loading: false
       });
     }
 

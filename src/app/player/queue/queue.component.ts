@@ -35,12 +35,8 @@ export class QueueComponent implements OnInit {
    * @memberof QueueComponent
    */
   public get allTracksLoaded(): Observable<boolean> {
-    return this.queue$.combineLatest(this.pagination$)
-      .map((data) => {
-        const queue = data[0];
-        const pagination = data[1];
-        return (pagination.currentPage >= pagination.totalPages);
-      });
+    return this.pagination$
+      .map((pagination) => (pagination.currentPage >= pagination.totalPages));
   }
   /**
    * Creates an instance of QueueComponent.

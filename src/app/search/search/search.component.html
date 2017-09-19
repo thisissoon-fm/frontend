@@ -40,20 +40,25 @@
 </div>
 
 
-<ul
-  class="list-unstyled"
-  [ngClass]="{'grid-padding': (search$ | async)?.type !== 'track'}">
+<div
+  class="list-search"
+  [ngClass]="{'grid-padding': (search$ | async)?.type !== 'track'}"
+  snInfiniteScroll
+  (onScrollEnd)="onScrollEnd()"
+  [offset]="200"
+  [disabled]="(allTracksLoaded | async) || (search$ | async)?.loading">
 
   <div  [ngClass]="{'container-fluid': (search$ | async)?.type !== 'track'}">
 
-    <div
-      class="row"
+    <ul
+      *ngIf="((search$ | async)?.results?.length) || (search$ | async)?.query?.length < 3; else noResults"
+      class="row list-unstyled"
       [ngSwitch]="(search$ | async)?.type"
       [ngClass]="{'no-gutters': (search$ | async)?.type === 'track'}">
 
 
       <li
-        class="pb-3"
+        class="pb-3 "
         *ngFor="let item of (search$ | async)?.results"
         [ngSwitch]="(search$ | async)?.type"
         [ngClass]="{
@@ -83,7 +88,19 @@
         </a>
 
       </li>
-    </div>
+    </ul>
+
+    <ng-template [ngIf]="(allTracksLoaded | async) && (search$ | async)?.query?.length >= 3">
+      <p class="text-center">No more results</p>
+    </ng-template>
+
+    <ng-template [ngIf]="(search$ | async).loading">
+      <p class="text-center">Loading…</p>
+    </ng-template>
+
+    <ng-template #noResults>
+      <p class="text-center">Sorry, we couldn't find any results for your search</p>
+    </ng-template>
   </div>
 
-</ul>
+</div>

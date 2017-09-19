@@ -67,7 +67,7 @@ export function queueReducer(
       });
     }
 
-    case fromQueue.LOAD_QUEUE_FAIL: {
+    case fromQueue.LOAD_NEXT_QUEUE_PAGE_FAIL: {
       return Object.assign({}, state, {
         loading: false
       });

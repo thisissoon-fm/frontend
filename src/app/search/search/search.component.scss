@@ -3,12 +3,17 @@
 :host {
   background-color: $white;
   color: theme-color("secondary");
-  display: block;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   position: relative;
 }
 
 .search-bar {
   transition: $transition-base;
+}
+
+.list-search {
+  overflow: auto;
 }
