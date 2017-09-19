@@ -19,4 +19,11 @@
   .show & .icon {
     transform: rotate(180deg);
   }
+
+}
+
+.dropdown-item {
+  @include hover() {
+    cursor: pointer;
+  }
 }

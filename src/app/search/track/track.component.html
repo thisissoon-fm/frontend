@@ -36,18 +36,18 @@
   </div>
 
   <div
-    class="media-cta d-flex align-self-start align-items-start ml-3 flex-column"
+    class="media-cta d-flex align-self-start align-items-start ml-3 flex-column align-self-stretch"
     [ngClass]="{'media-cta-lg': !small}">
     <button
       type="button"
-      class="btn btn- text-secondary rotate-90"
-      [ngClass]="{'btn-primary': !dark, 'btn-white': dark}"
+      class="btn btn-link text-uppercase text-xsmall rotate-90 border-0"
+      [ngClass]="{'text-secondary': !dark, 'text-muted': dark}"
       [disabled]="added"
       [ngSwitch]="added"
       (click)="onClick()">
-      <i class="icon icon-plus" [ngClass]="{'pr-2': !small}"></i>
-      <span [hidden]="small" class="small font-weight-bold" *ngSwitchDefault>Add to playlist</span>
-      <span [hidden]="small" class="small font-weight-bold" *ngSwitchCase="true">Added</span>
+      <i class="icon icon-plus" *ngIf="!added" [ngClass]="{'pr-2': !small}"></i>
+      <span class="font-weight-bold" *ngSwitchDefault>Add to FM</span>
+      <span class="font-weight-bold" *ngSwitchCase="true">Added</span>
     </button>
   </div>
 

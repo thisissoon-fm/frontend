@@ -2,7 +2,7 @@
 
 :host {
   background-color: $white;
-  color: $black;
+  color: theme-color("secondary");
   display: block;
   height: 100vh;
   overflow: auto;
