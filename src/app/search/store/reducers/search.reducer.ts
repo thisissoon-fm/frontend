@@ -27,13 +27,15 @@ export function searchReducer(
     case fromSearch.LOAD_SEARCH_RESULTS: {
       return Object.assign({}, state, {
         loaded: false,
-        loading: true
+        loading: true,
+        results: [],
+        pagination: { totalCount: 0, totalPages: 1, currentPage: 1 }
       });
     }
 
     case fromSearch.LOAD_SEARCH_RESULTS_SUCCESS: {
       const res = (<fromSearch.LoadSearchResultsSuccess>action).payload[`${state.type}s`];
-      const items = res.items;
+      const items = res && res.items ? res.items : [];
       const pagination: Pagination = {
         currentPage: 1,
         totalCount: res.total,

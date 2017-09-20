@@ -45,9 +45,9 @@ export class PlayerSpotifyAlbumService {
    * @memberof PlayerSpotifyAlbumService
    */
   public getTracks(id: string, params: HttpParams = new HttpParams()): Observable<SpotifyTracks> {
-    const options: any = { params, observe: 'response' };
     const paramsWithLimit = new HttpParams({ fromString: params.toString() })
       .set('limit', `${environment.apiLimit}`);
+    const options: any = { params: paramsWithLimit, observe: 'response' };
     return this.http.get<SpotifyTracks>(`${this.endpointUrl}/${id}/tracks`, options)
       .map((event: HttpResponse<SpotifyTracks>) => event.body);
   }

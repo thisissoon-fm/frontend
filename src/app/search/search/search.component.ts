@@ -37,13 +37,13 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public ngUnsubscribe$: Subject<void> = new Subject<void>();
   /**
-   * Returns true if all tracks have been loaded
+   * Returns true if all results have been loaded
    *
    * @readonly
    * @type {Observable<boolean>}
    * @memberof SearchComponent
    */
-  public get allTracksLoaded(): Observable<boolean> {
+  public get allResultsLoaded(): Observable<boolean> {
     return this.search$
       .map((state) => (state.pagination.currentPage >= state.pagination.totalPages));
   }
@@ -65,7 +65,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.onSearchChange$
       .takeUntil(this.ngUnsubscribe$)
-      .filter((query) => query.length > 2)
       .debounceTime(100)
       .subscribe((query) => this.setSearchQuery(query));
 

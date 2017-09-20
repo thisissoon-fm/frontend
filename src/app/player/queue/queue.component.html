@@ -25,7 +25,7 @@
             </ng-template>
           </ul>
 
-          <ng-template [ngIf]="allTracksLoaded | async">
+          <ng-template [ngIf]="(allTracksLoaded | async) && (queue$| async)?.queue?.length">
             <p class="text-center">No more songs</p>
           </ng-template>
 

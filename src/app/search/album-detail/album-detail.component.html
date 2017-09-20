@@ -20,7 +20,12 @@
   </div>
 </div>
 
-<div class="media-list row no-gutters pl-3">
+<div
+  class="media-list row no-gutters pl-3"
+  snInfiniteScroll
+  (onScrollEnd)="getMoreTracks()"
+  [offset]="200"
+  [disabled]="allTracksLoaded || loading">
   <ul class="list-unstyled w-100">
     <li
       class="text-white"
@@ -37,4 +42,9 @@
       </div>
     </li>
   </ul>
+
+  <ng-template [ngIf]="loading">
+    <p class="w-100 text-center pt-3 pb-3 mb-0">Loading…</p>
+  </ng-template>
+
 </div>
