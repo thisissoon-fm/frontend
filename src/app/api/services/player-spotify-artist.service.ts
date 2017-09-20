@@ -21,13 +21,6 @@ export class PlayerSpotifyArtistService {
    */
   private endpointUrl = `${environment.apiUrlPlayer}spotify/artists`;
   /**
-   * Market code to filter search results
-   *
-   * @private
-   * @memberof PlayerSpotifyArtistService
-   */
-  private readonly market = environment.spotifyMarket;
-  /**
    * Creates an instance of PlayerSpotifyArtistService.
    * @param {HttpClient} http
    * @memberof PlayerSpotifyArtistService
@@ -47,15 +40,17 @@ export class PlayerSpotifyArtistService {
    * Get list of artist albums
    *
    * @param {string} id
+   * @param {HttpParams} [params=new HttpParams()]
    * @returns {Observable<SpotifyAlbums>}
    * @memberof PlayerSpotifyArtistService
    */
-  public getAlbums(id: string): Observable<SpotifyAlbums> {
+  public getAlbums(id: string, params: HttpParams = new HttpParams()): Observable<SpotifyAlbums> {
     const options: any = { observe: 'response'};
-    const params = new HttpParams()
+    const paramsWithLimit = new HttpParams({ fromString: params.toString() })
       .set('album_type', 'album')
-      .set('market', this.market);
-    options.params = params;
+      .set('market', `${environment.spotifyMarket}`)
+      .set('limit', `${environment.apiLimit}`);
+    options.params = paramsWithLimit;
     return this.http.get<SpotifyAlbums>(`${this.endpointUrl}/${id}/albums`, options)
       .map((event: HttpResponse<SpotifyAlbums>) => event.body);
   }
@@ -63,15 +58,17 @@ export class PlayerSpotifyArtistService {
    * Get list of artist singles
    *
    * @param {string} id
+   * @param {HttpParams} [params=new HttpParams()]
    * @returns {Observable<SpotifyAlbums>}
    * @memberof PlayerSpotifyArtistService
    */
-  public getSingles(id: string): Observable<SpotifyAlbums> {
+  public getSingles(id: string, params: HttpParams = new HttpParams()): Observable<SpotifyAlbums> {
     const options: any = { observe: 'response'};
-    const params = new HttpParams()
+    const paramsWithLimit = new HttpParams({ fromString: params.toString() })
       .set('album_type', 'single')
-      .set('market', this.market);
-    options.params = params;
+      .set('market', `${environment.spotifyMarket}`)
+      .set('limit', `${environment.apiLimit}`);
+    options.params = paramsWithLimit;
     return this.http.get<SpotifyAlbums>(`${this.endpointUrl}/${id}/albums`, options)
       .map((event: HttpResponse<SpotifyAlbums>) => event.body);
   }
@@ -85,7 +82,8 @@ export class PlayerSpotifyArtistService {
   public getTopTracks(id: string): Observable<SpotifySearch> {
     const options: any = { observe: 'response'};
     const params = new HttpParams()
-      .set('country', this.market);
+      .set('country', `${environment.spotifyMarket}`)
+      .set('limit', `${environment.apiLimit}`);
     options.params = params;
     return this.http.get<SpotifySearch>(`${this.endpointUrl}/${id}/top-tracks`, options)
       .map((event: HttpResponse<SpotifySearch>) => event.body);

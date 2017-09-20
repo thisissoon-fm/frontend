@@ -25,6 +25,7 @@
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.4",
     "@ngrx/effects": "^4.0.5",
     "@ngrx/store": "^4.0.3",
+    "@thisissoon/angular-infinite-scroll": "^1.0.0",
     "bootstrap": "^4.0.0-beta",
     "core-js": "^2.4.1",
     "ng2-ui-auth": "^7.0.2",

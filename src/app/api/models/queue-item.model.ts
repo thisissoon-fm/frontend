@@ -9,3 +9,14 @@ export interface QueueItem {
   paused?: boolean;
   player?: Player;
 }
+
+export interface QueueResponse {
+  items: QueueItem[];
+  pagination: Pagination;
+}
+
+export interface Pagination {
+  totalCount: number;
+  currentPage?: number;
+  totalPages: number;
+}

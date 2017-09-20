@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { SpotifyAlbums, PlayerSpotifyAlbumService, SpotifyAlbum, SpotifyTracks } from '../../api';
 import { UtilsService } from '../../shared';
 import * as fromPlayerStore from '../../player/store';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'sfm-album-detail',
@@ -47,6 +48,16 @@ export class AlbumDetailComponent implements OnInit {
       this.utilsSvc.getOptimalImage(this.album.images, 0) : '';
   }
   /**
+   * Returns true if all results have been loaded
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberof SearchComponent
+   */
+  public get allTracksLoaded(): boolean {
+    return (this.tracks && this.tracks.items && (this.tracks.items.length === this.tracks.total));
+  }
+  /**
    * Creates an instance of AlbumDetailComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
    * @param {PlayerSpotifyAlbumService} spotifyAlbumService
@@ -80,7 +91,7 @@ export class AlbumDetailComponent implements OnInit {
             this.tracks.items.forEach((item) => item.album = this.album);
             this.loading = false;
           });
-        });
+      });
   }
   /**
    * Return artists as a string of names
@@ -100,5 +111,26 @@ export class AlbumDetailComponent implements OnInit {
    */
   public addToQueue(uri: string): void {
     this.playerStore$.dispatch(new fromPlayerStore.QueueAdd(uri));
+  }
+  /**
+   * Get more tracks
+   *
+   * @memberof AlbumDetailComponent
+   */
+  public getMoreTracks(): void {
+    this.route.params
+      .take(1)
+      .subscribe(params => {
+        const id = params['id'];
+        const httpParams = new HttpParams()
+          .set('offset', `${this.tracks.items.length}`);
+        this.loading = true;
+        this.spotifyAlbumService.getTracks(id, httpParams)
+          .subscribe((res) => {
+            this.loading = false;
+            res.items.forEach((item) => item.album = this.album);
+            this.tracks.items = [...this.tracks.items, ...res.items];
+          });
+      });
   }
 }

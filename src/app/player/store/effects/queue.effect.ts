@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import * as queueActions from '../actions/queue.action';
-import { PlayerQueueService, Track, TrackService, User, UserService, QueueItem } from '../../../api';
+import { PlayerQueueService, Track, TrackService, User, UserService, QueueItem, Pagination } from '../../../api';
 import { PlayerEvent } from '../../../event';
 import { NotificationService } from '../../../notification';
 import { UtilsService } from '../../../shared';
+import { PlayerState, getQueuePagination } from '../reducers';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class QueueEffects {
@@ -15,12 +17,23 @@ export class QueueEffects {
   @Effect()
   public loadQueue$: Observable<Action> = this.actions$
     .ofType(queueActions.LOAD_QUEUE)
-    .map((action: queueActions.LoadQueue) => action.payload)
-    .mergeMap((params) =>
-      this.playerQueueSvc.query(params)
-        .map((items) => new queueActions.LoadQueueSuccess(items))
+    .mergeMap(() =>
+      this.playerQueueSvc.query()
+        .map((res) => new queueActions.LoadQueueSuccess(res))
         .catch((err) => Observable.of(new queueActions.LoadQueueFail(err)))
     );
+
+  @Effect()
+  public loadNextQueuePage$: Observable<Action> = this.actions$
+    .ofType(queueActions.LOAD_NEXT_QUEUE_PAGE)
+    .withLatestFrom(this.store$.select(getQueuePagination))
+    .switchMap(((value: [Action, Pagination]) => {
+      const params = new HttpParams()
+        .set('page', `${value[1].currentPage + 1}`);
+      return this.playerQueueSvc.query(params)
+        .map((res) => new queueActions.LoadNextQueuePageSuccess(res))
+        .catch((err) => Observable.of(new queueActions.LoadNextQueuePageFail(err)));
+    }));
 
   @Effect()
   public addToQueue$: Observable<Action> = this.actions$
@@ -84,6 +97,7 @@ export class QueueEffects {
     private trackSvc: TrackService,
     private userSvc: UserService,
     private notificationSvc: NotificationService,
-    private utilsSvc: UtilsService
+    private utilsSvc: UtilsService,
+    private store$: Store<PlayerState>
   ) { }
 }

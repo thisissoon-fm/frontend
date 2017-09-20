@@ -48,6 +48,11 @@ export const getQueueMeta = createSelector(
   fromQueue.getMeta
 );
 
+export const getQueuePagination = createSelector(
+  getQueueState,
+  fromQueue.getPagination
+);
+
 export const getMuteState = createSelector(
   getPlayerState,
   (state: PlayerState) => state.mute
