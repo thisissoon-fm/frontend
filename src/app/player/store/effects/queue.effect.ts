@@ -45,14 +45,13 @@ export class QueueEffects {
         .catch((err) => Observable.of(new queueActions.QueueAddFail(err)))
     );
 
-  @Effect()
-  public removeFromQueue$: Observable<Action> = this.actions$
+  @Effect({dispatch: false})
+  public removeFromQueue$ = this.actions$
     .ofType(queueActions.QUEUE_REMOVE)
     .map((action: queueActions.QueueRemove) => action.payload)
-    .mergeMap((uuid) =>
+    .switchMap((uuid) =>
       this.playerQueueSvc.delete(uuid)
-        .map((res) => new queueActions.QueueRemoveSuccess(uuid))
-        .catch((err) => Observable.of(new queueActions.QueueRemoveFail(err)))
+        .catch((err) => Observable.of(err))
     );
 
   @Effect()

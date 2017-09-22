@@ -107,7 +107,10 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe$)
       .subscribe((event) => this.onEvent(event));
 
-    this.startTimer();
+    this.current$
+      .filter((current) => (current && !current.paused))
+      .take(1)
+      .subscribe(() => this.startTimer());
   }
   /**
    * Event handler for volume input, send next value

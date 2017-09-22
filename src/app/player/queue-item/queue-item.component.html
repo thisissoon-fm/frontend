@@ -1,25 +1,29 @@
 <div
   class="media align-items-center"
-  [ngClass]="{ 'media-hover': displayImage }">
+  [ngClass]="{
+    'media-hover': displayImage,
+    'media-cta-hover': (canDelete | async)
+  }">
 
   <div
     *ngIf="displayImage"
     class="media-img d-flex mr-3"
     [ngStyle]="{'background-image': 'url(' + optimalImage + ')'}">
     <img
+      *ngIf="optimalImage"
       [src]="optimalImage"
-      [alt]="item.track.name">
+      [alt]="item?.track?.name">
   </div>
 
   <div class="media-body">
     <h3 class="h1 mt-0 mb-0 text-truncate">
-      {{ item.track.name }}
+      {{ item?.track?.name }}
     </h3>
     <p class="lead mb-0 font-weight-bold text-truncate">
       {{ artistsJoined }}
     </p>
     <p class="lead mb-0 font-weight-bold text-muted text-truncate">
-      {{ item.track.album.name }}
+      {{ item?.track?.album.name }}
     </p>
   </div>
 
@@ -27,8 +31,21 @@
     <p class="small mb-1">Added by</p>
     <img
       class="rounded-circle img-avatar"
-      [src]="item.user.avatar_url"
-      [alt]="item.user.display_name">
+      *ngIf="item?.user?.avatar_url"
+      [src]="item?.user?.avatar_url"
+      [alt]="item?.user?.display_name">
   </div>
+
+  <div
+    *ngIf="canDelete | async"
+    class="media-cta d-flex align-self-start align-items-start flex-column align-self-stretch">
+    <button
+      type="button"
+      class="btn btn-link text-uppercase text-xsmall rotate-90 border-0"
+      (click)="delete()">
+      <i class="icon icon-delete mr-1"></i>
+      <span class="font-weight-bold">Delete</span>
+  </button>
+</div>
 
 </div>

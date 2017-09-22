@@ -1,5 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
+import * as fromUserStore from '../../user/store';
+import * as fromPlayerStore from '../../player/store';
 import { QueueItem } from '../../api';
 import { UtilsService } from '../../shared';
 
@@ -33,6 +37,17 @@ export class QueueItemComponent {
   @Input()
   public displayImage = true;
   /**
+   * If true means user can delete track
+   *
+   * @readonly
+   * @type {Observable<boolean>}
+   * @memberof QueueItemComponent
+   */
+  public get canDelete(): Observable<boolean> {
+    return this.userStore$.select(fromUserStore.getUser)
+      .map((user) => (user && this.item) ? (user.id === this.item.user.id && !this.item.player) : false);
+  }
+  /**
    * Returns optimal image or last image in array if
    * optimal image does not exist
    *
@@ -41,7 +56,8 @@ export class QueueItemComponent {
    * @memberof QueueItemComponent
    */
   public get optimalImage(): string {
-    return this.utilsSvc.getOptimalImage(this.item.track.album.images, this.imageIndex);
+    return this.item && this.item.track && this.item.track.album && this.item.track.album.images ?
+      this.utilsSvc.getOptimalImage(this.item.track.album.images, this.imageIndex) : '';
   }
   /**
    * Return artists as a string of names
@@ -50,12 +66,25 @@ export class QueueItemComponent {
    * @memberof QueueItemComponent
    */
   public get artistsJoined(): string {
-    return this.utilsSvc.getArtistsJoined(this.item.track.artists);
+    return this.item && this.item.track && this.item.track.artists ?
+      this.utilsSvc.getArtistsJoined(this.item.track.artists) : '';
   }
   /**
    * Creates an instance of QueueItemComponent.
    * @param {SharedModule} utilsSvc
    * @memberof QueueItemComponent
    */
-  constructor(public utilsSvc: UtilsService) { }
+  constructor(
+    private utilsSvc: UtilsService,
+    private userStore$: Store<fromUserStore.UserState>,
+    private playerStore$: Store<fromPlayerStore.PlayerState>
+  ) { }
+  /**
+   * Remove track from queue
+   *
+   * @memberof QueueItemComponent
+   */
+  public delete(): void {
+    this.playerStore$.dispatch(new fromPlayerStore.QueueRemove(this.item.uuid));
+  }
 }

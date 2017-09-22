@@ -54,4 +54,13 @@ export class UserService {
   public get(id: string): Observable<User> {
     return this.http.get<User>(`${this.endpointUrl}${id}`);
   }
+  /**
+   * Remove user auth token
+   *
+   * @memberof UserService
+   */
+  public delete(): void {
+    const storageName = `${environment.googleAuthTokenPrefix}_${environment.googleAuthTokenName}`;
+    this.localStorageSvc.removeItem(storageName);
+  }
 }

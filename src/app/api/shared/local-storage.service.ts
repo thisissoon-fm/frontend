@@ -18,4 +18,11 @@ export class LocalStorageService {
    * @memberof LocalStorageService
    */
   getItem(key: string): string {  return ''; }
+  /**
+   * Remove item from localStorage
+   *
+   * @param {string} key
+   * @memberof LocalStorageService
+   */
+  removeItem(key: string): void {  }
 }

@@ -18,6 +18,11 @@ export class UserEffects {
         .catch((err) => Observable.of(new userActions.LoadMeFail(err)))
     );
 
+  @Effect({dispatch: false})
+  public LoadCurrentUserFail$: Observable<Action> = this.actions$
+    .ofType(userActions.LOAD_ME_FAIL)
+    .do(() => this.userSvc.delete());
+
   @Effect()
   public LoadUser$: Observable<Action> = this.actions$
     .ofType(userActions.LOAD_USER)
