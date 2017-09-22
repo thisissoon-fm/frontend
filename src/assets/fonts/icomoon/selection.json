@@ -4,6 +4,43 @@
     {
       "icon": {
         "paths": [
+          "M128 320v640c0 35.2 28.8 64 64 64h576c35.2 0 64-28.8 64-64v-640h-704zM320 896h-64v-448h64v448zM448 896h-64v-448h64v448zM576 896h-64v-448h64v448zM704 896h-64v-448h64v448z",
+          "M848 128h-208v-80c0-26.4-21.6-48-48-48h-224c-26.4 0-48 21.6-48 48v80h-208c-26.4 0-48 21.6-48 48v80h832v-80c0-26.4-21.6-48-48-48zM576 128h-192v-63.198h192v63.198z"
+        ],
+        "attrs": [
+          {},
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": [
+          "bin",
+          "trashcan",
+          "remove",
+          "delete",
+          "recycle",
+          "dispose"
+        ],
+        "grid": 16
+      },
+      "attrs": [
+        {},
+        {}
+      ],
+      "properties": {
+        "order": 77,
+        "id": 46,
+        "name": "delete",
+        "prevSize": 32,
+        "code": 59658
+      },
+      "setIdx": 0,
+      "setId": 0,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
           "M512 121.6c74.24 0 134.4 60.16 134.4 134.4s-60.16 134.4-134.4 134.4c-74.24 0-134.4-60.16-134.4-134.4s60.16-134.4 134.4-134.4v0zM512 697.6c190.080 0 390.4 93.44 390.4 134.4v70.4h-780.8v-70.4c0-40.96 200.32-134.4 390.4-134.4v0zM512 0c-141.44 0-256 114.56-256 256s114.56 256 256 256c141.44 0 256-114.56 256-256s-114.56-256-256-256zM512 576c-170.88 0-512 85.76-512 256v192h1024v-192c0-170.24-341.12-256-512-256z"
         ],
         "attrs": [],
@@ -17,7 +54,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 59,
+        "order": 78,
         "id": 45,
         "name": "profile",
         "prevSize": 32,
@@ -25,7 +62,7 @@
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 0
+      "iconIdx": 1
     },
     {
       "icon": {
@@ -43,7 +80,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 58,
+        "order": 79,
         "id": 44,
         "name": "arrow-left",
         "prevSize": 32,
@@ -51,7 +88,7 @@
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 1
+      "iconIdx": 2
     },
     {
       "icon": {
@@ -73,7 +110,7 @@
         {}
       ],
       "properties": {
-        "order": 45,
+        "order": 80,
         "id": 31,
         "name": "history",
         "prevSize": 32,
@@ -81,7 +118,7 @@
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 2
+      "iconIdx": 3
     },
     {
       "icon": {
@@ -103,7 +140,7 @@
         {}
       ],
       "properties": {
-        "order": 46,
+        "order": 81,
         "id": 32,
         "name": "stats-dots",
         "prevSize": 32,
@@ -111,7 +148,7 @@
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 3
+      "iconIdx": 4
     },
     {
       "icon": {
@@ -135,7 +172,7 @@
         {}
       ],
       "properties": {
-        "order": 47,
+        "order": 82,
         "id": 33,
         "name": "pause",
         "prevSize": 32,
@@ -143,7 +180,7 @@
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 4
+      "iconIdx": 5
     },
     {
       "icon": {
@@ -163,7 +200,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 48,
+        "order": 83,
         "id": 34,
         "name": "skip",
         "prevSize": 32,
@@ -171,7 +208,7 @@
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 5
+      "iconIdx": 6
     },
     {
       "icon": {
@@ -190,7 +227,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 49,
+        "order": 84,
         "id": 35,
         "name": "play",
         "prevSize": 32,
@@ -198,7 +235,7 @@
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 6
+      "iconIdx": 7
     },
     {
       "icon": {
@@ -219,7 +256,7 @@
         {}
       ],
       "properties": {
-        "order": 50,
+        "order": 85,
         "id": 36,
         "name": "caret-down",
         "prevSize": 32,
@@ -227,7 +264,7 @@
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 7
+      "iconIdx": 8
     },
     {
       "icon": {
@@ -251,7 +288,7 @@
         {}
       ],
       "properties": {
-        "order": 51,
+        "order": 86,
         "id": 37,
         "name": "close",
         "prevSize": 32,
@@ -259,7 +296,7 @@
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 8
+      "iconIdx": 9
     },
     {
       "icon": {
@@ -283,7 +320,7 @@
         {}
       ],
       "properties": {
-        "order": 52,
+        "order": 87,
         "id": 38,
         "name": "plus",
         "prevSize": 32,
@@ -291,7 +328,7 @@
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 9
+      "iconIdx": 10
     },
     {
       "icon": {
@@ -318,13 +355,13 @@
         "ligatures": "volume-high, volume",
         "name": "volume-high",
         "id": 39,
-        "order": 53,
+        "order": 88,
         "prevSize": 32,
         "code": 59942
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 10
+      "iconIdx": 11
     },
     {
       "icon": {
@@ -350,13 +387,13 @@
         "ligatures": "volume-medium, volume2",
         "name": "volume-medium",
         "id": 40,
-        "order": 54,
+        "order": 89,
         "prevSize": 32,
         "code": 59943
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 11
+      "iconIdx": 12
     },
     {
       "icon": {
@@ -382,13 +419,13 @@
         "ligatures": "volume-low, volume3",
         "name": "volume-low",
         "id": 41,
-        "order": 55,
+        "order": 90,
         "prevSize": 32,
         "code": 59944
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 12
+      "iconIdx": 13
     },
     {
       "icon": {
@@ -413,13 +450,13 @@
         "ligatures": "volume-mute2, volume5",
         "name": "volume-mute",
         "id": 42,
-        "order": 56,
+        "order": 91,
         "prevSize": 32,
         "code": 59946
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 13
+      "iconIdx": 14
     },
     {
       "icon": {
@@ -444,13 +481,13 @@
         "ligatures": "search, magnifier",
         "name": "search",
         "id": 43,
-        "order": 57,
+        "order": 92,
         "prevSize": 32,
         "code": 59782
       },
       "setIdx": 0,
       "setId": 0,
-      "iconIdx": 14
+      "iconIdx": 15
     }
   ],
   "height": 1024,

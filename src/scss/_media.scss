@@ -80,4 +80,21 @@
       }
     }
   }
+
+  &.media-cta-hover {
+
+    .media-cta {
+      transition: $transition-base;
+      width: 0;
+    }
+
+    @include hover-focus-active() {
+
+      .media-cta {
+        transition: $transition-base;
+        margin-left: $spacer;
+        width: 2.9375rem; // ~47px
+      }
+    }
+  }
 }

@@ -26,13 +26,15 @@ export class CurrentEffects {
     .ofType(currentActions.LOAD_CURRENT_SUCCESS)
     .map((action: currentActions.LoadCurrentSuccess) => action.payload)
     .do((item: QueueItem) => {
-      const name = item.track.name;
-      const artists = this.utilsSvc.getArtistsJoined(item.track.artists);
-      this.title.setTitle(`${name} - ${artists} | SOON FM_`);
-      this.notificationSvc.push(`Now playing on SOON FM_`, {
-        body: `${name} by ${artists}`,
-        icon: this.utilsSvc.getOptimalImage(item.track.album.images, 2)
-      });
+      if (item) {
+        const name = item.track.name;
+        const artists = this.utilsSvc.getArtistsJoined(item.track.artists);
+        this.title.setTitle(`${name} - ${artists} | SOON FM_`);
+        this.notificationSvc.push(`Now playing on SOON FM_`, {
+          body: `${name} by ${artists}`,
+          icon: this.utilsSvc.getOptimalImage(item.track.album.images, 2)
+        });
+      }
     });
 
   @Effect({dispatch: false})

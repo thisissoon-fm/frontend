@@ -101,7 +101,9 @@ export function queueReducer(
       const uuid = (<fromQueue.QueueRemoveSuccess>action).payload;
       const index = state.queue.findIndex(item => item.uuid === uuid);
       const queue = [...state.queue];
-      queue.splice(index, 1);
+      if (index >= 0) {
+        queue.splice(index, 1);
+      }
 
       return Object.assign({}, state, { queue });
     }
