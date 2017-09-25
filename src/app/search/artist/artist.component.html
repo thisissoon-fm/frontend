@@ -6,8 +6,11 @@
   </div>
 
   <div>
-    <h3 class="h1">{{ item.name }}</h3>
-    <p class="text-light">{{ item.followers?.total | number }} followers</p>
+    <h3 class="h1" [ngClass]="{'text-white': dark}">{{ item.name }}</h3>
+    <p
+      [ngClass]="{'text-light': !dark, 'text-muted': dark}">
+      {{ item.followers?.total | number }} followers
+    </p>
   </div>
 
   <div class="ml-auto">

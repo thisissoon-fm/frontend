@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from '@thisissoon/angular-infinite-scroll';
 
 import { SharedModule } from '../shared';
@@ -30,6 +30,7 @@ const components = [
     StoreModule.forFeature('search', reducers),
     EffectsModule.forFeature(effects),
     NgbDropdownModule,
+    NgbTabsetModule,
     InfiniteScrollModule,
     SharedModule,
     PlayerModule,

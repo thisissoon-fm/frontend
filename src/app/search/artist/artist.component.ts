@@ -26,6 +26,14 @@ export class ArtistComponent {
   @Input()
   public item: SpotifyArtist;
   /**
+   * If true means item is on a dark background
+   *
+   * @type {boolean}
+   * @memberof AlbumComponent
+   */
+  @Input()
+  public dark = false;
+  /**
    * Returns optimal image or last image in array if
    * optimal image does not exist
    *

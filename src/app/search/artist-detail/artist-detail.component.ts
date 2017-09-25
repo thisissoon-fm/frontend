@@ -1,5 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
@@ -40,7 +42,7 @@ export class ArtistDetailComponent implements OnInit {
    * @type {SpotifyAlbums}
    * @memberof ArtistDetailComponent
    */
-  public single: SpotifyAlbums;
+  public singles: SpotifyAlbums;
   /**
    * List of related artists
    *
@@ -48,6 +50,13 @@ export class ArtistDetailComponent implements OnInit {
    * @memberof ArtistDetailComponent
    */
   public related: SpotifySearch;
+  /**
+   * selected tab name
+   *
+   * @type {string}
+   * @memberof ArtistDetailComponent
+   */
+  public selectedTab = 'Top tracks';
   /**
    * True if component is loading data
    *
@@ -68,6 +77,26 @@ export class ArtistDetailComponent implements OnInit {
       this.utilsSvc.getOptimalImage(this.artist.images, 0) : '';
   }
   /**
+   * Returns true if all albums have been loaded
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberof ArtistDetailComponent
+   */
+  public get allAlbumsLoaded(): boolean {
+    return (this.albums && this.albums.items && (this.albums.items.length === this.albums.total));
+  }
+  /**
+   * Returns true if all albums have been loaded
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberof ArtistDetailComponent
+   */
+  public get allSinglesLoaded(): boolean {
+    return (this.singles && this.singles.items && (this.singles.items.length === this.singles.total));
+  }
+  /**
    * Creates an instance of ArtistDetailComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
    * @param {PlayerSpotifyArtistService} spotifyArtistService
@@ -79,6 +108,7 @@ export class ArtistDetailComponent implements OnInit {
     private playerStore$: Store<fromPlayerStore.PlayerState>,
     private spotifyArtistService: PlayerSpotifyArtistService,
     private route: ActivatedRoute,
+    private location: Location,
     private utilsSvc: UtilsService
   ) { }
   /**
@@ -102,7 +132,7 @@ export class ArtistDetailComponent implements OnInit {
         .subscribe((res) => {
           this.artist = res[0];
           this.albums = res[1];
-          this.single = res[2];
+          this.singles = res[2];
           this.topTracks = res[3];
           this.related = res[4];
           this.loading = false;
@@ -117,5 +147,69 @@ export class ArtistDetailComponent implements OnInit {
    */
   public addToQueue(uri: string): void {
     this.playerStore$.dispatch(new fromPlayerStore.QueueAdd(uri));
+  }
+  /**
+   * Get more albums
+   *
+   * @memberof ArtistDetailComponent
+   */
+  public getMoreAlbums(): void {
+    this.route.params
+      .take(1)
+      .subscribe((params) => {
+        const id = params['id'];
+        const httpParams = new HttpParams()
+          .set('offset', `${this.albums.items.length}`);
+        this.loading = true;
+        this.spotifyArtistService.getAlbums(id, httpParams)
+          .subscribe({
+            next: (res) => res.items.forEach(item => this.albums.items.push(item)),
+            complete: () => this.loading = false
+          });
+      });
+  }
+  /**
+   * Get more singles
+   *
+   * @memberof ArtistDetailComponent
+   */
+  public getMoreSingles(): void {
+    this.route.params
+      .take(1)
+      .subscribe((params) => {
+        const id = params['id'];
+        const httpParams = new HttpParams()
+          .set('offset', `${this.albums.items.length}`);
+        this.loading = true;
+        this.spotifyArtistService.getSingles(id, httpParams)
+        .subscribe({
+          next: (res) => res.items.forEach(item => this.singles.items.push(item)),
+          complete: () => this.loading = false
+        });
+      });
+  }
+  /**
+   * On scroll end load more albums/singles
+   *
+   * @param {('top-tracks' | 'albums' | 'singles' | 'related')} id
+   * @memberof ArtistDetailComponent
+   */
+  public onScrollEnd(id: 'top-tracks' | 'albums' | 'singles' | 'related'): void {
+    switch (id) {
+      case 'albums':
+        this.getMoreAlbums();
+        break;
+      case 'singles':
+        this.getMoreSingles();
+        break;
+    }
+  }
+  /**
+   * Go to previous page
+   *
+   * @memberof ArtistDetailComponent
+   */
+  public goBack() {
+    this.location.back();
   }
 }

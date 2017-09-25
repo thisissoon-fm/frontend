@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2UiAuthModule, AuthService } from 'ng2-ui-auth';
 import * as io from 'socket.io-client';
 
@@ -42,6 +42,7 @@ export const getNotification = () => notification;
     CommonModule,
     BrowserAnimationsModule,
     NgbDropdownModule.forRoot(),
+    NgbTabsetModule.forRoot(),
     StoreModule.forRoot([]),
     EffectsModule.forRoot([]),
     Ng2UiAuthModule.forRoot(AuthConfig),
