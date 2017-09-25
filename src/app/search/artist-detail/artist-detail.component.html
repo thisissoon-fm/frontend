@@ -65,6 +65,10 @@
             </div>
           </li>
         </ul>
+
+        <ng-template [ngIf]="loading">
+          <p class="text-center pt-3 pb-3 mb-0">Loading…</p>
+        </ng-template>
       </ng-template>
     </ngb-tab>
     <ngb-tab id="albums" title="Albums">
@@ -87,11 +91,11 @@
             </ul>
 
             <ng-template [ngIf]="loading">
-              <div class="row">
-                <div class="col-12">
-                  <p class="text-center pt-3 pb-3 mb-0">Loading…</p>
-                </div>
-              </div>
+              <p class="text-center pt-3 pb-3 mb-0">Loading…</p>
+            </ng-template>
+
+            <ng-template [ngIf]="allAlbumsLoaded && albums?.items?.length">
+              <p class="text-center pt-3 pb-3 mb-0">No more albums</p>
             </ng-template>
           </div>
         </div>
@@ -123,6 +127,10 @@
               </div>
             </ng-template>
 
+            <ng-template [ngIf]="allSinglesLoaded && singles?.items?.length">
+              <p class="text-center pt-3 pb-3 mb-0">No more singles</p>
+            </ng-template>
+
           </div>
         </div>
       </ng-template>
@@ -141,6 +149,7 @@
               <div class="col-12">
                 <a
                   class="d-block text-secondary"
+                  (click)="tabset.select('top-tracks'); selectedTab = 'Top tracks'"
                   [routerLink]="['/home', { outlets: { search: ['artists', item.id] } }]">
                   <sfm-artist [item]="item" [imageIndex]="1" [dark]="true"></sfm-artist>
                 </a>
@@ -149,6 +158,10 @@
             </div>
           </li>
         </ul>
+
+        <ng-template [ngIf]="loading">
+          <p class="text-center pt-3 pb-3 mb-0">Loading…</p>
+        </ng-template>
       </ng-template>
     </ngb-tab>
   </ngb-tabset>

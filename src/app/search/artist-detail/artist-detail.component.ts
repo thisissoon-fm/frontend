@@ -1,9 +1,10 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { UtilsService } from '../../shared';
 import * as fromPlayerStore from '../../player/store';
@@ -14,7 +15,7 @@ import { SpotifyArtist, SpotifySearch, SpotifyAlbums, PlayerSpotifyArtistService
   templateUrl: './artist-detail.component.html',
   styleUrls: ['./artist-detail.component.scss']
 })
-export class ArtistDetailComponent implements OnInit {
+export class ArtistDetailComponent implements OnInit, OnDestroy {
   /**
    * Artist details
    *
@@ -97,6 +98,14 @@ export class ArtistDetailComponent implements OnInit {
     return (this.singles && this.singles.items && (this.singles.items.length === this.singles.total));
   }
   /**
+   * Observable used to unsubscribe and complete infinite observables
+   * on component destroy lifecycle hook
+   *
+   * @type {Subject<void>}
+   * @memberof ArtistDetailComponent
+   */
+  public ngUnsubscribe$: Subject<void> = new Subject<void>();
+  /**
    * Creates an instance of ArtistDetailComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
    * @param {PlayerSpotifyArtistService} spotifyArtistService
@@ -119,24 +128,31 @@ export class ArtistDetailComponent implements OnInit {
    */
   public ngOnInit(): void {
     this.route.params
-    .take(1)
-    .subscribe(params => {
-      const id = params['id'];
-      Observable.forkJoin(
-        this.spotifyArtistService.get(id),
-        this.spotifyArtistService.getAlbums(id),
-        this.spotifyArtistService.getSingles(id),
-        this.spotifyArtistService.getTopTracks(id),
-        this.spotifyArtistService.getRelatedArtists(id)
-      )
-        .subscribe((res) => {
-          this.artist = res[0];
-          this.albums = res[1];
-          this.singles = res[2];
-          this.topTracks = res[3];
-          this.related = res[4];
-          this.loading = false;
-        });
+      .takeUntil(this.ngUnsubscribe$)
+      .subscribe((params) => {
+        this.artist = null;
+        this.albums = null;
+        this.singles = null;
+        this.topTracks = null;
+        this.related = null;
+        this.loading = false;
+
+        const id = params['id'];
+        Observable.forkJoin(
+          this.spotifyArtistService.get(id),
+          this.spotifyArtistService.getAlbums(id),
+          this.spotifyArtistService.getSingles(id),
+          this.spotifyArtistService.getTopTracks(id),
+          this.spotifyArtistService.getRelatedArtists(id)
+        )
+          .subscribe((res) => {
+            this.artist = res[0];
+            this.albums = res[1];
+            this.singles = res[2];
+            this.topTracks = res[3];
+            this.related = res[4];
+            this.loading = false;
+          });
       });
   }
   /**
@@ -179,13 +195,13 @@ export class ArtistDetailComponent implements OnInit {
       .subscribe((params) => {
         const id = params['id'];
         const httpParams = new HttpParams()
-          .set('offset', `${this.albums.items.length}`);
+          .set('offset', `${this.singles.items.length}`);
         this.loading = true;
         this.spotifyArtistService.getSingles(id, httpParams)
-        .subscribe({
-          next: (res) => res.items.forEach(item => this.singles.items.push(item)),
-          complete: () => this.loading = false
-        });
+          .subscribe({
+            next: (res) => res.items.forEach(item => this.singles.items.push(item)),
+            complete: () => this.loading = false
+          });
       });
   }
   /**
@@ -209,7 +225,16 @@ export class ArtistDetailComponent implements OnInit {
    *
    * @memberof ArtistDetailComponent
    */
-  public goBack() {
+  public goBack(): void {
     this.location.back();
+  }
+  /**
+   * Unsubscribe from infinite observables
+   *
+   * @memberof ArtistDetailComponent
+   */
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
 }

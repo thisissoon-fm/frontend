@@ -129,14 +129,14 @@ export class AlbumDetailComponent implements OnInit {
           .set('offset', `${this.tracks.items.length}`);
         this.loading = true;
         this.spotifyAlbumService.getTracks(id, httpParams)
-          .subscribe(
-            (res) => {
-              this.loading = false;
-              res.items.forEach((item) => item.album = this.album);
-              this.tracks.items.concat(res.items);
-            },
-            () => this.loading = false
-          );
+          .subscribe({
+            next: (res) =>
+              res.items.forEach((item) => {
+                item.album = this.album;
+                this.tracks.items.push(item);
+              }),
+            complete: () => this.loading = false
+          });
       });
   }
   /**
