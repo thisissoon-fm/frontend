@@ -10,7 +10,8 @@
 
         <a
           class="text-white h1 mb-0 mr-3"
-          [routerLink]="['/home', { outlets: { search: ['search'] } }]">
+          (click)="goBack()"
+          *ngIf="artist">
           <i class="icon icon-arrow-left"></i>
         </a>
 
@@ -18,19 +19,20 @@
 
         <!-- <button type="button" class="btn btn-outline-primary btn-sm text-white btn-rounded pr-2 pl-2 mr-2">Follow</button> -->
 
-        <p class="text-muted mb-0">{{ artist?.followers?.total | number }} followers</p>
+        <p class="text-muted mb-0" *ngIf="artist">{{ artist?.followers?.total | number }} followers</p>
 
-      <!-- <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-link dropdown-toggle text-secondary text-capitalize" id="search-type-dropdown" ngbDropdownToggle>
-          Top tracks
-          <i class="icon icon-caret-down ml-1 small"></i>
-        </button>
-        <div ngbDropdownMenu aria-labelledby="search-type-dropdown">
-          <button class="dropdown-item">Top tracks</button>
-          <button class="dropdown-item">Albums</button>
-          <button class="dropdown-item">Singles</button>
-          <button class="dropdown-item">Related artists</button>
-        </div> -->
+        <div *ngIf="artist" ngbDropdown class="d-inline-block ml-auto">
+          <button class="btn btn-link dropdown-toggle text-primary" id="artist-dropdown" ngbDropdownToggle>
+            {{ selectedTab }}
+            <i class="icon icon-caret-down ml-1 small text-white"></i>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="artist-dropdown" class="bg-secondary">
+            <button class="dropdown-item text-white" (click)="selectedTab = 'Top tracks';tabset.select('top-tracks')">Top tracks</button>
+            <button class="dropdown-item text-white" (click)="selectedTab = 'Albums';tabset.select('albums')">Albums</button>
+            <button class="dropdown-item text-white" (click)="selectedTab = 'Singles';tabset.select('singles')">Singles</button>
+            <button class="dropdown-item text-white" (click)="selectedTab = 'Related artists';tabset.select('related')">Related artists</button>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -38,22 +40,130 @@
   </div>
 </div>
 
-<div class="media-list row no-gutters pl-3">
-  <ul class="list-unstyled w-100">
-    <li
-      class="text-white"
-      *ngFor="let item of topTracks?.tracks">
+<div
+  class="media-list"
+  snInfiniteScroll
+  (onScrollEnd)="onScrollEnd(tabset.activeId)"
+  [offset]="200"
+  [disabled]="(tabset.activeId === 'albums' && allAlbumsLoaded) || (tabset.activeId === 'singles' && allSinglesLoaded) || loading">
+  <ngb-tabset class="d-block w-100" #tabset="ngbTabset">
+    <ngb-tab id="top-tracks" title="Top tracks">
+      <ng-template ngbTabContent>
+        <ul class="list-unstyled w-100 pl-3">
+          <li *ngFor="let item of topTracks?.tracks">
 
-      <div class="row no-gutters">
-        <div class="col-12">
-          <hr>
+            <div class="row no-gutters">
+
+              <div class="col-12">
+                <hr>
+              </div>
+
+              <div class="col-12">
+                <sfm-track [item]="item" [small]="true" [dark]="true" [hideArtist]="true" (onButtonClick)="addToQueue($event)" [imageIndex]="1"></sfm-track>
+              </div>
+
+            </div>
+          </li>
+        </ul>
+
+        <ng-template [ngIf]="loading">
+          <p class="text-center pt-3 pb-3 mb-0">Loading…</p>
+        </ng-template>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab id="albums" title="Albums">
+      <ng-template ngbTabContent>
+
+        <div class="grid-padding">
+          <div class="container-fluid">
+            <ul class="list-unstyled row">
+              <li
+                class="col-4"
+                *ngFor="let item of albums?.items">
+
+                <a
+                  class="d-block text-secondary w-100"
+                  [routerLink]="['/home', { outlets: { search: ['albums', item.id] } }]">
+                  <sfm-album [item]="item" [imageIndex]="1" [dark]="true"></sfm-album>
+                </a>
+
+              </li>
+            </ul>
+
+            <ng-template [ngIf]="loading">
+              <p class="text-center pt-3 pb-3 mb-0">Loading…</p>
+            </ng-template>
+
+            <ng-template [ngIf]="allAlbumsLoaded && albums?.items?.length">
+              <p class="text-center pt-3 pb-3 mb-0">No more albums</p>
+            </ng-template>
+          </div>
         </div>
-        <div class="col-12">
 
-          <sfm-track [item]="item" [small]="true" [dark]="true" [hideArtist]="true" (onButtonClick)="addToQueue($event)" [imageIndex]="1"></sfm-track>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab id="singles" class="container-fluid pl-3 pr-3" title="Singles">
+      <ng-template ngbTabContent>
+        <div class="grid-padding">
+          <div class="container-fluid">
 
+            <ul class="list-unstyled row">
+              <li
+                class="col-4"
+                *ngFor="let item of singles?.items">
+                <a
+                  class="d-block text-secondary w-100"
+                  [routerLink]="['/home', { outlets: { search: ['albums', item.id] } }]">
+                  <sfm-album [item]="item" [imageIndex]="1" [dark]="true"></sfm-album>
+                </a>
+              </li>
+            </ul>
+
+            <ng-template [ngIf]="loading">
+              <div class="row">
+                <div class="col-12">
+                  <p class="text-center pt-3 pb-3 mb-0">Loading…</p>
+                </div>
+              </div>
+            </ng-template>
+
+            <ng-template [ngIf]="allSinglesLoaded && singles?.items?.length">
+              <p class="text-center pt-3 pb-3 mb-0">No more singles</p>
+            </ng-template>
+
+          </div>
         </div>
-      </div>
-    </li>
-  </ul>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab id="related" class="container-fluid pl-3 pr-3" title="Related">
+      <ng-template ngbTabContent>
+        <ul class="list-unstyled w-100 pl-3">
+          <li *ngFor="let item of related?.artists">
+
+            <div class="row no-gutters">
+
+              <div class="col-12">
+                <hr>
+              </div>
+
+              <div class="col-12">
+                <a
+                  class="d-block text-secondary"
+                  (click)="tabset.select('top-tracks'); selectedTab = 'Top tracks'"
+                  [routerLink]="['/home', { outlets: { search: ['artists', item.id] } }]">
+                  <sfm-artist [item]="item" [imageIndex]="1" [dark]="true"></sfm-artist>
+                </a>
+              </div>
+
+            </div>
+          </li>
+        </ul>
+
+        <ng-template [ngIf]="loading">
+          <p class="text-center pt-3 pb-3 mb-0">Loading…</p>
+        </ng-template>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+
 </div>

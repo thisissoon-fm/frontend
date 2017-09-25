@@ -5,7 +5,15 @@
     <img class="card-img-top" [src]="optimalImage" [alt]="item.name">
   </div>
   <div class="card-body">
-    <p class="card-text text-truncate text-secondary mb-0">{{ item.name }}</p>
-    <p class="card-text text-truncate mb-0 text-light">{{ artistsJoined }}</p>
+    <p
+      class="card-text text-truncate mb-0"
+      [ngClass]="{'text-secondary': !dark, 'text-white': dark}">
+      {{ item.name }}
+    </p>
+    <p
+      class="card-text text-truncate mb-0"
+      [ngClass]="{'text-light': !dark, 'text-muted': dark}">
+      {{ artistsJoined }}
+    </p>
   </div>
 </div>

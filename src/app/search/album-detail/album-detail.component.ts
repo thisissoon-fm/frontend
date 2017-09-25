@@ -1,12 +1,13 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { SpotifyAlbums, PlayerSpotifyAlbumService, SpotifyAlbum, SpotifyTracks } from '../../api';
 import { UtilsService } from '../../shared';
 import * as fromPlayerStore from '../../player/store';
-import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'sfm-album-detail',
@@ -52,7 +53,7 @@ export class AlbumDetailComponent implements OnInit {
    *
    * @readonly
    * @type {boolean}
-   * @memberof SearchComponent
+   * @memberof AlbumDetailComponent
    */
   public get allTracksLoaded(): boolean {
     return (this.tracks && this.tracks.items && (this.tracks.items.length === this.tracks.total));
@@ -61,14 +62,16 @@ export class AlbumDetailComponent implements OnInit {
    * Creates an instance of AlbumDetailComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
    * @param {PlayerSpotifyAlbumService} spotifyAlbumService
-   * @param {ActivatedRoute} utilsSvc
-   * @param {UtilsService} route
+   * @param {ActivatedRoute} route
+   * @param {Location} location
+   * @param {UtilsService} utilsSvc
    * @memberof AlbumDetailComponent
    */
   constructor(
     private playerStore$: Store<fromPlayerStore.PlayerState>,
     private spotifyAlbumService: PlayerSpotifyAlbumService,
     private route: ActivatedRoute,
+    private location: Location,
     private utilsSvc: UtilsService
   ) { }
   /**
@@ -120,17 +123,28 @@ export class AlbumDetailComponent implements OnInit {
   public getMoreTracks(): void {
     this.route.params
       .take(1)
-      .subscribe(params => {
+      .subscribe((params) => {
         const id = params['id'];
         const httpParams = new HttpParams()
           .set('offset', `${this.tracks.items.length}`);
         this.loading = true;
         this.spotifyAlbumService.getTracks(id, httpParams)
-          .subscribe((res) => {
-            this.loading = false;
-            res.items.forEach((item) => item.album = this.album);
-            this.tracks.items = [...this.tracks.items, ...res.items];
+          .subscribe({
+            next: (res) =>
+              res.items.forEach((item) => {
+                item.album = this.album;
+                this.tracks.items.push(item);
+              }),
+            complete: () => this.loading = false
           });
       });
+  }
+  /**
+   * Go to previous page
+   *
+   * @memberof ArtistDetailComponent
+   */
+  public goBack() {
+    this.location.back();
   }
 }

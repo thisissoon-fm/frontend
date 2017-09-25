@@ -20,6 +20,12 @@
   overflow: auto;
 }
 
-:host(.is-loading) {
-  opacity: 0;
+.dropdown-item {
+  @include hover-focus-active() {
+    background-color: $grey-50a;
+  }
+}
+
+:host ::ng-deep .nav-tabs {
+  display: none;
 }
