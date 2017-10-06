@@ -1,6 +1,6 @@
 import {
   trigger, transition, style, animate,
-  state, query, group, stagger, keyframes
+  state, query, stagger, keyframes
 } from '@angular/animations';
 
 export const navFadeAnimation = trigger('navFade', [

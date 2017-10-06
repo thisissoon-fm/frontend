@@ -1,7 +1,7 @@
 <sfm-nav [@navFade]="isLoadingPage ? 'out' : 'in'"></sfm-nav>
 
-<div class="router-default">
-  <router-outlet></router-outlet>
+<div class="router-default" [@routeAnimation]="prepRouteState(outletDefault)">
+  <router-outlet #outletDefault="outlet"></router-outlet>
 </div>
 
 <div class="router-search">

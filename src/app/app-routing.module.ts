@@ -7,7 +7,7 @@ export const routedComponents: any[] = [
 ];
 
 const routes: Routes = [
-  { path: '', component: SplashComponent },
+  { path: '', component: SplashComponent, data: { animation: 'splashPage' } },
   { path: 'home', loadChildren: './home/home.module#HomeModule' },
   { path: 'search', loadChildren: './search/search.module#SearchModule'},
   { path: '*', redirectTo: '' }

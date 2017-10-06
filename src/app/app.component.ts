@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { Router, NavigationStart, RouterOutlet } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 
@@ -7,7 +7,7 @@ import * as fromPlayerStore from './player/store';
 import * as fromSharedStore from './shared/store';
 import * as fromUserStore from './user/store';
 import { EventService, PlayerEvent } from './event';
-import { navFadeAnimation } from './shared/';
+import { navFadeAnimation, routeAnimation } from './shared/';
 import { NotificationService } from './notification/';
 
 /**
@@ -28,7 +28,10 @@ import { NotificationService } from './notification/';
   selector: 'sfm-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [navFadeAnimation]
+  animations: [
+    navFadeAnimation,
+    routeAnimation
+  ]
 })
 export class AppComponent implements OnInit, OnDestroy {
   /**
@@ -105,6 +108,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.eventSvc.messages$
       .takeUntil(this.ngUnsubscribe$)
       .subscribe((event) => this.onEvent(event));
+  }
+  /**
+   *
+   *
+   * @param {RouterOutlet} outlet
+   * @returns {('splashPage' | 'homePage')}
+   * @memberof AppComponent
+   */
+  public prepRouteState(outlet: RouterOutlet): 'splashPage' | 'homePage'  {
+    return outlet.activatedRouteData['animation'] || 'homePage';
   }
   /**
    * Event handler for events from socket.io event service

@@ -43,6 +43,11 @@ export const getQueue = createSelector(
   fromQueue.getQueue
 );
 
+export const getQueueLoading = createSelector(
+  getQueueState,
+  fromQueue.getQueueLoading
+);
+
 export const getQueueMeta = createSelector(
   getQueueState,
   fromQueue.getMeta

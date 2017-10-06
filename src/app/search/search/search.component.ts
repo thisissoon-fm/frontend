@@ -5,13 +5,15 @@ import { Subject } from 'rxjs/Subject';
 
 import * as fromSearchStore from '../store';
 import * as fromPlayerStore from '../../player/store';
-import { SearchType } from '../../api';
+import { SearchType, SpotifySearch } from '../../api';
+import { fadeMoveUpAnimation } from '../../shared/animations';
 
 
 @Component({
   selector: 'sfm-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  animations: [fadeMoveUpAnimation]
 })
 export class SearchComponent implements OnInit, OnDestroy {
   /**
@@ -22,12 +24,19 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public onSearchChange$: Subject<string> = new Subject<string>();
   /**
-   * Observable of search status
+   * Search state
    *
-   * @type {Observable<fromSearchStore.SearchState>}
+   * @type {fromSearchStore.SearchState}
    * @memberof SearchComponent
    */
-  public search$: Observable<fromSearchStore.SearchState>;
+  public search: fromSearchStore.SearchState;
+  /**
+   * List of search results
+   *
+   * @type {any[]}
+   * @memberof SearchComponent
+   */
+  public results: any[] = [];
   /**
    * Observable used to unsubscribe and complete infinite observables
    * on component destroy lifecycle hook
@@ -40,12 +49,11 @@ export class SearchComponent implements OnInit, OnDestroy {
    * Returns true if all results have been loaded
    *
    * @readonly
-   * @type {Observable<boolean>}
+   * @type {boolean}
    * @memberof SearchComponent
    */
-  public get allResultsLoaded(): Observable<boolean> {
-    return this.search$
-      .map((state) => (state.pagination.currentPage >= state.pagination.totalPages));
+  public get allResultsLoaded(): boolean {
+    return this.search.pagination.currentPage >= this.search.pagination.totalPages;
   }
   /**
    * Creates an instance of SearchComponent.
@@ -68,7 +76,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       .debounceTime(100)
       .subscribe((query) => this.setSearchQuery(query));
 
-    this.search$ = this.searchStore$.select(fromSearchStore.getSearchState);
+    this.searchStore$.select(fromSearchStore.getSearchState)
+      .subscribe((search) => this.search = search);
+
+    this.searchStore$.select(fromSearchStore.getSearchResults)
+      .subscribe((results) => {
+        console.log(results);
+        this.results = results;
+      });
   }
   /**
    * Event handler for search input change, send next value

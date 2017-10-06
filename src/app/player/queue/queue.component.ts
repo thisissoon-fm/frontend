@@ -1,42 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import { QueueItem, Pagination } from '../../api';
+import { fadeMoveUpAnimation } from '../../shared/animations';
 import * as fromPlayerStore from '../store';
-import { QueueState } from '../store/reducers/queue.reducer';
 
 @Component({
   selector: 'sfm-queue',
   templateUrl: './queue.component.html',
-  styleUrls: ['./queue.component.scss']
+  styleUrls: ['./queue.component.scss'],
+  animations: [fadeMoveUpAnimation]
 })
 export class QueueComponent implements OnInit {
   /**
-   * Observable of list of items in the queue
+   * list of items in the queue
    *
-   * @type {Observable<QueueState>}
+   * @type {QueueItem[]}
    * @memberof QueueComponent
    */
-  public queue$: Observable<QueueState>;
+  public queue: QueueItem[] = [];
+  /**
+   * queue loading state
+   *
+   * @type {boolean}
+   * @memberof QueueComponent
+   */
+  public loading: boolean;
   /**
    * Pagination data for soon fm queue
    *
-   * @type {Observable<Pagination>}
+   * @type {Pagination}
    * @memberof QueueComponent
    */
-  public pagination$: Observable<Pagination>;
+  public pagination: Pagination;
   /**
    * Returns true if all tracks have been loaded
    *
    * @readonly
-   * @type {Observable<boolean>}
+   * @type {boolean}
    * @memberof QueueComponent
    */
-  public get allTracksLoaded(): Observable<boolean> {
-    return this.pagination$
-      .map((pagination) => (pagination.currentPage >= pagination.totalPages));
+  public get allTracksLoaded(): boolean {
+    return this.pagination.currentPage >= this.pagination.totalPages;
   }
   /**
    * Creates an instance of QueueComponent.
@@ -50,8 +56,13 @@ export class QueueComponent implements OnInit {
    * @memberof QueueComponent
    */
   public ngOnInit(): void {
-    this.queue$ = this.playerStore$.select(fromPlayerStore.getQueueState);
-    this.pagination$ = this.playerStore$.select(fromPlayerStore.getQueuePagination);
+    this.playerStore$.select(fromPlayerStore.getQueue)
+      .delay(0)
+      .subscribe(queue => this.queue = queue);
+    this.playerStore$.select(fromPlayerStore.getQueueLoading)
+      .subscribe(loading => this.loading = loading);
+    this.playerStore$.select(fromPlayerStore.getQueuePagination)
+      .subscribe(pagination => this.pagination = pagination);
   }
   /**
    * On scroll end load more tracks if needed

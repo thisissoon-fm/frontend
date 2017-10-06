@@ -11,25 +11,27 @@
   class="queue-items"
   (onScrollEnd)="onScrollEnd()"
   [offset]="200"
-  [disabled]="(allTracksLoaded | async) || (queue$ | async)?.loading">
+  [disabled]="allTracksLoaded || loading">
   <div class="grid-padding">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-12">
+        <div class="col-12" [@fadeMoveUp]="queue.length">
 
-          <ul class="list-unstyled" *ngIf="((queue$ | async)?.queue.length); else noTracks">
-            <ng-template ngFor let-item [ngForOf]="(queue$ | async)?.queue">
-              <li class="mb-3">
-                <sfm-queue-item [item]="item" [imageIndex]="1"></sfm-queue-item>
-              </li>
-            </ng-template>
+          <ul class="list-unstyled">
+            <li class="mb-3 list-item-track" *ngFor="let item of queue">
+              <sfm-queue-item [item]="item" [imageIndex]="1"></sfm-queue-item>
+            </li>
           </ul>
 
-          <ng-template [ngIf]="(allTracksLoaded | async) && (queue$| async)?.queue?.length">
+        </div>
+
+        <div class="col-12">
+
+          <ng-template [ngIf]="allTracksLoaded && queue.length">
             <p class="text-center">No more songs</p>
           </ng-template>
 
-          <ng-template [ngIf]="(queue$ | async).loading">
+          <ng-template [ngIf]="loading">
             <p class="text-center">Loading…</p>
           </ng-template>
 
