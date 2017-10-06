@@ -6,13 +6,14 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { SpotifyAlbums, PlayerSpotifyAlbumService, SpotifyAlbum, SpotifyTracks } from '../../api';
-import { UtilsService } from '../../shared';
+import { UtilsService, fadeMoveUpAnimation } from '../../shared';
 import * as fromPlayerStore from '../../player/store';
 
 @Component({
   selector: 'sfm-album-detail',
   templateUrl: './album-detail.component.html',
-  styleUrls: ['./album-detail.component.scss']
+  styleUrls: ['./album-detail.component.scss'],
+  animations: [fadeMoveUpAnimation]
 })
 export class AlbumDetailComponent implements OnInit {
   /**
@@ -28,7 +29,7 @@ export class AlbumDetailComponent implements OnInit {
    * @type {SpotifyTracks}
    * @memberof AlbumDetailComponent
    */
-  public tracks: SpotifyTracks;
+  public tracks: SpotifyTracks = <any>{items: []};
   /**
    * True if component is loading data
    *

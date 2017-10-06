@@ -26,7 +26,7 @@
   (onScrollEnd)="getMoreTracks()"
   [offset]="200"
   [disabled]="allTracksLoaded || loading">
-  <ul class="list-unstyled w-100">
+  <ul class="list-unstyled w-100" [@fadeMoveUp]="tracks?.items?.length || 0">
     <li
       class="text-white"
       *ngFor="let item of tracks?.items">
