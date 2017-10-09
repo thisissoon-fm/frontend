@@ -7,7 +7,7 @@ export const swipeLeftFadeAnimation = trigger('swipeLeftFade', [
     query('.swipe-left-fade', style({ opacity: 0, transform: 'translateX(40px)' })),
 
     query('.swipe-left-fade', stagger('200ms', [
-      animate('350ms 1s ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
+      animate('350ms .2s ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
     ])),
 
     query('.swipe-left-fade', [

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
-import { UtilsService, fadeMoveUpAnimation } from '../../shared';
+import { UtilsService, fadeMoveUpAnimation, swipeLeftFadeAnimation } from '../../shared';
 import * as fromPlayerStore from '../../player/store';
 import { SpotifyArtist, SpotifySearch, SpotifyAlbums, PlayerSpotifyArtistService } from '../../api';
 
@@ -15,7 +15,10 @@ import { SpotifyArtist, SpotifySearch, SpotifyAlbums, PlayerSpotifyArtistService
   selector: 'sfm-artist-detail',
   templateUrl: './artist-detail.component.html',
   styleUrls: ['./artist-detail.component.scss'],
-  animations: [fadeMoveUpAnimation]
+  animations: [
+    fadeMoveUpAnimation,
+    swipeLeftFadeAnimation
+  ]
 })
 export class ArtistDetailComponent implements OnInit, OnDestroy {
   /**
@@ -68,10 +71,26 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
   @ViewChild('tabset')
   public tabset: NgbTabset;
   /**
+   * Reference to mediaList element
+   *
+   * @type {ElementRef}
+   * @memberof ArtistDetailComponent
+   */
+  @ViewChild('mediaList')
+  public mediaList: ElementRef;
+  /**
+   * If the user has scrolled down the component
+   *
+   * @type {boolean}
+   * @memberof ArtistDetailComponent
+   */
+  @HostBinding('class.scrolled-down')
+  public scrolledDown = false;
+  /**
    * True if component is loading data
    *
    * @type {boolean}
-   * @memberof AlbumDetailComponent
+   * @memberof ArtistDetailComponent
    */
   @HostBinding('class.is-loading')
   public loading = true;
@@ -127,7 +146,8 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
     private spotifyArtistService: PlayerSpotifyArtistService,
     private route: ActivatedRoute,
     private location: Location,
-    private utilsSvc: UtilsService
+    private utilsSvc: UtilsService,
+    private renderer: Renderer2
   ) { }
   /**
    * Get artist details from router service
@@ -163,6 +183,8 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
             this.loading = false;
           });
       });
+
+    this.renderer.listen(this.mediaList.nativeElement, 'scroll', (event) => this.onScroll(event));
   }
   /**
    * Tabset select handler
@@ -282,6 +304,15 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
    */
   public goBack(): void {
     this.location.back();
+  }
+  /**
+   * Event handler for scroll event
+   *
+   * @param {Event} event
+   * @memberof ArtistDetailComponent
+   */
+  public onScroll(event: Event): void {
+    this.scrolledDown = !(event.target['scrollTop'] === 0);
   }
   /**
    * Unsubscribe from infinite observables

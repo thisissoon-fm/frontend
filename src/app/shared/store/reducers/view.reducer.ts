@@ -16,8 +16,8 @@ export function viewReducer(
 ): ViewState {
   switch (action.type) {
     case fromViewActions.SET_ROUTER_SEARCH_ACTIVE: {
-      const rightViewOpen = (<fromViewActions.SetRouterSearchActive>action).payload;
-      return Object.assign({}, state, { rightViewOpen });
+      const routerSearchActive = (<fromViewActions.SetRouterSearchActive>action).payload;
+      return Object.assign({}, state, { routerSearchActive });
     }
 
     case fromViewActions.SET_SEARCH_PAGE_ACTIVE: {

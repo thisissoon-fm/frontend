@@ -6,14 +6,14 @@
   <div class="container-fluid">
 
     <div class="row no-gutters mb-2 pt-3">
-      <div class="col-12 d-flex align-items-center">
+      <div class="col-12 d-flex align-items-center" [@swipeLeftFade]="album ? 'in' : 'out'">
         <a
-          class="text-white h1 mr-2 mb-0"
+          class="text-white h1 mr-2 mb-0 swipe-left-fade"
           (click)="goBack()">
           <i class="icon icon-arrow-left"></i>
         </a>
 
-        <h2 class="mb-0">{{ album?.name }} <small class="text-muted">{{ artistsJoined }}</small></h2>
+        <h2 class="mb-0 swipe-left-fade">{{ album?.name }} <small class="text-muted">{{ artistsJoined }}</small></h2>
       </div>
     </div>
 
@@ -21,6 +21,7 @@
 </div>
 
 <div
+  #mediaList
   class="media-list row no-gutters pl-3"
   snInfiniteScroll
   (onScrollEnd)="getMoreTracks()"

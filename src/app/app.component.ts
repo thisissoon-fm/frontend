@@ -91,7 +91,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((event: NavigationStart) => {
         this.isLoadingPage = (event.url === '/');
         this.isSearchPage = event.url.includes('(search:search)');
-        this.isSearchRouterActive = event.url.includes('(search:');
+        this.isSearchRouterActive = event.url.includes('(search');
         this.sharedStore$.dispatch(new fromSharedStore.SetSearchPageActive(this.isSearchPage));
         this.sharedStore$.dispatch(new fromSharedStore.SetRouterSearchActive(this.isSearchRouterActive));
       });
