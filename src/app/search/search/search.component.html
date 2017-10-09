@@ -3,9 +3,11 @@
     <div class="row">
       <div class="col-12">
 
-        <div class="d-flex justify-content-between">
+        <div
+          class="d-flex justify-content-between"
+          [@swipeLeftFade]="(isSearchPage || isSearchRouterActive) ? 'in' : 'out'">
 
-          <div class="form-group border-left w-75">
+          <div class="form-group border-left w-75 swipe-left-fade">
             <input
               type="text"
               class="form-control"
@@ -14,7 +16,7 @@
               (input)="onSearchInputChange($event)">
           </div>
 
-          <div ngbDropdown class="d-inline-block">
+          <div ngbDropdown class="d-inline-block swipe-left-fade">
             <button class="btn btn-link dropdown-toggle text-secondary" id="search-type-dropdown" ngbDropdownToggle>
               {{ search?.type | titlecase }}s
               <i class="icon icon-caret-down ml-1 small"></i>
@@ -29,7 +31,7 @@
           <a
             [routerLink]="['/home']"
             (click)="inputSearch.value = ''; close()"
-            class="btn btn-link text-secondary">
+            class="btn btn-link text-secondary swipe-left-fade">
             <i class="icon icon-close"></i>
           </a>
 

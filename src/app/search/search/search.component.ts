@@ -4,16 +4,20 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import * as fromSearchStore from '../store';
+import * as fromSharedStore from '../../shared/store';
 import * as fromPlayerStore from '../../player/store';
 import { SearchType, SpotifySearch } from '../../api';
-import { fadeMoveUpAnimation } from '../../shared/animations';
+import { fadeMoveUpAnimation, swipeLeftFadeAnimation } from '../../shared/animations';
 
 
 @Component({
   selector: 'sfm-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  animations: [fadeMoveUpAnimation]
+  animations: [
+    fadeMoveUpAnimation,
+    swipeLeftFadeAnimation
+  ]
 })
 export class SearchComponent implements OnInit, OnDestroy {
   /**
@@ -30,6 +34,20 @@ export class SearchComponent implements OnInit, OnDestroy {
    * @memberof SearchComponent
    */
   public search: fromSearchStore.SearchState;
+  /**
+   * True if search page is active
+   *
+   * @type {boolean}
+   * @memberof SearchComponent
+   */
+  public isSearchPage: boolean;
+  /**
+   * True if search router is active
+   *
+   * @type {boolean}
+   * @memberof SearchComponent
+   */
+  public isSearchRouterActive: boolean;
   /**
    * List of search results
    *
@@ -63,7 +81,8 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   constructor(
     private searchStore$: Store<fromSearchStore.SearchState>,
-    private playerStore$: Store<fromPlayerStore.PlayerState>
+    private playerStore$: Store<fromPlayerStore.PlayerState>,
+    private sharedStore$: Store<fromSharedStore.SharedState>
   ) { }
   /**
    * Subscribe to search
@@ -81,6 +100,12 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     this.searchStore$.select(fromSearchStore.getSearchResults)
       .subscribe((results) => this.results = results);
+
+    this.sharedStore$.select(fromSharedStore.getSearchPageActive)
+      .subscribe((isSearchPage) => this.isSearchPage = isSearchPage);
+
+    this.sharedStore$.select(fromSharedStore.getRouterSearchActive)
+      .subscribe((isSearchRouterActive) => this.isSearchRouterActive = isSearchRouterActive);
   }
   /**
    * Event handler for search input change, send next value
@@ -94,16 +119,15 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.onSearchChange$.next(query);
   }
   /**
-   * Set search query
+   * Load search results
    *
-   * @param {string} query
    * @memberof SearchComponent
    */
   public loadSearchResults(): void {
     this.searchStore$.dispatch(new fromSearchStore.LoadSearchResults());
   }
   /**
-   * Set search type
+   * Set search query
    *
    * @param {string} query
    * @memberof SearchComponent
@@ -115,8 +139,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   /**
    * Set search type
    *
-   * @param {string} query
-   * @param {SearchType} search
+   * @param {SearchType} type
    * @memberof SearchComponent
    */
   public setSearchType(type: SearchType): void {

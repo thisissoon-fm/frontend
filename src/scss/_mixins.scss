@@ -23,7 +23,14 @@
 
 @mixin darken-transition() {
   &::after {
+    background-color: transparent;
+    bottom: 0;
     content: "";
+    left: 0;
+    position: absolute;
+    pointer-events: none;
+    right: 0;
+    top: 0;
     transition: $transition-base;
   }
 }
@@ -31,11 +38,6 @@
 @mixin darken() {
   &::after {
     background-color: rgba($black, .7);
-    bottom: 0;
-    content: "";
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
+    pointer-events: all;
   }
 }

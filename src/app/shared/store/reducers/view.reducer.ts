@@ -29,5 +29,5 @@ export function viewReducer(
   return state;
 }
 
-export const getSearchPageActive = (state: ViewState) => state.searchPageActive;
-export const getRouterSearchActive = (state: ViewState) => state.routerSearchActive;
+export const getSearchPageActiveFromState = (state: ViewState) => state.searchPageActive;
+export const getRouterSearchActiveFromState = (state: ViewState) => state.routerSearchActive;

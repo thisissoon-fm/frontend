@@ -103,7 +103,6 @@ export function searchReducer(
     }
 
     case fromSearch.CLEAR_SEARCH: {
-      console.log('clear search');
       return Object.assign({}, initialState);
     }
   }
