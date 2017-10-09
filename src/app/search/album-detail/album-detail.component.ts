@@ -5,7 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { SpotifyAlbums, PlayerSpotifyAlbumService, SpotifyAlbum, SpotifyTracks } from '../../api';
+import { SpotifyAlbums, SpotifyAlbumService, SpotifyAlbum, SpotifyTracks } from '../../api';
 import { UtilsService, fadeMoveUpAnimation, swipeLeftFadeAnimation } from '../../shared';
 import * as fromPlayerStore from '../../player/store';
 
@@ -81,7 +81,7 @@ export class AlbumDetailComponent implements OnInit {
   /**
    * Creates an instance of AlbumDetailComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
-   * @param {PlayerSpotifyAlbumService} spotifyAlbumService
+   * @param {SpotifyAlbumService} spotifyAlbumService
    * @param {ActivatedRoute} route
    * @param {Location} location
    * @param {UtilsService} utilsSvc
@@ -89,7 +89,7 @@ export class AlbumDetailComponent implements OnInit {
    */
   constructor(
     private playerStore$: Store<fromPlayerStore.PlayerState>,
-    private spotifyAlbumService: PlayerSpotifyAlbumService,
+    private spotifyAlbumService: SpotifyAlbumService,
     private route: ActivatedRoute,
     private location: Location,
     private utilsSvc: UtilsService,

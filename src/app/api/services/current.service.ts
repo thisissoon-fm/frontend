@@ -9,28 +9,28 @@ import { QueueItem } from '../models';
  * Gets the currently playing track or request to skip it
  *
  * @export
- * @class PlayerCurrentService
+ * @class CurrentService
  */
 @Injectable()
-export class PlayerCurrentService {
+export class CurrentService {
   /**
    * Current end point url
    *
    * @private
-   * @memberof PlayerCurrentService
+   * @memberof CurrentService
    */
   private endpointUrl = `${environment.apiUrlPlayer}player/current`;
   /**
-   * Creates an instance of PlayerCurrentService.
+   * Creates an instance of CurrentService.
    * @param {HttpClient} http
-   * @memberof PlayerCurrentService
+   * @memberof CurrentService
    */
   constructor(private http: HttpClient) { }
   /**
    * Returns the currently playing track data
    *
    * @returns {Observable<QueueItem>}
-   * @memberof PlayerCurrentService
+   * @memberof CurrentService
    */
   public get(): Observable<QueueItem> {
     return this.http.get<QueueItem>(this.endpointUrl);
@@ -39,7 +39,7 @@ export class PlayerCurrentService {
    * Skips the currently playing track
    *
    * @returns {Observable<any>}
-   * @memberof PlayerCurrentService
+   * @memberof CurrentService
    */
   public delete(): Observable<any> {
     return this.http.delete<any>(this.endpointUrl);

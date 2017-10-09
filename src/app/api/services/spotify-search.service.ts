@@ -11,21 +11,21 @@ export type SearchType = 'album' | 'artist' | 'track';
  * Searches spotify tracks, albums or artists via the FM api
  *
  * @export
- * @class PlayerSpotifySearchService
+ * @class SpotifySearchService
  */
 @Injectable()
-export class PlayerSpotifySearchService {
+export class SpotifySearchService {
   /**
    * Spotify search endpoint
    *
    * @private
-   * @memberof PlayerSpotifySearchService
+   * @memberof SpotifySearchService
    */
   private endpointUrl = `${environment.apiUrlPlayer}spotify/search`;
   /**
-   * Creates an instance of PlayerSpotifySearchService.
+   * Creates an instance of SpotifySearchService.
    * @param {HttpClient} http
-   * @memberof PlayerSpotifySearchService
+   * @memberof SpotifySearchService
    */
   constructor(private http: HttpClient) { }
   /**
@@ -33,7 +33,7 @@ export class PlayerSpotifySearchService {
    *
    * @param {string} query
    * @returns {Observable<SpotifySearch>}
-   * @memberof PlayerSpotifySearchService
+   * @memberof SpotifySearchService
    */
   public search(query: string, type: SearchType = 'track', params: HttpParams = new HttpParams()): Observable<SpotifySearch> {
     const options: any = { observe: 'response'};

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Title } from '@angular/platform-browser';
 
 import * as currentActions from '../actions/current.action';
-import { PlayerCurrentService, PlayerPauseService, QueueItem } from '../../../api';
+import { CurrentService, PauseService, QueueItem } from '../../../api';
 import { NotificationService } from '../../../notification';
 import { UtilsService } from '../../../shared';
 
@@ -16,7 +16,7 @@ export class CurrentEffects {
   public loadCurrent$: Observable<Action> = this.actions$
     .ofType(currentActions.LOAD_CURRENT)
     .switchMap((params) =>
-      this.playerCurrentSvc.get()
+      this.currentSvc.get()
         .map((item) => new currentActions.LoadCurrentSuccess(item))
         .catch((err) => Observable.of(new currentActions.LoadCurrentFail(err)))
     );
@@ -47,7 +47,7 @@ export class CurrentEffects {
   public removeCurrent$: Observable<Action> = this.actions$
     .ofType(currentActions.REMOVE_CURRENT)
     .do(() =>
-      this.playerCurrentSvc.delete()
+      this.currentSvc.delete()
         .catch((err) => Observable.of(err))
     );
 
@@ -55,7 +55,7 @@ export class CurrentEffects {
   public AddPause$: Observable<Action> = this.actions$
     .ofType(currentActions.ADD_PAUSE)
     .do(() =>
-      this.playerPauseSvc.post()
+      this.pauseSvc.post()
         .catch((err) => Observable.of(err))
     );
 
@@ -63,15 +63,15 @@ export class CurrentEffects {
   public removePause$: Observable<Action> = this.actions$
     .ofType(currentActions.REMOVE_PAUSE)
     .do(() =>
-      this.playerPauseSvc.delete()
+      this.pauseSvc.delete()
         .catch((err) => Observable.of(err))
     );
 
 
   constructor(
     private actions$: Actions,
-    private playerCurrentSvc: PlayerCurrentService,
-    private playerPauseSvc: PlayerPauseService,
+    private currentSvc: CurrentService,
+    private pauseSvc: PauseService,
     private notificationSvc: NotificationService,
     private utilsSvc: UtilsService,
     private title: Title,

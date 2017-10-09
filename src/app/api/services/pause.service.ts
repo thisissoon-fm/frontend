@@ -9,28 +9,28 @@ import { environment } from '../../../environments/environment';
  * current track playback
  *
  * @export
- * @class PlayerPauseService
+ * @class PauseService
  */
 @Injectable()
-export class PlayerPauseService {
+export class PauseService {
   /**
    * Pause end point url
    *
    * @private
-   * @memberof PlayerPauseService
+   * @memberof PauseService
    */
   private endpointUrl = `${environment.apiUrlPlayer}player/pause`;
   /**
-   * Creates an instance of PlayerPauseService.
+   * Creates an instance of PauseService.
    * @param {HttpClient} http
-   * @memberof PlayerPauseService
+   * @memberof PauseService
    */
   constructor(private http: HttpClient) { }
   /**
    * Pause current track playback
    *
    * @returns {Observable<any>}
-   * @memberof PlayerPauseService
+   * @memberof PauseService
    */
   public post(): Observable<any> {
     return this.http.post<any>(this.endpointUrl, {});
@@ -39,7 +39,7 @@ export class PlayerPauseService {
    * Resume current track playback
    *
    * @returns {Observable<any>}
-   * @memberof PlayerPauseService
+   * @memberof PauseService
    */
   public delete(): Observable<any> {
     return this.http.delete<any>(this.endpointUrl);

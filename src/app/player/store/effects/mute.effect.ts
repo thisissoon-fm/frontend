@@ -4,7 +4,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import * as muteActions from '../actions/mute.action';
-import { PlayerMuteService } from '../../../api';
+import { MuteService } from '../../../api';
 
 @Injectable()
 export class MuteEffects {
@@ -13,7 +13,7 @@ export class MuteEffects {
   public loadMute$: Observable<Action> = this.actions$
     .ofType(muteActions.LOAD_MUTE)
     .switchMap(() =>
-      this.playerMuteSvc.get()
+      this.muteSvc.get()
         .map((mute) => new muteActions.LoadMuteSuccess(mute))
         .catch((err) => Observable.of(new muteActions.LoadMuteFail(err)))
     );
@@ -22,7 +22,7 @@ export class MuteEffects {
   public AddMute$ = this.actions$
     .ofType(muteActions.ADD_MUTE)
     .do(() =>
-      this.playerMuteSvc.post()
+      this.muteSvc.post()
         .catch((err) => Observable.of(err))
     );
 
@@ -30,13 +30,13 @@ export class MuteEffects {
   public removeMute$ = this.actions$
     .ofType(muteActions.REMOVE_MUTE)
     .do(() =>
-      this.playerMuteSvc.delete()
+      this.muteSvc.delete()
         .catch((err) => Observable.of(err))
     );
 
 
   constructor(
     private actions$: Actions,
-    private playerMuteSvc: PlayerMuteService
+    private muteSvc: MuteService
   ) { }
 }

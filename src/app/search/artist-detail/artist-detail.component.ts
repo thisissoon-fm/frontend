@@ -9,7 +9,7 @@ import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
 import { UtilsService, fadeMoveUpAnimation, swipeLeftFadeAnimation } from '../../shared';
 import * as fromPlayerStore from '../../player/store';
-import { SpotifyArtist, SpotifySearch, SpotifyAlbums, PlayerSpotifyArtistService } from '../../api';
+import { SpotifyArtist, SpotifySearch, SpotifyAlbums, SpotifyArtistService } from '../../api';
 
 @Component({
   selector: 'sfm-artist-detail',
@@ -136,14 +136,14 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
   /**
    * Creates an instance of ArtistDetailComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
-   * @param {PlayerSpotifyArtistService} spotifyArtistService
+   * @param {SpotifyArtistService} spotifyArtistService
    * @param {ActivatedRoute} route
    * @param {UtilsService} utilsSvc
    * @memberof ArtistDetailComponent
    */
   constructor(
     private playerStore$: Store<fromPlayerStore.PlayerState>,
-    private spotifyArtistService: PlayerSpotifyArtistService,
+    private spotifyArtistService: SpotifyArtistService,
     private route: ActivatedRoute,
     private location: Location,
     private utilsSvc: UtilsService,

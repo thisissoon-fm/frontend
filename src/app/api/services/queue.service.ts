@@ -9,21 +9,21 @@ import { QueueItem, QueueMeta, QueueResponse } from '../models';
  * Get queue items, add a track to queue or remove a track from queue
  *
  * @export
- * @class PlayerQueueService
+ * @class QueueService
  */
 @Injectable()
-export class PlayerQueueService {
+export class QueueService {
   /**
    * Queue endpoint url
    *
    * @private
-   * @memberof PlayerQueueService
+   * @memberof QueueService
    */
   private endpointUrl = `${environment.apiUrlPlayer}player/queue`;
   /**
-   * Creates an instance of PlayerQueueService.
+   * Creates an instance of QueueService.
    * @param {HttpClient} http
-   * @memberof PlayerQueueService
+   * @memberof QueueService
    */
   constructor(private http: HttpClient) { }
   /**
@@ -31,7 +31,7 @@ export class PlayerQueueService {
    *
    * @param {HttpParams} [params]
    * @returns {Observable<QueueItem[]>}
-   * @memberof PlayerQueueService
+   * @memberof QueueService
    */
   public query(params: HttpParams = new HttpParams()): Observable<QueueResponse> {
     const options: any = { params, observe: 'response' };
@@ -53,7 +53,7 @@ export class PlayerQueueService {
    *
    * @param {string} uri
    * @returns {Observable<any>}
-   * @memberof PlayerQueueService
+   * @memberof QueueService
    */
   public post(uri: string): Observable<any> {
     return this.http.post<any>(this.endpointUrl, { uri });
@@ -63,7 +63,7 @@ export class PlayerQueueService {
    *
    * @param {string} uuid
    * @returns {Observable<any>}
-   * @memberof PlayerQueueService
+   * @memberof QueueService
    */
   public delete(uuid: string): Observable<any> {
     return this.http.delete(`${this.endpointUrl}/${uuid}`);
@@ -72,7 +72,7 @@ export class PlayerQueueService {
    * Gets queue meta data
    *
    * @returns {Observable<QueueMeta>}
-   * @memberof PlayerQueueService
+   * @memberof QueueService
    */
   public getMeta(): Observable<QueueMeta> {
     return this.http.get<QueueMeta>(`${this.endpointUrl}/meta`);

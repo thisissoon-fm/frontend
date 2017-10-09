@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as fromSearchActions from '../actions/search.action';
 import { SearchState, getSearchState } from '../reducers';
-import { PlayerSpotifySearchService, PlayerSpotifyArtistService } from '../../../api';
+import { SpotifySearchService } from '../../../api';
 
 @Injectable()
 export class SearchEffects {
@@ -42,6 +42,6 @@ export class SearchEffects {
   constructor(
     private actions$: Actions,
     private store$: Store<SearchState>,
-    private spotifySearchSvc: PlayerSpotifySearchService
+    private spotifySearchSvc: SpotifySearchService
   ) { }
 }
