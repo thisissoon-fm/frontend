@@ -6,31 +6,31 @@
   <div class="container-fluid">
 
     <div class="row no-gutters mb-2 pt-3">
-      <div class="col-12 d-flex align-items-center">
+      <div class="col-12 d-flex align-items-center" [@swipeLeftFade]="artist ? 'in' : 'out'">
 
         <a
-          class="text-white h1 mb-0 mr-3"
+          class="text-white swipe-left-fade h1 mb-0 mr-3"
           (click)="goBack()"
           *ngIf="artist">
           <i class="icon icon-arrow-left"></i>
         </a>
 
-        <h2 class="mr-3 mb-0">{{ artist?.name }}</h2>
+        <h2 class="mr-3 mb-0 swipe-left-fade">{{ artist?.name }}</h2>
 
         <!-- <button type="button" class="btn btn-outline-primary btn-sm text-white btn-rounded pr-2 pl-2 mr-2">Follow</button> -->
 
-        <p class="text-muted mb-0" *ngIf="artist">{{ artist?.followers?.total | number }} followers</p>
+        <p class="text-muted mb-0 swipe-left-fade" *ngIf="artist">{{ artist?.followers?.total | number }} followers</p>
 
-        <div *ngIf="artist" ngbDropdown class="d-inline-block ml-auto">
+        <div *ngIf="artist" ngbDropdown class="d-inline-block ml-auto swipe-left-fade">
           <button class="btn btn-link dropdown-toggle text-primary" id="artist-dropdown" ngbDropdownToggle>
             {{ selectedTab }}
             <i class="icon icon-caret-down ml-1 small text-white"></i>
           </button>
           <div ngbDropdownMenu aria-labelledby="artist-dropdown" class="bg-secondary">
-            <button class="dropdown-item text-white" (click)="selectedTab = 'Top tracks';tabset.select('top-tracks')">Top tracks</button>
-            <button class="dropdown-item text-white" (click)="selectedTab = 'Albums';tabset.select('albums')">Albums</button>
-            <button class="dropdown-item text-white" (click)="selectedTab = 'Singles';tabset.select('singles')">Singles</button>
-            <button class="dropdown-item text-white" (click)="selectedTab = 'Related artists';tabset.select('related')">Related artists</button>
+            <button class="dropdown-item text-white" (click)="selectTab('top-tracks')">Top tracks</button>
+            <button class="dropdown-item text-white" (click)="selectTab('albums')">Albums</button>
+            <button class="dropdown-item text-white" (click)="selectTab('singles')">Singles</button>
+            <button class="dropdown-item text-white" (click)="selectTab('related')">Related artists</button>
           </div>
         </div>
       </div>
@@ -41,6 +41,7 @@
 </div>
 
 <div
+  #mediaList
   class="media-list"
   snInfiniteScroll
   (onScrollEnd)="onScrollEnd(tabset.activeId)"
@@ -49,8 +50,8 @@
   <ngb-tabset class="d-block w-100" #tabset="ngbTabset">
     <ngb-tab id="top-tracks" title="Top tracks">
       <ng-template ngbTabContent>
-        <ul class="list-unstyled w-100 pl-3">
-          <li *ngFor="let item of topTracks?.tracks">
+        <ul class="list-unstyled w-100 pl-3" [@fadeMoveUp]="topTracks?.tracks?.items.length || 0">
+          <li *ngFor="let item of topTracks?.tracks.items">
 
             <div class="row no-gutters">
 
@@ -76,7 +77,7 @@
 
         <div class="grid-padding">
           <div class="container-fluid">
-            <ul class="list-unstyled row">
+            <ul class="list-unstyled row" [@fadeMoveUp]="albums?.items?.length || 0">
               <li
                 class="col-4"
                 *ngFor="let item of albums?.items">
@@ -107,7 +108,7 @@
         <div class="grid-padding">
           <div class="container-fluid">
 
-            <ul class="list-unstyled row">
+            <ul class="list-unstyled row" [@fadeMoveUp]="singles?.items?.length || 0">
               <li
                 class="col-4"
                 *ngFor="let item of singles?.items">
@@ -137,8 +138,8 @@
     </ngb-tab>
     <ngb-tab id="related" class="container-fluid pl-3 pr-3" title="Related">
       <ng-template ngbTabContent>
-        <ul class="list-unstyled w-100 pl-3">
-          <li *ngFor="let item of related?.artists">
+        <ul class="list-unstyled w-100 pl-3" [@fadeMoveUp]="related?.artists?.items.length || 0">
+          <li *ngFor="let item of related?.artists.items">
 
             <div class="row no-gutters">
 

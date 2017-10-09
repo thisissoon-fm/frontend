@@ -32,7 +32,19 @@
   }
 }
 
+sfm-nav,
+.router-default::after,
+.router-search {
+  transition-delay: .5s;
+}
+
 :host(.is-router-search-active) {
+  sfm-nav,
+  .router-search,
+  .router-default::after {
+    transition-delay: 0s;
+  }
+
   sfm-nav {
     right: 40vw;
   }

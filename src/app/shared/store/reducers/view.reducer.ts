@@ -16,8 +16,8 @@ export function viewReducer(
 ): ViewState {
   switch (action.type) {
     case fromViewActions.SET_ROUTER_SEARCH_ACTIVE: {
-      const rightViewOpen = (<fromViewActions.SetRouterSearchActive>action).payload;
-      return Object.assign({}, state, { rightViewOpen });
+      const routerSearchActive = (<fromViewActions.SetRouterSearchActive>action).payload;
+      return Object.assign({}, state, { routerSearchActive });
     }
 
     case fromViewActions.SET_SEARCH_PAGE_ACTIVE: {
@@ -29,5 +29,5 @@ export function viewReducer(
   return state;
 }
 
-export const getSearchPageActive = (state: ViewState) => state.searchPageActive;
-export const getRouterSearchActive = (state: ViewState) => state.routerSearchActive;
+export const getSearchPageActiveFromState = (state: ViewState) => state.searchPageActive;
+export const getRouterSearchActiveFromState = (state: ViewState) => state.routerSearchActive;

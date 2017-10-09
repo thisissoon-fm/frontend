@@ -12,7 +12,12 @@
 }
 
 .img-clip.img-hero {
-  padding-bottom: 20%;
+  padding-bottom: 50vh;
+  transition: padding-bottom .35s linear;
+
+  :host(.scrolled-down) & {
+    padding-bottom: 20vh;
+  }
 }
 
 .media-list {

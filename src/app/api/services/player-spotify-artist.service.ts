@@ -86,7 +86,7 @@ export class PlayerSpotifyArtistService {
       .set('limit', `${environment.apiLimit}`);
     options.params = params;
     return this.http.get<SpotifySearch>(`${this.endpointUrl}/${id}/top-tracks`, options)
-      .map((event: HttpResponse<SpotifySearch>) => event.body);
+      .map((event: HttpResponse<SpotifySearch>) => <any>{ tracks: { items: event.body.tracks } });
   }
   /**
    * Get an artists related artists
@@ -96,6 +96,7 @@ export class PlayerSpotifyArtistService {
    * @memberof PlayerSpotifyArtistService
    */
   public getRelatedArtists(id: string): Observable<SpotifySearch> {
-    return this.http.get<SpotifySearch>(`${this.endpointUrl}/${id}/related-artists`);
+    return this.http.get<SpotifySearch>(`${this.endpointUrl}/${id}/related-artists`)
+      .map((res) => <any>{ artists: { items: res.artists } });
   }
 }

@@ -3,19 +3,22 @@
     <div class="row">
       <div class="col-12">
 
-        <div class="d-flex justify-content-between">
+        <div
+          class="d-flex justify-content-between"
+          [@swipeLeftFade]="(isSearchPage || isSearchRouterActive) ? 'in' : 'out'">
 
-          <div class="form-group border-left w-75">
+          <div class="form-group border-left w-75 swipe-left-fade">
             <input
               type="text"
               class="form-control"
+              #inputSearch
               placeholder="Start searching here…"
               (input)="onSearchInputChange($event)">
           </div>
 
-          <div ngbDropdown class="d-inline-block">
+          <div ngbDropdown class="d-inline-block swipe-left-fade">
             <button class="btn btn-link dropdown-toggle text-secondary" id="search-type-dropdown" ngbDropdownToggle>
-              {{ (search$ | async)?.type | titlecase }}s
+              {{ search?.type | titlecase }}s
               <i class="icon icon-caret-down ml-1 small"></i>
             </button>
             <div ngbDropdownMenu aria-labelledby="search-type-dropdown">
@@ -27,8 +30,8 @@
 
           <a
             [routerLink]="['/home']"
-            (click)="close()"
-            class="btn btn-link text-secondary">
+            (click)="inputSearch.value = ''; close()"
+            class="btn btn-link text-secondary swipe-left-fade">
             <i class="icon icon-close"></i>
           </a>
 
@@ -42,28 +45,28 @@
 
 <div
   class="list-search"
-  [ngClass]="{'grid-padding': (search$ | async)?.type !== 'track'}"
+  [ngClass]="{'grid-padding': search?.type !== 'track'}"
   snInfiniteScroll
   (onScrollEnd)="onScrollEnd()"
   [offset]="200"
-  [disabled]="(allResultsLoaded | async) || (search$ | async)?.loading">
+  [disabled]="allResultsLoaded || search?.loading">
 
-  <div  [ngClass]="{'container-fluid': (search$ | async)?.type !== 'track'}">
+  <div [ngClass]="{'container-fluid': search?.type !== 'track'}">
 
     <ul
-      *ngIf="(search$ | async)?.results?.length"
+      [@fadeMoveUp]="results?.length"
       class="row list-unstyled"
-      [ngSwitch]="(search$ | async)?.type"
-      [ngClass]="{'no-gutters': (search$ | async)?.type === 'track'}">
+      [ngSwitch]="search?.type"
+      [ngClass]="{'no-gutters': search?.type === 'track'}">
 
 
       <li
         class="pb-3 "
-        *ngFor="let item of (search$ | async)?.results"
-        [ngSwitch]="(search$ | async)?.type"
+        *ngFor="let item of results"
+        [ngSwitch]="search?.type"
         [ngClass]="{
-          'col-6': (search$ | async)?.type === 'album',
-          'col-12': (search$ | async)?.type !== 'album'
+          'col-6': search?.type === 'album',
+          'col-12': search?.type !== 'album'
         }">
 
         <sfm-track
@@ -90,11 +93,11 @@
       </li>
     </ul>
 
-    <ng-template [ngIf]="(search$ | async).loading">
+    <ng-template [ngIf]="search?.loading">
       <p class="text-center pt-3 pb-3">Loading…</p>
     </ng-template>
 
-    <ng-template [ngIf]="(search$ | async)?.results?.length === 0 && (search$ | async)?.query?.length >= 3 && !(search$ | async)?.loading">
+    <ng-template [ngIf]="results?.length === 0 && search?.query?.length >= 3 && !search?.loading">
       <p class="text-center">Sorry, we couldn't find any results for your search</p>
     </ng-template>
   </div>

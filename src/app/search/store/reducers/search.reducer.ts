@@ -112,6 +112,6 @@ export function searchReducer(
 
 export const getSearchResultsLoaded = (state: SearchState) => state.loaded;
 export const getSearchResultsLoading = (state: SearchState) => state.loading;
-export const getSearchResults = (state: SearchState) => state.results;
+export const getResults = (state: SearchState) => state.results;
 export const getSearchQuery = (state: SearchState) => state.query;
 export const getSearchType = (state: SearchState) => state.type;

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, HostListener, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
@@ -6,13 +6,17 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { SpotifyAlbums, PlayerSpotifyAlbumService, SpotifyAlbum, SpotifyTracks } from '../../api';
-import { UtilsService } from '../../shared';
+import { UtilsService, fadeMoveUpAnimation, swipeLeftFadeAnimation } from '../../shared';
 import * as fromPlayerStore from '../../player/store';
 
 @Component({
   selector: 'sfm-album-detail',
   templateUrl: './album-detail.component.html',
-  styleUrls: ['./album-detail.component.scss']
+  styleUrls: ['./album-detail.component.scss'],
+  animations: [
+    fadeMoveUpAnimation,
+    swipeLeftFadeAnimation
+  ]
 })
 export class AlbumDetailComponent implements OnInit {
   /**
@@ -30,6 +34,14 @@ export class AlbumDetailComponent implements OnInit {
    */
   public tracks: SpotifyTracks;
   /**
+   * Reference to mediaList element
+   *
+   * @type {ElementRef}
+   * @memberof AlbumDetailComponent
+   */
+  @ViewChild('mediaList')
+  public mediaList: ElementRef;
+  /**
    * True if component is loading data
    *
    * @type {boolean}
@@ -37,6 +49,14 @@ export class AlbumDetailComponent implements OnInit {
    */
   @HostBinding('class.is-loading')
   public loading = true;
+  /**
+   * If the user has scrolled down the component
+   *
+   * @type {boolean}
+   * @memberof AlbumDetailComponent
+   */
+  @HostBinding('class.scrolled-down')
+  public scrolledDown = false;
   /**
    * Returns album image or empty string if one doesn't exist
    *
@@ -72,7 +92,8 @@ export class AlbumDetailComponent implements OnInit {
     private spotifyAlbumService: PlayerSpotifyAlbumService,
     private route: ActivatedRoute,
     private location: Location,
-    private utilsSvc: UtilsService
+    private utilsSvc: UtilsService,
+    private renderer: Renderer2
   ) { }
   /**
    * Get album details
@@ -95,6 +116,8 @@ export class AlbumDetailComponent implements OnInit {
             this.loading = false;
           });
       });
+
+    this.renderer.listen(this.mediaList.nativeElement, 'scroll', (event) => this.onScroll(event));
   }
   /**
    * Return artists as a string of names
@@ -146,5 +169,14 @@ export class AlbumDetailComponent implements OnInit {
    */
   public goBack() {
     this.location.back();
+  }
+  /**
+   * Event handler for scroll event
+   *
+   * @param {Event} event
+   * @memberof AlbumDetailComponent
+   */
+  public onScroll(event: Event): void {
+    this.scrolledDown = !(event.target['scrollTop'] === 0);
   }
 }
