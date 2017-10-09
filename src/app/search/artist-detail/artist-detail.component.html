@@ -27,10 +27,10 @@
             <i class="icon icon-caret-down ml-1 small text-white"></i>
           </button>
           <div ngbDropdownMenu aria-labelledby="artist-dropdown" class="bg-secondary">
-            <button class="dropdown-item text-white" (click)="selectedTab = 'Top tracks';tabset.select('top-tracks')">Top tracks</button>
-            <button class="dropdown-item text-white" (click)="selectedTab = 'Albums';tabset.select('albums')">Albums</button>
-            <button class="dropdown-item text-white" (click)="selectedTab = 'Singles';tabset.select('singles')">Singles</button>
-            <button class="dropdown-item text-white" (click)="selectedTab = 'Related artists';tabset.select('related')">Related artists</button>
+            <button class="dropdown-item text-white" (click)="selectTab('top-tracks')">Top tracks</button>
+            <button class="dropdown-item text-white" (click)="selectTab('albums')">Albums</button>
+            <button class="dropdown-item text-white" (click)="selectTab('singles')">Singles</button>
+            <button class="dropdown-item text-white" (click)="selectTab('related')">Related artists</button>
           </div>
         </div>
       </div>
@@ -49,8 +49,8 @@
   <ngb-tabset class="d-block w-100" #tabset="ngbTabset">
     <ngb-tab id="top-tracks" title="Top tracks">
       <ng-template ngbTabContent>
-        <ul class="list-unstyled w-100 pl-3">
-          <li *ngFor="let item of topTracks?.tracks">
+        <ul class="list-unstyled w-100 pl-3" [@fadeMoveUp]="topTracks?.tracks?.items.length || 0">
+          <li *ngFor="let item of topTracks?.tracks.items">
 
             <div class="row no-gutters">
 
@@ -76,7 +76,7 @@
 
         <div class="grid-padding">
           <div class="container-fluid">
-            <ul class="list-unstyled row">
+            <ul class="list-unstyled row" [@fadeMoveUp]="albums?.items?.length || 0">
               <li
                 class="col-4"
                 *ngFor="let item of albums?.items">
@@ -107,7 +107,7 @@
         <div class="grid-padding">
           <div class="container-fluid">
 
-            <ul class="list-unstyled row">
+            <ul class="list-unstyled row" [@fadeMoveUp]="singles?.items?.length || 0">
               <li
                 class="col-4"
                 *ngFor="let item of singles?.items">
@@ -137,8 +137,8 @@
     </ngb-tab>
     <ngb-tab id="related" class="container-fluid pl-3 pr-3" title="Related">
       <ng-template ngbTabContent>
-        <ul class="list-unstyled w-100 pl-3">
-          <li *ngFor="let item of related?.artists">
+        <ul class="list-unstyled w-100 pl-3" [@fadeMoveUp]="related?.artists?.items.length || 0">
+          <li *ngFor="let item of related?.artists.items">
 
             <div class="row no-gutters">
 

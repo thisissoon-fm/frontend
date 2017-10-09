@@ -29,7 +29,7 @@ export class AlbumDetailComponent implements OnInit {
    * @type {SpotifyTracks}
    * @memberof AlbumDetailComponent
    */
-  public tracks: SpotifyTracks = <any>{items: []};
+  public tracks: SpotifyTracks;
   /**
    * True if component is loading data
    *

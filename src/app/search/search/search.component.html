@@ -9,6 +9,7 @@
             <input
               type="text"
               class="form-control"
+              #inputSearch
               placeholder="Start searching here…"
               (input)="onSearchInputChange($event)">
           </div>
@@ -27,7 +28,7 @@
 
           <a
             [routerLink]="['/home']"
-            (click)="close()"
+            (click)="inputSearch.value = ''; close()"
             class="btn btn-link text-secondary">
             <i class="icon icon-close"></i>
           </a>
@@ -48,7 +49,7 @@
   [offset]="200"
   [disabled]="allResultsLoaded || search?.loading">
 
-  <div  [ngClass]="{'container-fluid': search?.type !== 'track'}">
+  <div [ngClass]="{'container-fluid': search?.type !== 'track'}">
 
     <ul
       [@fadeMoveUp]="results?.length"

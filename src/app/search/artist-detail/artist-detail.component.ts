@@ -5,15 +5,17 @@ import { HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
-import { UtilsService } from '../../shared';
+import { UtilsService, fadeMoveUpAnimation } from '../../shared';
 import * as fromPlayerStore from '../../player/store';
 import { SpotifyArtist, SpotifySearch, SpotifyAlbums, PlayerSpotifyArtistService } from '../../api';
 
 @Component({
   selector: 'sfm-artist-detail',
   templateUrl: './artist-detail.component.html',
-  styleUrls: ['./artist-detail.component.scss']
+  styleUrls: ['./artist-detail.component.scss'],
+  animations: [fadeMoveUpAnimation]
 })
 export class ArtistDetailComponent implements OnInit, OnDestroy {
   /**
@@ -58,6 +60,13 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
    * @memberof ArtistDetailComponent
    */
   public selectedTab = 'Top tracks';
+  /**
+   *
+   * @type {NgbTabset}
+   * @memberof ArtistDetailComponent
+   */
+  @ViewChild('tabset')
+  public tabset: NgbTabset;
   /**
    * True if component is loading data
    *
@@ -154,6 +163,52 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
             this.loading = false;
           });
       });
+  }
+  /**
+   * Tabset select handler
+   *
+   * @param {('top-tracks' | 'albums' | 'singles' | 'related')} id
+   * @memberof ArtistDetailComponent
+   */
+  public selectTab(id: 'top-tracks' | 'albums' | 'singles' | 'related'): void {
+    switch (id) {
+      case 'top-tracks':
+        this.selectedTab = 'Top tracks';
+        this.tabset.select('top-tracks');
+        const tracks = this.topTracks;
+        this.topTracks = null;
+        Observable.interval(0)
+          .take(1)
+          .subscribe(() => this.topTracks = tracks);
+        break;
+      case 'albums':
+        this.selectedTab = 'Albums';
+        this.tabset.select('albums');
+        const albums = this.albums;
+        this.albums = null;
+        Observable.interval(0)
+          .take(1)
+          .subscribe(() => this.albums = albums);
+        break;
+      case 'singles':
+        this.selectedTab = 'Singles';
+        this.tabset.select('singles');
+        const singles = this.singles;
+        this.singles = null;
+        Observable.interval(0)
+          .take(1)
+          .subscribe(() => this.singles = singles);
+        break;
+      case 'related':
+        this.selectedTab = 'Related artists';
+        this.tabset.select('related');
+        const related = this.related;
+        this.related = null;
+        Observable.interval(0)
+          .take(1)
+          .subscribe(() => this.related = related);
+        break;
+    }
   }
   /**
    * Add to queue

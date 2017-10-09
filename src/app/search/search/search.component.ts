@@ -80,10 +80,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       .subscribe((search) => this.search = search);
 
     this.searchStore$.select(fromSearchStore.getSearchResults)
-      .subscribe((results) => {
-        console.log(results);
-        this.results = results;
-      });
+      .subscribe((results) => this.results = results);
   }
   /**
    * Event handler for search input change, send next value
