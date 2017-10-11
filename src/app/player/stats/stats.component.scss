@@ -2,6 +2,11 @@
   display: block;
 }
 
+.img-clip {
+  padding-bottom: 3.125rem; // ~50px
+  width: 3.125rem; // ~50px
+}
+
 @media (max-height: 48rem) { // ~768px
   :host {
     display: none;

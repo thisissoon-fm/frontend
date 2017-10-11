@@ -5,10 +5,10 @@
 
 export const environment = {
   production: false,
-  apiUrlPlayer: 'http://localhost:5000/',
+  apiUrlPlayer: 'https://api.thisissoon.fm/',
   apiUrlSpotify: 'https://api.spotify.com/v1/',
   playerAuthHeader: 'Access-Token',
-  playerSocketUrl: 'http://localhost:8080/',
+  playerSocketUrl: 'https://ws.thisissoon.fm/',
   googleClientId: '999522755620-6eqk606akoip4malaqp4pndnb2i9v8v1.apps.googleusercontent.com',
   googleRedirectUri: 'http://localhost:3000/',
   googleAuthTokenPrefix: 'sn_fm',

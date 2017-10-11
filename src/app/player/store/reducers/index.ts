@@ -2,6 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromCurrent from './current.reducer';
 import * as fromMute from './mute.reducer';
+import * as fromStats from './stats.reducer';
 import * as fromQueue from './queue.reducer';
 import * as fromVolume from './volume.reducer';
 
@@ -11,13 +12,15 @@ export interface PlayerState {
   mute: fromMute.MuteState;
   queue: fromQueue.QueueState;
   volume: fromVolume.VolumeState;
+  stats: fromStats.StatsState;
 }
 
 export const reducers = {
   current: fromCurrent.currentReducer,
   mute: fromMute.muteReducer,
   queue: fromQueue.queueReducer,
-  volume: fromVolume.volumeReducer
+  volume: fromVolume.volumeReducer,
+  stats: fromStats.statsReducer
 };
 
 export const getPlayerState = createFeatureSelector<PlayerState>('player');
@@ -77,6 +80,18 @@ export const getVolume = createSelector(
   getVolumeState,
   fromVolume.getVolume
 );
+
+export const getStatsState = createSelector(
+  getPlayerState,
+  (state: PlayerState) => state.stats
+);
+
+export const getStats = createSelector(
+  getStatsState,
+  fromStats.getStats
+);
+
+export { StatsState } from './stats.reducer';
 
 export const getLoadedState = createSelector(
   getPlayerState,
