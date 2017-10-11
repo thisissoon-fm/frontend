@@ -2,8 +2,8 @@
 
 <div class="leaderboard text-center">
 
-  <ul class="list-inline row">
-    <li class="list-inline-item col" *ngFor="let item of (stats$ | async)?.most_played_tracks | slice: 0:3; let i = index">
+  <ul class="list-inline row" [@fadeMoveUp]="stats?.most_played_tracks || 0">
+    <li class="list-inline-item col" *ngFor="let item of stats?.most_played_tracks | slice: 0:3; let i = index">
       <div
         class="img-clip mb-1 ml-auto mr-auto"
         [ngStyle]="{'background-image': 'url(' + item.track.album.images[item.track.album.images.length - 1].url + ')'}">

@@ -3,11 +3,13 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import * as fromPlayerStore from '../../player/store';
+import { fadeMoveUpAnimation } from '../../shared/animations';
 
 @Component({
   selector: 'sfm-stats',
   templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.scss']
+  styleUrls: ['./stats.component.scss'],
+  animations: [fadeMoveUpAnimation]
 })
 export class StatsComponent implements OnInit {
   /**
@@ -16,7 +18,7 @@ export class StatsComponent implements OnInit {
    * @type {Observable<any>}
    * @memberof StatsComponent
    */
-  public stats$: Observable<any>;
+  public stats: any;
   /**
    * Creates an instance of StatsComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
@@ -24,11 +26,13 @@ export class StatsComponent implements OnInit {
    */
   constructor(public playerStore$: Store<fromPlayerStore.PlayerState>) { }
   /**
-   * Get stats data from store and attact it component property
+   * Get stats data from store and attact it to component property
    *
    * @memberof StatsComponent
    */
   public ngOnInit(): void {
-    this.stats$ = this.playerStore$.select(fromPlayerStore.getStats);
+    this.playerStore$.select(fromPlayerStore.getStats)
+      .delay(0)
+      .subscribe(stats => this.stats = stats);
   }
 }
