@@ -2,7 +2,7 @@
 
 <div class="leaderboard text-center">
 
-  <ul class="list-inline row" [@fadeMoveUp]="stats?.most_played_tracks || 0">
+  <ul class="list-inline row" [@fadeMoveUp]="stats?.most_played_tracks || 0" *ngIf="stats?.most_played_tracks?.length; else noStats">
     <li class="list-inline-item col" *ngFor="let item of stats?.most_played_tracks | slice: 0:3; let i = index">
       <div
         class="img-clip mb-1 ml-auto mr-auto"
@@ -16,6 +16,10 @@
       </p>
     </li>
   </ul>
+
+  <ng-template #noStats>
+    <p>Sorry there's no stats data</p>
+  </ng-template>
 
   <!-- <a href="#" class="font-weight-bold pt-0 pb-0">View more</a> -->
 

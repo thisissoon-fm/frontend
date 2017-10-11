@@ -30,7 +30,7 @@
       {{ item.album?.name }}
     </p>
     <p *ngIf="!small" class="mb-0">
-      {{ item.duration_ms | date:'m:ss' }}
+      {{ item.duration_ms | duration }}
       <!-- TODO: Add genre if possible <span class="seperator"></span> Rap-->
     </p>
   </div>

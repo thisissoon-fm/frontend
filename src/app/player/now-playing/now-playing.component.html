@@ -3,7 +3,7 @@
     <p class="font-weight-bold text-primary mb-0">Playing now</p>
   </div>
   <div class="col-6">
-    <p class="font-weight-bold text-muted text-right mb-0 pr-3">{{ (meta$ | async)?.play_time | date:'m:ss' }} of playing time</p>
+    <p class="font-weight-bold text-muted text-right mb-0 pr-3">{{ (meta$ | async)?.play_time | duration }} of playing time</p>
   </div>
   <div class="col-12">
     <hr>
@@ -26,7 +26,7 @@
     <!-- TODO: Equaliser -->
   </div>
   <div class="col-6 text-right pr-3">
-    <p class="mb-0">{{ (current$ | async)?.player?.elapsed_time | date:'m:ss' }} / {{ (current$ | async)?.track?.duration | date:'m:ss' }}</p>
+    <p class="mb-0">{{ (current$ | async)?.player?.elapsed_time | duration }} / {{ (current$ | async)?.track?.duration | duration }}</p>
   </div>
 </div>
 

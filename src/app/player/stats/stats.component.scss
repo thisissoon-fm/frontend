@@ -7,6 +7,10 @@
   width: 3.125rem; // ~50px
 }
 
+.leaderboard {
+  min-height: 15rem; // ~240px
+}
+
 @media (max-height: 48rem) { // ~768px
   :host {
     display: none;
