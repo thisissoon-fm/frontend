@@ -3,6 +3,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from './store';
 
 import { UtilsService } from './utils';
+import { DurationPipe } from './duration';
 
 
 const providers: Provider[] = [
@@ -12,7 +13,13 @@ const providers: Provider[] = [
 @NgModule({
   imports: [
     StoreModule.forFeature('shared', reducers)
-  ]
+  ],
+  declarations: [
+    DurationPipe
+  ],
+  exports: [
+    DurationPipe
+  ],
 })
 export class SharedModule {
   /**
