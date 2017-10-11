@@ -4,9 +4,13 @@
 // Styling for leaderboard module
 
 .leaderboard {
+  align-items: center;
   border-bottom: 2px solid $grey-20a;
   border-left: 2px solid $grey-20a;
   border-top: 2px solid $grey-20a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding-bottom: 2.5rem; // ~40px
   padding-top: 3.75rem; // ~ 60px
 

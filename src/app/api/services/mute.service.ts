@@ -10,28 +10,28 @@ import { Mute } from '../models';
  * unmute
  *
  * @export
- * @class PlayerMuteService
+ * @class MuteService
  */
 @Injectable()
-export class PlayerMuteService {
+export class MuteService {
   /**
    * Mute end point url
    *
    * @private
-   * @memberof PlayerMuteService
+   * @memberof MuteService
    */
   private endpointUrl = `${environment.apiUrlPlayer}player/mute`;
   /**
-   * Creates an instance of PlayerMuteService.
+   * Creates an instance of MuteService.
    * @param {HttpClient} http
-   * @memberof PlayerMuteService
+   * @memberof MuteService
    */
   constructor(private http: HttpClient) { }
   /**
    * Get player mute status
    *
    * @returns {Observable<Mute>}
-   * @memberof PlayerMuteService
+   * @memberof MuteService
    */
   public get(): Observable<Mute> {
     return this.http.get<Mute>(this.endpointUrl);
@@ -40,7 +40,7 @@ export class PlayerMuteService {
    * Mutes the player volume
    *
    * @returns {Observable<Mute>}
-   * @memberof PlayerMuteService
+   * @memberof MuteService
    */
   public post(): Observable<Mute> {
     return this.http.post<Mute>(this.endpointUrl, {});
@@ -49,7 +49,7 @@ export class PlayerMuteService {
    * Unmute the player volume
    *
    * @returns {Observable<Mute>}
-   * @memberof PlayerMuteService
+   * @memberof MuteService
    */
   public delete(): Observable<Mute> {
     return this.http.delete<Mute>(this.endpointUrl);

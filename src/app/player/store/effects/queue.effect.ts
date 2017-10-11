@@ -4,7 +4,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import * as queueActions from '../actions/queue.action';
-import { PlayerQueueService, Track, TrackService, User, UserService, QueueItem, Pagination } from '../../../api';
+import { QueueService, Track, TrackService, User, UserService, QueueItem, Pagination } from '../../../api';
 import { PlayerEvent } from '../../../event';
 import { NotificationService } from '../../../notification';
 import { UtilsService } from '../../../shared';
@@ -18,7 +18,7 @@ export class QueueEffects {
   public loadQueue$: Observable<Action> = this.actions$
     .ofType(queueActions.LOAD_QUEUE)
     .mergeMap(() =>
-      this.playerQueueSvc.query()
+      this.queueSvc.query()
         .map((res) => new queueActions.LoadQueueSuccess(res))
         .catch((err) => Observable.of(new queueActions.LoadQueueFail(err)))
     );
@@ -30,7 +30,7 @@ export class QueueEffects {
     .switchMap(((value: [Action, Pagination]) => {
       const params = new HttpParams()
         .set('page', `${value[1].currentPage + 1}`);
-      return this.playerQueueSvc.query(params)
+      return this.queueSvc.query(params)
         .map((res) => new queueActions.LoadNextQueuePageSuccess(res))
         .catch((err) => Observable.of(new queueActions.LoadNextQueuePageFail(err)));
     }));
@@ -40,7 +40,7 @@ export class QueueEffects {
     .ofType(queueActions.QUEUE_ADD)
     .map((action: queueActions.QueueAdd) => action.payload)
     .mergeMap((uri) =>
-      this.playerQueueSvc.post(uri)
+      this.queueSvc.post(uri)
         .map((res) => new queueActions.QueueAddSuccess(res))
         .catch((err) => Observable.of(new queueActions.QueueAddFail(err)))
     );
@@ -50,7 +50,7 @@ export class QueueEffects {
     .ofType(queueActions.QUEUE_REMOVE)
     .map((action: queueActions.QueueRemove) => action.payload)
     .switchMap((uuid) =>
-      this.playerQueueSvc.delete(uuid)
+      this.queueSvc.delete(uuid)
         .catch((err) => Observable.of(err))
     );
 
@@ -58,7 +58,7 @@ export class QueueEffects {
   public loadQueueMeta$: Observable<Action> = this.actions$
     .ofType(queueActions.LOAD_QUEUE_META)
     .switchMap(() =>
-      this.playerQueueSvc.getMeta()
+      this.queueSvc.getMeta()
         .map((meta) => new queueActions.LoadQueueMetaSuccess(meta))
         .catch((err) => Observable.of(new queueActions.LoadQueueMetaFail(err)))
     );
@@ -92,7 +92,7 @@ export class QueueEffects {
 
   constructor(
     private actions$: Actions,
-    private playerQueueSvc: PlayerQueueService,
+    private queueSvc: QueueService,
     private trackSvc: TrackService,
     private userSvc: UserService,
     private notificationSvc: NotificationService,

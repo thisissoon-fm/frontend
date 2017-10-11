@@ -6,25 +6,25 @@ import { environment } from '../../../environments/environment';
 import { Volume } from '../models';
 
 @Injectable()
-export class PlayerVolumeService {
+export class VolumeService {
   /**
    * Volume endpoint url
    *
    * @private
-   * @memberof PlayerVolumeService
+   * @memberof VolumeService
    */
   private endpointUrl = `${environment.apiUrlPlayer}player/volume`;
   /**
-   * Creates an instance of PlayerVolumeService.
+   * Creates an instance of VolumeService.
    * @param {HttpClient} http
-   * @memberof PlayerVolumeService
+   * @memberof VolumeService
    */
   constructor(private http: HttpClient) { }
   /**
    * Get current volume value
    *
    * @returns {Observable<Volume>}
-   * @memberof PlayerVolumeService
+   * @memberof VolumeService
    */
   public get(): Observable<Volume> {
     return this.http.get<Volume>(this.endpointUrl);
@@ -34,7 +34,7 @@ export class PlayerVolumeService {
    *
    * @param {Volume} volume
    * @returns {Observable<Volume>}
-   * @memberof PlayerVolumeService
+   * @memberof VolumeService
    */
   public post(volume: Volume): Observable<Volume> {
     return this.http.post<Volume>(this.endpointUrl, volume);

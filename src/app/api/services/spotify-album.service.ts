@@ -9,21 +9,21 @@ import { SpotifyAlbum, SpotifyTracks } from '../models';
  * Get artists data from player spotify api
  *
  * @export
- * @class PlayerSpotifyAlbumService
+ * @class SpotifyAlbumService
  */
 @Injectable()
-export class PlayerSpotifyAlbumService {
+export class SpotifyAlbumService {
   /**
    * Spotify search endpoint
    *
    * @private
-   * @memberof PlayerSpotifyAlbumService
+   * @memberof SpotifyAlbumService
    */
   private endpointUrl = `${environment.apiUrlPlayer}spotify/albums`;
   /**
-   * Creates an instance of PlayerSpotifyAlbumService.
+   * Creates an instance of SpotifyAlbumService.
    * @param {HttpClient} http
-   * @memberof PlayerSpotifyAlbumService
+   * @memberof SpotifyAlbumService
    */
   constructor(private http: HttpClient) { }
   /**
@@ -31,7 +31,7 @@ export class PlayerSpotifyAlbumService {
    *
    * @param {string} id
    * @returns {Observable<SpotifyAlbum>}
-   * @memberof PlayerSpotifyAlbumService
+   * @memberof SpotifyAlbumService
    */
   public get(id: string): Observable<SpotifyAlbum> {
     return this.http.get<SpotifyAlbum>(`${this.endpointUrl}/${id}`);
@@ -42,7 +42,7 @@ export class PlayerSpotifyAlbumService {
    * @param {string} id
    * @param {HttpParams} [params=new HttpParams()]
    * @returns {Observable<SpotifyTracks>}
-   * @memberof PlayerSpotifyAlbumService
+   * @memberof SpotifyAlbumService
    */
   public getTracks(id: string, params: HttpParams = new HttpParams()): Observable<SpotifyTracks> {
     const paramsWithLimit = new HttpParams({ fromString: params.toString() })

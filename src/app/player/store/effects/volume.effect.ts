@@ -4,7 +4,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import * as volumeActions from '../actions/volume.action';
-import { PlayerVolumeService } from '../../../api';
+import { VolumeService } from '../../../api';
 
 @Injectable()
 export class VolumeEffects {
@@ -13,7 +13,7 @@ export class VolumeEffects {
   public loadVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.LOAD_VOLUME)
     .switchMap(() =>
-      this.playerVolumeSvc.get()
+      this.volumeSvc.get()
         .map((vol) => new volumeActions.LoadVolumeSuccess(vol))
         .catch((err) => Observable.of(new volumeActions.LoadVolumeFail(err)))
     );
@@ -22,16 +22,15 @@ export class VolumeEffects {
   public setVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.SET_VOLUME)
     .map((action: volumeActions.SetVolume) => action.payload)
-    .mergeMap((vol) => {
-      return this.playerVolumeSvc.post(vol)
+    .mergeMap((vol) =>
+      this.volumeSvc.post(vol)
         .map((res) => new volumeActions.SetVolumeSuccess(res))
-        .catch((err) => Observable.of(new volumeActions.SetVolumeFail(err)));
-      }
+        .catch((err) => Observable.of(new volumeActions.SetVolumeFail(err)))
     );
 
 
   constructor(
     private actions$: Actions,
-    private playerVolumeSvc: PlayerVolumeService
+    private volumeSvc: VolumeService
   ) { }
 }

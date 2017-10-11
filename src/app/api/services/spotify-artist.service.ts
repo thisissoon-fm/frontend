@@ -9,21 +9,21 @@ import { SpotifySearch, SpotifyArtist, SpotifyAlbums } from '../models';
  * Get artists data from player spotify api
  *
  * @export
- * @class PlayerSpotifyArtistService
+ * @class SpotifyArtistService
  */
 @Injectable()
-export class PlayerSpotifyArtistService {
+export class SpotifyArtistService {
   /**
    * Spotify search endpoint
    *
    * @private
-   * @memberof PlayerSpotifyArtistService
+   * @memberof SpotifyArtistService
    */
   private endpointUrl = `${environment.apiUrlPlayer}spotify/artists`;
   /**
-   * Creates an instance of PlayerSpotifyArtistService.
+   * Creates an instance of SpotifyArtistService.
    * @param {HttpClient} http
-   * @memberof PlayerSpotifyArtistService
+   * @memberof SpotifyArtistService
    */
   constructor(private http: HttpClient) { }
   /**
@@ -31,7 +31,7 @@ export class PlayerSpotifyArtistService {
    *
    * @param {string} id
    * @returns {Observable<SpotifyArtist>}
-   * @memberof PlayerSpotifyArtistService
+   * @memberof SpotifyArtistService
    */
   public get(id: string): Observable<SpotifyArtist> {
     return this.http.get<SpotifyArtist>(`${this.endpointUrl}/${id}`);
@@ -42,7 +42,7 @@ export class PlayerSpotifyArtistService {
    * @param {string} id
    * @param {HttpParams} [params=new HttpParams()]
    * @returns {Observable<SpotifyAlbums>}
-   * @memberof PlayerSpotifyArtistService
+   * @memberof SpotifyArtistService
    */
   public getAlbums(id: string, params: HttpParams = new HttpParams()): Observable<SpotifyAlbums> {
     const options: any = { observe: 'response'};
@@ -60,7 +60,7 @@ export class PlayerSpotifyArtistService {
    * @param {string} id
    * @param {HttpParams} [params=new HttpParams()]
    * @returns {Observable<SpotifyAlbums>}
-   * @memberof PlayerSpotifyArtistService
+   * @memberof SpotifyArtistService
    */
   public getSingles(id: string, params: HttpParams = new HttpParams()): Observable<SpotifyAlbums> {
     const options: any = { observe: 'response'};
@@ -77,7 +77,7 @@ export class PlayerSpotifyArtistService {
    *
    * @param {string} id
    * @returns {Observable<SpotifySearch>}
-   * @memberof PlayerSpotifyArtistService
+   * @memberof SpotifyArtistService
    */
   public getTopTracks(id: string): Observable<SpotifySearch> {
     const options: any = { observe: 'response'};
@@ -93,7 +93,7 @@ export class PlayerSpotifyArtistService {
    *
    * @param {string} id
    * @returns {Observable<SpotifySearch>}
-   * @memberof PlayerSpotifyArtistService
+   * @memberof SpotifyArtistService
    */
   public getRelatedArtists(id: string): Observable<SpotifySearch> {
     return this.http.get<SpotifySearch>(`${this.endpointUrl}/${id}/related-artists`)

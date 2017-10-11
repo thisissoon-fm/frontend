@@ -1,6 +1,6 @@
 {
  "name": "SOON FM",
- "start_url": "https://thisissoon.fm",
+ "start_url": "/",
  "theme_color": "#ffef7f",
  "background_color": "#000000",
  "orientation": "portrait",

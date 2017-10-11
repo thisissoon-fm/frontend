@@ -103,6 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.playerStore$.dispatch(new fromPlayerStore.LoadVolume());
     this.playerStore$.dispatch(new fromPlayerStore.LoadMute());
     this.playerStore$.dispatch(new fromPlayerStore.LoadQueueMeta());
+    this.playerStore$.dispatch(new fromPlayerStore.LoadStats());
     this.userStore$.dispatch(new fromUserStore.LoadMe());
 
     this.eventSvc.messages$
@@ -110,7 +111,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((event) => this.onEvent(event));
   }
   /**
-   *
+   * Return route meta data for router animation
    *
    * @param {RouterOutlet} outlet
    * @returns {('splashPage' | 'homePage')}

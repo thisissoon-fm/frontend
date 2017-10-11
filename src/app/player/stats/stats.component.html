@@ -1,33 +1,22 @@
-<h2 class="h6 font-weight-bold text-primary mb-2">Weekly Leaderboard</h2>
+<h2 class="h6 font-weight-bold text-primary mb-2">Most played tracks (this week)</h2>
 
 <div class="leaderboard text-center">
-  <ul class="list-inline">
-    <li class="list-inline-item mr-4">
-      <img class="rounded-circle img-avatar mb-1" src="//via.placeholder.com/300x300" alt="">
-      <p class="mb-1 font-weight-bold">Caroline</p>
-      <p class="small font-weight-bold">
-        <span class="text-primary">1st</span>
-        <span class="text-muted">(168 Plays)</span>
-      </p>
-    </li>
-    <li class="list-inline-item mr-4">
-      <img class="rounded-circle img-avatar mb-1" src="//via.placeholder.com/300x300" alt="">
-      <p class="mb-1 font-weight-bold">Inga</p>
-      <p class="small font-weight-bold">
-        <span class="text-primary">2nd</span>
-        <span class="text-muted">(168 Plays)</span>
-      </p>
-    </li>
-    <li class="list-inline-item">
-      <img class="rounded-circle img-avatar mb-1" src="//via.placeholder.com/300x300" alt="">
-      <p class="mb-1 font-weight-bold">Emma</p>
-      <p class="small font-weight-bold">
-        <span class="text-primary">3rd</span>
-        <span class="text-muted">(168 Plays)</span>
+
+  <ul class="list-inline row" [@fadeMoveUp]="stats?.most_played_tracks || 0">
+    <li class="list-inline-item col" *ngFor="let item of stats?.most_played_tracks | slice: 0:3; let i = index">
+      <div
+        class="img-clip mb-1 ml-auto mr-auto"
+        [ngStyle]="{'background-image': 'url(' + item.track.album.images[item.track.album.images.length - 1].url + ')'}">
+        <img [src]="item.track.album.images[item.track.album.images.length - 1].url" [alt]="item.name">
+      </div>
+      <p class="mb-1 font-weight-bold mb-0">{{ item.track.name }}</p>
+      <p class="small font-weight-bold mb-0">
+        <span class="text-primary">{{ i === 0 ? '1st' : (i === 1) ? '2nd': (i === 2) ? '3rd': (i + 1) + 'th' }}</span>
+        <span class="text-muted">({{ item.total }} Plays)</span>
       </p>
     </li>
   </ul>
 
-  <a href="#" class="font-weight-bold pt-0 pb-0">View more</a>
+  <!-- <a href="#" class="font-weight-bold pt-0 pb-0">View more</a> -->
 
 </div>
