@@ -46,7 +46,7 @@ export class CurrentEffects {
   @Effect({ dispatch: false })
   public removeCurrent$: Observable<Action> = this.actions$
     .ofType(currentActions.REMOVE_CURRENT)
-    .do(() =>
+    .switchMap(() =>
       this.currentSvc.delete()
         .catch((err) => Observable.of(err))
     );
@@ -54,7 +54,7 @@ export class CurrentEffects {
   @Effect({ dispatch: false })
   public AddPause$: Observable<Action> = this.actions$
     .ofType(currentActions.ADD_PAUSE)
-    .do(() =>
+    .switchMap(() =>
       this.pauseSvc.post()
         .catch((err) => Observable.of(err))
     );
@@ -62,7 +62,7 @@ export class CurrentEffects {
   @Effect({ dispatch: false })
   public removePause$: Observable<Action> = this.actions$
     .ofType(currentActions.REMOVE_PAUSE)
-    .do(() =>
+    .switchMap(() =>
       this.pauseSvc.delete()
         .catch((err) => Observable.of(err))
     );

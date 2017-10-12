@@ -1,0 +1,10 @@
+<ul class="equalizer">
+  <li
+    *ngFor="let item of items; let i = index"
+    class="equalizer-item"
+    [ngClass]="{'equalizer-item-end': i >= items.length * .67 }"
+    [ngStyle]="{
+      'animation-delay': item + 's',
+      'animation-play-state': playing ? 'running' : 'paused'
+    }"></li>
+</ul>

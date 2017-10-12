@@ -15,12 +15,14 @@ import { QueueComponent } from './queue';
 import { QueueItemComponent } from './queue-item';
 import { StatsComponent } from './stats';
 import { effects, reducers } from './store';
+import { EqualizerComponent } from './equalizer';
 
 const components: any[] = [
   NowPlayingComponent,
   QueueComponent,
   QueueItemComponent,
-  StatsComponent
+  StatsComponent,
+  EqualizerComponent
 ];
 
 @NgModule({
@@ -39,7 +41,7 @@ const components: any[] = [
     ...components
   ],
   declarations: [
-    ...components
+    ...components,
   ]
 })
 export class PlayerModule { }

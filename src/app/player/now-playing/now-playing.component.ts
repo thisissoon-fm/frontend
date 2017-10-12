@@ -135,8 +135,8 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
       .take(1)
       .subscribe((current) =>
         current.paused ?
-          this.store.dispatch({ type: fromStore.REMOVE_PAUSE }) :
-          this.store.dispatch({ type: fromStore.ADD_PAUSE })
+          this.store.dispatch(new fromStore.RemovePause()) :
+          this.store.dispatch(new fromStore.AddPause())
       );
   }
   /**

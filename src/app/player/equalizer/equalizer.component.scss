@@ -1,0 +1,58 @@
+@import "../../../scss/helpers";
+
+:host {
+  display: block;
+}
+
+.equalizer {
+  align-items: center;
+  display: flex;
+  height: 1.875rem; // ~30px
+  list-style: none;
+  opacity: .7;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.equalizer-item {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: equaliser;
+  animation-timing-function: linear;
+  background: linear-gradient(to bottom,
+    $green-glade,
+    $yellow-lucky 22%,
+    $yellow-sand 50%,
+    $yellow-lucky 75%,
+    $green-glade 100%);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  min-height: 1px;
+  width: 1px;
+
+  &.equalizer-item-end {
+    background: linear-gradient(to bottom,
+      $gray-900,
+      $gray-600 22%,
+      $gray-100 50%,
+      $gray-600 75%,
+      $gray-900 100%);
+  }
+}
+
+@keyframes equaliser {
+  0%   { height: 5px;  }
+  10%  { height: 15px; }
+  20%  { height: 20px; }
+  30%  { height: 10px; }
+  40%  { height: 12px; }
+  50%  { height: 8px;  }
+  60%  { height: 6px;  }
+  70%  { height: 10px; }
+  80%  { height: 12px; }
+  90%  { height: 7px;  }
+  100% { height: 5px;  }
+}

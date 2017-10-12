@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SOON FM - Examples</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+
+  <ul class="equalizer" id="equalizer">
+
+  </ul>
+
+  <script src="/bundle.js"></script>
+  <script src="/webpack-dev-server.js"></script>
+
+  <script>
+    const list = document.getElementById('equalizer');
+    const noOfItems = 240;
+
+    for (let i = 0; i < noOfItems; i++) {
+      const el = document.createElement('li');
+      el.classList.add('equalizer-item');
+      if (i >= Math.round(noOfItems * .67)) {
+        el.classList.add('equalizer-item-end');
+      }
+      list.appendChild(el);
+    }
+
+    const items = document.querySelectorAll('.equalizer-item');
+
+    items.forEach((el, i) => {
+      const height = Math.round(Math.random() * 25) + 5;
+      el.style.height = `${height}px`;
+    });
+  </script>
+
+</body>
+</html>
