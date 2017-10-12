@@ -12,4 +12,4 @@ require('./search/index.html');
 require('./search/artist-detail.html');
 require('./leaderboard/index.html');
 require('./now-playing/index.html');
-require('./equaliser/index.html');
+require('./equalizer/index.html');

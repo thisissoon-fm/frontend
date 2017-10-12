@@ -7,7 +7,7 @@
 </head>
 <body>
 
-  <ul class="equaliser" id="equaliser">
+  <ul class="equalizer" id="equalizer">
 
   </ul>
 
@@ -15,19 +15,19 @@
   <script src="/webpack-dev-server.js"></script>
 
   <script>
-    const list = document.getElementById('equaliser');
+    const list = document.getElementById('equalizer');
     const noOfItems = 240;
 
     for (let i = 0; i < noOfItems; i++) {
       const el = document.createElement('li');
-      el.classList.add('equaliser-item');
+      el.classList.add('equalizer-item');
       if (i >= Math.round(noOfItems * .67)) {
-        el.classList.add('equaliser-item-end');
+        el.classList.add('equalizer-item-end');
       }
       list.appendChild(el);
     }
 
-    const items = document.querySelectorAll('.equaliser-item');
+    const items = document.querySelectorAll('.equalizer-item');
 
     items.forEach((el, i) => {
       const height = Math.round(Math.random() * 25) + 5;
