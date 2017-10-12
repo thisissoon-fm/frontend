@@ -1,0 +1,69 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+
+version: 2
+jobs:
+  build:
+    working_directory: ~/fm-frontend
+    docker:
+      - image: circleci/node:6.10
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install globals
+          command: sudo npm install -q -g @angular/cli@latest
+      - run:
+          name: npm install
+          command: sudo npm -q install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: npm run build -- --prod
+
+      - save_cache:
+          key: dist-{{ .Revision }}
+          paths:
+            - dist
+  deploy:
+    working_directory: ~/fm-frontend
+    machine: true
+    environment:
+      REPO: gcr.io/soon-fm-production/frontend
+      TAG: $(sed 's/master/latest/;s/\//\-/' <<<$CIRCLE_BRANCH)
+      PROJECT_NAME: soon-fm-production
+      GCLOUD_COMPUTE_ZONE: europe-west1-c
+    steps:
+      - checkout
+      - restore_cache:
+          key: dist-{{ .Revision }}
+
+      - run: echo $GCLOUD_SERVICE_AUTH | base64 --decode -i > ${HOME}/account-auth.json
+      - run: sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+      - run: sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
+      - run: sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/account-auth.json
+      - run: sudo /opt/google-cloud-sdk/bin/gcloud config set project ${PROJECT_NAME}
+      - run: sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone ${GCLOUD_COMPUTE_ZONE}
+
+      - run: docker build -t $REPO:$CIRCLE_SHA1 .
+      - run: docker tag $REPO:$CIRCLE_SHA1 $REPO:latest
+      - run: sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials production
+      - run: sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster production
+      - run: sudo /opt/google-cloud-sdk/bin/gcloud docker -- push $REPO:$CIRCLE_SHA1
+      - run: sudo /opt/google-cloud-sdk/bin/gcloud docker -- push $REPO:latest
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
