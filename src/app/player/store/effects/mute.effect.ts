@@ -21,7 +21,7 @@ export class MuteEffects {
   @Effect({ dispatch: false })
   public AddMute$ = this.actions$
     .ofType(muteActions.ADD_MUTE)
-    .do(() =>
+    .switchMap(() =>
       this.muteSvc.post()
         .catch((err) => Observable.of(err))
     );
@@ -29,7 +29,7 @@ export class MuteEffects {
   @Effect({dispatch: false})
   public removeMute$ = this.actions$
     .ofType(muteActions.REMOVE_MUTE)
-    .do(() =>
+    .switchMap(() =>
       this.muteSvc.delete()
         .catch((err) => Observable.of(err))
     );
