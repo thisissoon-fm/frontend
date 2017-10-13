@@ -57,7 +57,7 @@ jobs:
       - run: sudo /opt/google-cloud-sdk/bin/gcloud docker -- push $REPO:latest
       - run: sudo chown -R $USER $HOME/.config
       - run: sudo chown -R $USER $HOME/.kube
-      - run: cat k9s.yml | sed "s#\$TAG#${CIRCLE_SHA1}#g" | kubectl apply -f -
+      - run: cat k8s.yml | sed "s#\$TAG#${CIRCLE_SHA1}#g" | kubectl apply -f -
 
 workflows:
   version: 2
