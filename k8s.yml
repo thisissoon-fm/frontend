@@ -1,0 +1,45 @@
+#
+# Frontend Kubernetes Deployment
+#
+
+# Web Frontend Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: webv2
+  labels:
+    app: webv2
+    tier: frontend
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: webv2
+    tier: frontend
+---
+# Web Frontend Deployment
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: webv2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: webv2
+        tier: frontend
+    spec:
+      # Containers
+      containers:
+      # Web Frontend Application
+      - name: webv2
+        image: gcr.io/soon-fm-production/frontend:$TAG
+        resources:
+          requests:
+            cpu: 0
+            memory: "10Mi"
+        ports:
+        - containerPort: 80
