@@ -75,7 +75,7 @@ export class QueueEffects {
           new queueActions.LoadQueueItemSuccess({
             track: results[0],
             user: results[1],
-            uuid: null // TODO: update api to get uuid
+            uuid: data.id
           }))
         .catch((err) => Observable.of(new queueActions.LoadQueueItemFail(err)));
     });

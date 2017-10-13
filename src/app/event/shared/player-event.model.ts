@@ -5,4 +5,5 @@ export interface PlayerEvent {
   uuid?: string;
   mute?: boolean;
   volume?: number;
+  id?: string;
 }
