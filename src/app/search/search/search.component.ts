@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -56,6 +57,14 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public results: any[] = [];
   /**
+   * Reference to search input element
+   *
+   * @type {ElementRef}
+   * @memberof SearchComponent
+   */
+  @ViewChild('inputSearch')
+  public inputSearch: ElementRef;
+  /**
    * Observable used to unsubscribe and complete infinite observables
    * on component destroy lifecycle hook
    *
@@ -82,7 +91,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   constructor(
     private searchStore$: Store<fromSearchStore.SearchState>,
     private playerStore$: Store<fromPlayerStore.PlayerState>,
-    private sharedStore$: Store<fromSharedStore.SharedState>
+    private sharedStore$: Store<fromSharedStore.SharedState>,
+    private router: Router
   ) { }
   /**
    * Subscribe to search
@@ -106,6 +116,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     this.sharedStore$.select(fromSharedStore.getRouterSearchActive)
       .subscribe((isSearchRouterActive) => this.isSearchRouterActive = isSearchRouterActive);
+
+    this.router.events
+      .filter((event) => event instanceof NavigationStart)
+      .filter((event: NavigationStart) => event.url.includes('(search:search)'))
+      .subscribe(() => this.inputSearch.nativeElement.focus());
   }
   /**
    * Event handler for search input change, send next value
