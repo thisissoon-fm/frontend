@@ -20,10 +20,16 @@
       {{ item?.track?.name }}
     </h3>
     <p class="lead mb-0 font-weight-bold text-truncate">
-      {{ artistsJoined }}
+      <ng-template ngFor [ngForOf]="item?.track?.artists" let-artist let-last="last">
+        <a [routerLink]="['/home', { outlets: { search: ['artists', getArtistUri(artist)] } }]">
+          {{ artist.name }}<span *ngIf="!last">,&nbsp;</span>
+        </a>
+      </ng-template>
     </p>
     <p class="lead mb-0 font-weight-bold text-muted text-truncate">
-      {{ item?.track?.album.name }}
+      <a [routerLink]="['/home', { outlets: { search: ['albums', albumUri] } }]">
+        {{ item?.track?.album.name }}
+      </a>
     </p>
   </div>
 

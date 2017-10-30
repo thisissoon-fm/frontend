@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as fromUserStore from '../../user/store';
 import * as fromPlayerStore from '../../player/store';
-import { QueueItem } from '../../api';
+import { QueueItem, Artist } from '../../api';
 import { UtilsService } from '../../shared';
 
 @Component({
@@ -70,6 +70,18 @@ export class QueueItemComponent {
       this.utilsSvc.getArtistsJoined(this.item.track.artists) : '';
   }
   /**
+   * Returns the uri of the track album without the "spotify:album:" prefix
+   *
+   * @param {Artist} artist
+   * @returns {string}
+   * @memberof QueueItemComponent
+   */
+  public get albumUri(): string {
+    const uriSplit = this.item.track.album.uri.split(':');
+    const last = uriSplit.length - 1;
+    return uriSplit[last];
+  }
+  /**
    * Creates an instance of QueueItemComponent.
    * @param {SharedModule} utilsSvc
    * @memberof QueueItemComponent
@@ -79,6 +91,18 @@ export class QueueItemComponent {
     private userStore$: Store<fromUserStore.UserState>,
     private playerStore$: Store<fromPlayerStore.PlayerState>
   ) { }
+  /**
+   * Returns the uri of the artist without the "spotify:artist:" prefix
+   *
+   * @param {Artist} artist
+   * @returns {string}
+   * @memberof QueueItemComponent
+   */
+  public getArtistUri(artist: Artist): string {
+    const uriSplit = artist.uri.split(':');
+    const last = uriSplit.length - 1;
+    return uriSplit[last];
+  }
   /**
    * Remove track from queue
    *
