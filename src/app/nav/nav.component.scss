@@ -23,3 +23,15 @@
 .nav-right {
   flex: 1 1 40%;
 }
+
+.list-link {
+  display: inline-flex;
+  justify-content: flex-end;
+  overflow: hidden;
+  transition: all .2s ease-out;
+  width: 1.6875rem; // ~27px
+
+  @include hover-focus-active() {
+    width: 6.25rem; // ~100px
+  }
+}
