@@ -77,7 +77,7 @@ export class QueueEffects {
             user: results[1],
             uuid: data.id
           }))
-        .catch((err) => Observable.of(new queueActions.LoadQueueItemFail(err)));
+          .catch((err) => Observable.of(new queueActions.LoadQueueItemFail(err)));
     });
 
   @Effect({dispatch: false})
