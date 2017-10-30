@@ -34,7 +34,7 @@
       *ngIf="item?.user?.avatar_url"
       [src]="item?.user?.avatar_url"
       [alt]="item?.user?.display_name"
-      ngbPopover="{{item?.user?.display_name}}"
+      [ngbPopover]="item?.user?.display_name"
       triggers="mouseenter:mouseleave"
       placement="top">
   </div>
