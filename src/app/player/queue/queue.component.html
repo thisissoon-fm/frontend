@@ -1,4 +1,4 @@
-<div class="queue-heading d-none d-xl-block">
+<div class="queue-heading d-none d-xl-flex">
   <div class="queue-heading-content">
     <p class="text-primary font-weight-bold rotate-90 text-nowrap queue-heading-text mb-0">
       Upcoming beats
@@ -17,7 +17,7 @@
       <div class="row">
         <div class="col-12" [@fadeMoveUp]="queue.length">
 
-          <ul class="list-unstyled">
+          <ul class="list-unstyled" *ngIf="queue.length">
             <li class="mb-3 list-item-track" *ngFor="let item of queue">
               <sfm-queue-item [item]="item" [imageIndex]="1"></sfm-queue-item>
             </li>
@@ -35,7 +35,7 @@
             <p class="text-center">Loading…</p>
           </ng-template>
 
-          <ng-template #noTracks>
+          <ng-template [ngIf]="!queue.length">
             <h2>Playlist is empty</h2>
             <p class="lead">Click <a [routerLink]="['/home', { outlets: {search: ['search']} }]">here</a> to add a song</p>
           </ng-template>
