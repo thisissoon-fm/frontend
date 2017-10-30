@@ -39,7 +39,10 @@
           class="btn btn-icon btn-circle btn-outline-lighter"
           [ngSwitch]="(current$ | async)?.paused"
           [disabled]="!(current$ | async)"
-          (click)="togglePause()">
+          (click)="togglePause()"
+          [ngbPopover]="(current$ | async)?.paused ? 'Play' : 'Pause'"
+          triggers="mouseenter:mouseleave"
+          placement="top">
           <i class="icon icon-play text-white" *ngSwitchCase="true"></i>
           <i class="icon icon-pause text-white" *ngSwitchDefault></i>
         </button>
@@ -49,7 +52,10 @@
           type="button"
           class="btn btn-icon btn-circle btn-outline-lighter"
           [disabled]="!(current$ | async)"
-          (click)="skip()">
+          (click)="skip()"
+          ngbPopover="Skip"
+          triggers="mouseenter:mouseleave"
+          placement="top">
           <i class="icon icon-skip text-white"></i>
         </button>
       </li>
@@ -58,7 +64,10 @@
           type="button"
           class="btn btn-icon btn-circle btn-outline-lighter"
           [ngSwitch]="(mute$ | async)?.mute"
-          (click)="toggleMute()">
+          (click)="toggleMute()"
+          [ngbPopover]="(mute$ | async)?.mute ? 'Unmute' : 'Mute'"
+          triggers="mouseenter:mouseleave"
+          placement="top">
           <i class="icon icon-volume-high text-white h5" *ngSwitchCase="false"></i>
           <i class="icon icon-volume-mute text-white h5" *ngSwitchCase="true"></i>
         </button>
@@ -74,8 +83,12 @@
         min="0"
         max="100"
         step="1"
+        #vol
         [value]="(volume$ | async)?.volume"
-        (input)="onVolumeInputChange($event)">
+        (input)="onVolumeInputChange($event)"
+        [ngbPopover]="vol.value"
+        triggers="mouseenter:mouseleave"
+        placement="top">
     </div>
   </div>
 </div>

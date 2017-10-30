@@ -33,7 +33,10 @@
       class="rounded-circle img-avatar"
       *ngIf="item?.user?.avatar_url"
       [src]="item?.user?.avatar_url"
-      [alt]="item?.user?.display_name">
+      [alt]="item?.user?.display_name"
+      [ngbPopover]="item?.user?.display_name"
+      triggers="mouseenter:mouseleave"
+      placement="top">
   </div>
 
   <div
@@ -45,7 +48,7 @@
       (click)="delete()">
       <i class="icon icon-delete mr-1"></i>
       <span class="font-weight-bold">Delete</span>
-  </button>
-</div>
+    </button>
+  </div>
 
 </div>
