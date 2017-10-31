@@ -47,10 +47,6 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the app', async(() => {
-    expect(component).toBeTruthy();
-  }));
-
   it('should call event handler on socket io events', async(() => {
     let spy = spyOn(component, 'onAdd');
     component.onEvent({ event: 'add' });
