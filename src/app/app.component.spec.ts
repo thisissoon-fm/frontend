@@ -1,13 +1,35 @@
 import { TestBed, async } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Store, Action } from '@ngrx/store';
 
+import { EventService } from './event';
 import { AppComponent } from './app.component';
+
+class MockStore {
+  dispatch(action: Action) {}
+}
+
+class MockEventService {
+  messages$ = Observable.of({});
+}
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
+      imports: [
+        RouterTestingModule
       ],
+      schemas: [
+        NO_ERRORS_SCHEMA,
+        CUSTOM_ELEMENTS_SCHEMA
+      ],
+      providers: [
+        { provide: Store, useClass: MockStore },
+        { provide: EventService, useClass: MockEventService }
+      ],
+      declarations: [ AppComponent ],
     }).compileComponents();
   }));
 
@@ -15,18 +37,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  }));
-
-  it(`should have as title 'soon-fm'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('soon-fm');
-  }));
-
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to soon-fm!');
   }));
 });

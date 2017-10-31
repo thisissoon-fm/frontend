@@ -106,10 +106,10 @@ export class SearchComponent implements OnInit, OnDestroy {
       .subscribe((query) => this.setSearchQuery(query));
 
     this.searchStore$.select(fromSearchStore.getSearchState)
-      .subscribe((search) => this.search = search);
-
-    this.searchStore$.select(fromSearchStore.getSearchResults)
-      .subscribe((results) => this.results = results);
+      .subscribe((search) => {
+        this.search = search;
+        this.results = search.results;
+      });
 
     this.sharedStore$.select(fromSharedStore.getSearchPageActive)
       .subscribe((isSearchPage) => this.isSearchPage = isSearchPage);
