@@ -219,10 +219,9 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
   /**
    * Start/Resume track timer
    *
-   * @private
    * @memberof NowPlayingComponent
    */
-  private startTimer(): void {
+  public startTimer(): void {
     this.current$
       .filter((current) => !!(current && current.player))
       .take(1)
@@ -237,15 +236,14 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
               this.store.dispatch(new fromStore.TimerIncrement());
             }
           });
-    });
+      });
   }
   /**
    * Pause/stop track timer
    *
-   * @private
    * @memberof NowPlayingComponent
    */
-  private stopTimer(): void {
+  public stopTimer(): void {
     if (this.currentTimerSub$ && this.currentTimerSub$.unsubscribe) {
       this.currentTimerSub$.unsubscribe();
     }

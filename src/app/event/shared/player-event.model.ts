@@ -1,5 +1,5 @@
 export interface PlayerEvent {
-  event: string;
+  event: PlayerEventType;
   uri?: string;
   user?: string;
   uuid?: string;
@@ -7,3 +7,5 @@ export interface PlayerEvent {
   volume?: number;
   id?: string;
 }
+
+export type PlayerEventType = 'add' | 'end' | 'stop' | 'pause' | 'resume' | 'play' | 'deleted' | 'set_volume' | 'set_mute';

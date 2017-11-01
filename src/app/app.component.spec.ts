@@ -5,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
 
-import { EventService } from './event';
+import { EventService, PlayerEvent } from './event';
 import { AppComponent } from './app.component';
 import * as fromPlayerStore from './player/store';
 
@@ -86,13 +86,13 @@ describe('AppComponent', () => {
   }));
 
   it('should dispatch LoadQueueItem action', async(() => {
-    const data = { uuid: 'foo', event: 'add' };
+    const data: PlayerEvent = { uuid: 'foo', event: 'add' };
     component.onAdd(data);
     expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.LoadQueueItem(data));
   }));
 
   it('should dispatch QueueRemoveSuccess action', async(() => {
-    const data = { uuid: 'foo', event: 'delete' };
+    const data: PlayerEvent = { uuid: 'foo', event: 'deleted' };
     component.onDelete(data);
     expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.QueueRemoveSuccess(data.uuid));
   }));
@@ -119,19 +119,19 @@ describe('AppComponent', () => {
   }));
 
   it('should dispatch AddMuteSuccess action', async(() => {
-    const data = { event: 'set_mute', mute: true };
+    const data: PlayerEvent = { event: 'set_mute', mute: true };
     component.onMuteChanged(data);
     expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.AddMuteSuccess({mute: data.mute}));
   }));
 
   it('should dispatch RemoveMuteSuccess action', async(() => {
-    const data = { event: 'set_mute', mute: false };
+    const data: PlayerEvent = { event: 'set_mute', mute: false };
     component.onMuteChanged(data);
     expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.RemoveMuteSuccess({mute: data.mute}));
   }));
 
   it('should dispatch SetVolumeSuccess action', async(() => {
-    const data = { event: 'set_volume', volume: 56 };
+    const data: PlayerEvent = { event: 'set_volume', volume: 56 };
     component.onVolumeChanged(data);
     expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.SetVolumeSuccess({ volume: data.volume }));
   }));

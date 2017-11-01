@@ -19,7 +19,11 @@ describe('EqualizerComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should render correct number of equaliser elements', async(() => {
+    fixture.detectChanges();
+    const compiled: HTMLElement = fixture.debugElement.nativeElement;
+    const width = compiled.offsetWidth;
+    const list = compiled.querySelectorAll('li');
+    expect(list.length).toEqual(width);
+  }));
 });

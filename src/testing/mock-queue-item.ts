@@ -32,15 +32,20 @@ export const queueItem: QueueItem = {
         id: 'd92383b4-b883-4c57-b3e3-e5c445ae104d',
         uri: 'spotify:artist:52y1cRHUkI0kQqIXCg6JuZ',
         name: 'Johnny Kidd & The Pirates'
+      },
+      {
+        id: '33456566-fgg4-ghhg-4534-es3454656abb4',
+        uri: 'spotify:artist:23445ba453454baa4566456',
+        name: 'Another Guy'
       }
     ],
     duration: 141960,
     id: '9d724ee4-1722-42c5-8677-2938a6fef84e'
   },
   player: {
-    elapsed_time: 358395,
-    elapsed_seconds: 358.395,
-    elapsed_percentage: 252.46196111580724
+    elapsed_time: 1000,
+    elapsed_seconds: 1,
+    elapsed_percentage: 0.007044237813
   },
   user: {
     family_name: 'Mascarin',
@@ -49,5 +54,6 @@ export const queueItem: QueueItem = {
     spotify_playlists: null,
     given_name: 'Caroline',
     id: '74eb2b07-9fac-4aa5-a616-656ca54661f9'
-  }
+  },
+  uuid: '4753dfdf-3653-ab54-6fbb-475aabc43221'
 };

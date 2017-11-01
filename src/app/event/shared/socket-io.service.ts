@@ -25,7 +25,7 @@ export class SocketIOService {
       /**
        * On message calls callback function with message
        */
-      on: (event: string, callback: (msg: PlayerEvent) => any) => callback({ event: 'foo' }),
+      on: (event: string, callback: (msg: PlayerEvent) => any) => callback({ event: 'add' }),
       /**
        * Disconnect from socket-io server
        */
