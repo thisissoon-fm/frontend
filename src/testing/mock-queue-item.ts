@@ -1,4 +1,6 @@
-export const queueItem = {
+import { QueueItem } from '../app/api';
+
+export const queueItem: QueueItem = {
   track: {
     album: {
       id: '85c69d9c-a498-4117-a163-0158b217660d',
