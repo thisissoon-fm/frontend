@@ -130,6 +130,16 @@ export const album = {
       'href': 'https://api.spotify.com/v1/artists/3TVXtAsR1Inumwj472S9r4',
       'type': 'artist',
       'id': '3TVXtAsR1Inumwj472S9r4'
+    },
+    {
+      'name': 'Rihanna',
+      'external_urls': {
+        'spotify': 'https://open.spotify.com/artist/3242534543abac2334234abc3'
+      },
+      'uri': 'spotify:artist:3242534543abac2334234abc3',
+      'href': 'https://api.spotify.com/v1/artists/3242534543abac2334234abc3',
+      'type': 'artist',
+      'id': '3242534543abac2334234abc3'
     }
   ],
   'images': [

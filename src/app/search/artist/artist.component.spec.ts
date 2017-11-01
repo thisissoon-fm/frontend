@@ -6,6 +6,7 @@ import { Store, Action } from '@ngrx/store';
 
 import { UtilsService } from '../../shared';
 import { ArtistComponent } from './artist.component';
+import { artist } from '../../../testing/mock-spotify-artist';
 
 describe('ArtistComponent', () => {
   let component: ArtistComponent;
@@ -26,12 +27,11 @@ describe('ArtistComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ArtistComponent);
     component = fixture.componentInstance;
-    // tslint:disable-next-line:max-line-length
-    component.item = <any>{id: 'd92383b4-b883-4c57-b3e3-e5c445ae104d', uri: 'spotify:artist:52y1cRHUkI0kQqIXCg6JuZ', 'name': 'Johnny Kidd & The Pirates', images: [{url: 'https://i.scdn.co/image/a8573188b124111f25751ad91f9e8c02700f25e2', width: 600, height: 600}, {url: 'https://i.scdn.co/image/849ee9f54d49a12b4a45b60a6d310fb1ca8e5b0a', width: 300, height: 300}, {url: 'https://i.scdn.co/image/c589044d23c5801aaf82c75d106de0267e3ae75c', width: 64, height: 64}]};
+    component.item = <any>artist;
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
+  it('should get optimal image', () => {
+    expect(component.optimalImage).toEqual('https://i.scdn.co/image/cb080366dc8af1fe4dc90c4b9959794794884c66');
   });
 });

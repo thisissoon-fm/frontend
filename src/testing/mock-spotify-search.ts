@@ -124,6 +124,16 @@ export const search = {
             'href': 'https://api.spotify.com/v1/artists/3TVXtAsR1Inumwj472S9r4',
             'type': 'artist',
             'id': '3TVXtAsR1Inumwj472S9r4'
+          },
+          {
+            'name': 'Rihanna',
+            'external_urls': {
+              'spotify': 'https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4'
+            },
+            'uri': 'spotify:artist:3TVXtAsR1Inumwj472S9r4',
+            'href': 'https://api.spotify.com/v1/artists/3TVXtAsR1Inumwj472S9r4',
+            'type': 'artist',
+            'id': '3TVXtAsR1Inumwj472S9r4'
           }
         ],
         'duration_ms': 234373,

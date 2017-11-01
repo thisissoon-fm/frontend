@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
@@ -71,14 +71,6 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
   @ViewChild('tabset')
   public tabset: NgbTabset;
   /**
-   * Reference to mediaList element
-   *
-   * @type {ElementRef}
-   * @memberof ArtistDetailComponent
-   */
-  @ViewChild('mediaList')
-  public mediaList: ElementRef;
-  /**
    * If the user has scrolled down the component
    *
    * @type {boolean}
@@ -147,7 +139,6 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private location: Location,
     private utilsSvc: UtilsService,
-    private renderer: Renderer2
   ) { }
   /**
    * Get artist details from router service
@@ -184,7 +175,6 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
           });
       });
 
-    this.renderer.listen(this.mediaList.nativeElement, 'scroll', (event) => this.onScroll(event));
   }
   /**
    * Tabset select handler

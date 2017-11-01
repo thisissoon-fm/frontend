@@ -5,6 +5,7 @@ import { Store, Action } from '@ngrx/store';
 
 import { UtilsService } from '../../shared';
 import { AlbumComponent } from './album.component';
+import { album } from '../../../testing/mock-spotify-album';
 
 describe('AlbumComponent', () => {
   let component: AlbumComponent;
@@ -25,13 +26,15 @@ describe('AlbumComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AlbumComponent);
     component = fixture.componentInstance;
-    // tslint:disable-next-line:max-line-length
-    component.item = <any>{id: '85c69d9c-a498-4117-a163-0158b217660d', images: [{url: 'https://i.scdn.co/image/a8573188b124111f25751ad91f9e8c02700f25e2', width: 600, height: 600}, {url: 'https://i.scdn.co/image/849ee9f54d49a12b4a45b60a6d310fb1ca8e5b0a', width: 300, height: 300}, {url: 'https://i.scdn.co/image/c589044d23c5801aaf82c75d106de0267e3ae75c', width: 64, height: 64}], name: 'The Complete Johnny Kidd Vol 1 & 2', uri: 'spotify:album:34pUE4ZtTaXTdvZ5l39OL1'};
-
+    component.item = <any>album;
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
+  it('should get artist as a string', () => {
+    expect(component.artistsJoined).toEqual('Drake, Rihanna');
+  });
+
+  it('should get optimal image', () => {
+    expect(component.optimalImage).toEqual('https://i.scdn.co/image/459dbc62a8634b01fe3bbc4bc06d21cbb7b6cfde');
   });
 });
