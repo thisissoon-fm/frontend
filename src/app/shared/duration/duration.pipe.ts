@@ -5,8 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DurationPipe implements PipeTransform {
 
-  transform(value: string): any {
-    const date: Date = new Date(value);
+  transform(value: string): string {
+    const date: Date = new Date(parseInt(value, 10));
 
     if (isNaN(date.getTime())) {
       return value;

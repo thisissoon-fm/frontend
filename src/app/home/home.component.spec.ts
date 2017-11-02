@@ -8,19 +8,21 @@ import { UtilsService } from '../shared';
 import { HomeComponent } from './home.component';
 import { queueItem } from '../../testing/mock-queue-item';
 
-const mockStore = {
-  select: jasmine.createSpy('select')
-    .and.returnValues(
-      Observable.of(queueItem),
-      Observable.of([queueItem]),
-    )
-};
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
+  let mockStore: { select: jasmine.Spy };
 
   beforeEach(async(() => {
+    mockStore = {
+      select: jasmine.createSpy('select')
+        .and.returnValues(
+          Observable.of(queueItem),
+          Observable.of([queueItem]),
+        )
+    };
+
     TestBed.configureTestingModule({
       schemas: [
         NO_ERRORS_SCHEMA,

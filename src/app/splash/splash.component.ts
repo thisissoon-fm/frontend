@@ -67,7 +67,6 @@ export class SplashComponent implements OnInit, OnDestroy {
         this.isAuthenticated = data[1];
         if (this.playerDataLoaded && this.isAuthenticated) {
           this.router.navigate(['/home']);
-          combine$.unsubscribe();
         }
       });
   }
