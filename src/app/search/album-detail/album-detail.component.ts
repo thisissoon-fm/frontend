@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, HostListener, Renderer2, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, HostBinding, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
@@ -33,14 +33,6 @@ export class AlbumDetailComponent implements OnInit {
    * @memberof AlbumDetailComponent
    */
   public tracks: SpotifyTracks;
-  /**
-   * Reference to mediaList element
-   *
-   * @type {ElementRef}
-   * @memberof AlbumDetailComponent
-   */
-  @ViewChild('mediaList')
-  public mediaList: ElementRef;
   /**
    * True if component is loading data
    *
@@ -92,8 +84,7 @@ export class AlbumDetailComponent implements OnInit {
     private spotifyAlbumService: SpotifyAlbumService,
     private route: ActivatedRoute,
     private location: Location,
-    private utilsSvc: UtilsService,
-    private renderer: Renderer2
+    private utilsSvc: UtilsService
   ) { }
   /**
    * Get album details
@@ -117,7 +108,6 @@ export class AlbumDetailComponent implements OnInit {
           });
       });
 
-    this.renderer.listen(this.mediaList.nativeElement, 'scroll', (event) => this.onScroll(event));
   }
   /**
    * Return artists as a string of names

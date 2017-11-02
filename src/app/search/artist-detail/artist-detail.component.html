@@ -44,6 +44,7 @@
   #mediaList
   class="media-list"
   snInfiniteScroll
+  (scroll)="onScroll($event)"
   (onScrollEnd)="onScrollEnd(tabset.activeId)"
   [offset]="200"
   [disabled]="(tabset.activeId === 'albums' && allAlbumsLoaded) || (tabset.activeId === 'singles' && allSinglesLoaded) || loading">

@@ -9,7 +9,8 @@ describe('OAuthService', () => {
     });
   });
 
-  it('should be created', inject([OAuthService], (service: OAuthService) => {
-    expect(service).toBeTruthy();
+  it('should return authenticated user', inject([OAuthService], (service: OAuthService) => {
+    service.authenticate('google')
+      .subscribe((user) => expect(user).toBeNull());
   }));
 });

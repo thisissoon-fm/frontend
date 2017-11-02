@@ -39,7 +39,7 @@ export class UserService {
    */
   public me(): Observable<User> {
     const storageName = `${environment.googleAuthTokenPrefix}_${environment.googleAuthTokenName}`;
-    if (this.localStorageSvc.getItem(storageName)) {
+    if (!!this.localStorageSvc.getItem(storageName)) {
       return this.http.get<User>(`${this.endpointUrl}authenticated`);
     }
     return Observable.throw(null);

@@ -23,11 +23,10 @@ export class EventService {
   /**
    * Instance of connected socket.io object
    *
-   * @private
    * @type {SocketIOInstance}
    * @memberof EventService
    */
-  private socket: SocketIOInstance;
+  public socket: SocketIOInstance;
   /**
    * Creates an instance of EventService.
    * @param {SocketIOService} socketio
@@ -41,10 +40,9 @@ export class EventService {
    * Loop through event list and add event handler that emits
    * next value in `messages$` observable
    *
-   * @private
    * @memberof EventService
    */
-  private onConnect(): void {
+  public onConnect(): void {
     events.forEach((event) =>
       this.socket.on(event, (msg) => this.messages$.next(msg)));
   }

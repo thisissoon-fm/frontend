@@ -16,7 +16,7 @@ export class OAuthService {
    * and authentication token for that service
    *
    * @param {string} name
-   * @returns {Observable<any>}
+   * @returns {Observable<void>}
    * @memberof OAuthService
    */
   public authenticate(name: string): Observable<any> {

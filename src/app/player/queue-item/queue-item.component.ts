@@ -77,7 +77,7 @@ export class QueueItemComponent {
    * @memberof QueueItemComponent
    */
   public get albumUri(): string {
-    const uriSplit = this.item.track.album.uri.split(':');
+    const uriSplit = this.item ? this.item.track.album.uri.split(':') : [];
     const last = uriSplit.length - 1;
     return uriSplit[last];
   }

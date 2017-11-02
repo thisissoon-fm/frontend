@@ -23,6 +23,7 @@
 <div
   #mediaList
   class="media-list row no-gutters pl-3"
+  (scroll)="onScroll($event)"
   snInfiniteScroll
   (onScrollEnd)="getMoreTracks()"
   [offset]="200"

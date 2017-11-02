@@ -21,9 +21,9 @@ export class UtilsService {
    */
   public getOptimalImage(images: Image[], index: number): string {
     if (images && images.length) {
-      images.splice(index + 1);
-      const lastIndex = images.length - 1;
-      return images[lastIndex].url;
+      const goodImages = images.slice(0, index + 1);
+      const lastIndex = goodImages.length - 1;
+      return goodImages[lastIndex].url;
     }
     return '';
   }

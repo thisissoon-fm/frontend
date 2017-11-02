@@ -5,6 +5,6 @@ export interface ISocketIO {
 }
 
 export interface SocketIOInstance {
-  on(msg: string, callback: (msg: PlayerEvent) => any): void;
+  on(event: string, callback: (msg: PlayerEvent) => any): void;
   disconnect(): void;
 }

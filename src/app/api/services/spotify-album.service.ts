@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
 import { SpotifyAlbum, SpotifyTracks } from '../models';
 
 /**
- * Get artists data from player spotify api
+ * Get album data from player spotify api
  *
  * @export
  * @class SpotifyAlbumService

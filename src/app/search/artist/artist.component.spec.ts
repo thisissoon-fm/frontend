@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Observable } from 'rxjs/Observable';
+import { Store, Action } from '@ngrx/store';
 
+import { UtilsService } from '../../shared';
 import { ArtistComponent } from './artist.component';
+import { artist } from '../../../testing/mock-spotify-artist';
 
 describe('ArtistComponent', () => {
   let component: ArtistComponent;
@@ -8,6 +14,11 @@ describe('ArtistComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      schemas: [
+        NO_ERRORS_SCHEMA,
+        CUSTOM_ELEMENTS_SCHEMA
+      ],
+      providers: [ UtilsService ],
       declarations: [ ArtistComponent ]
     })
     .compileComponents();
@@ -16,10 +27,11 @@ describe('ArtistComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ArtistComponent);
     component = fixture.componentInstance;
+    component.item = <any>artist;
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
+  it('should get optimal image', () => {
+    expect(component.optimalImage).toEqual('https://i.scdn.co/image/cb080366dc8af1fe4dc90c4b9959794794884c66');
   });
 });
