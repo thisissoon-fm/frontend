@@ -104,6 +104,7 @@ export function queueReducer(
     case fromQueue.QUEUE_REMOVE_SUCCESS: {
       const uuid = (<fromQueue.QueueRemoveSuccess>action).payload;
       const index = state.queue.findIndex(item => item.uuid === uuid);
+      const item = state.queue[index];
       const queue = [...state.queue];
       if (index >= 0) {
         queue.splice(index, 1);
@@ -115,7 +116,7 @@ export function queueReducer(
         totalPages: Math.ceil(totalCount / environment.apiLimit) || 1
       });
       const meta = Object.assign({}, state.meta, {
-        play_time: state.meta.play_time - queue[index].track.duration
+        play_time: state.meta.play_time - item.track.duration
       });
 
       return Object.assign({}, state, {
