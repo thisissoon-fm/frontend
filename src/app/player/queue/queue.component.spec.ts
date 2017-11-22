@@ -56,5 +56,6 @@ describe('QueueComponent', () => {
     component.onScrollEnd();
     fixture.detectChanges();
     expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.LoadNextQueuePage());
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.LoadQueueMeta());
   }));
 });

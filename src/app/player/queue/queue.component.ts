@@ -71,5 +71,6 @@ export class QueueComponent implements OnInit {
    */
   public onScrollEnd(): void {
     this.playerStore$.dispatch(new fromPlayerStore.LoadNextQueuePage());
+    this.playerStore$.dispatch(new fromPlayerStore.LoadQueueMeta());
   }
 }

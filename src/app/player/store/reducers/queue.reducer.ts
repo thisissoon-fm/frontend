@@ -82,7 +82,7 @@ export function queueReducer(
     case fromQueue.LOAD_QUEUE_ITEM_SUCCESS: {
       const item = (<fromQueue.LoadQueueItemSuccess>action).payload;
       const queue = [...state.queue];
-      if (state.pagination.totalPages === state.pagination.currentPage) {
+      if (state.queue.length === state.pagination.totalCount) {
         queue.push(item);
       }
       const totalCount = state.pagination.totalCount + 1;
@@ -90,22 +90,40 @@ export function queueReducer(
         totalCount,
         totalPages: Math.ceil(totalCount / environment.apiLimit) || 1
       });
+      const meta = Object.assign({}, state.meta, {
+        play_time: state.meta.play_time + item.track.duration
+      });
 
       return Object.assign({}, state, {
         queue,
-        pagination
+        pagination,
+        meta
       });
     }
 
     case fromQueue.QUEUE_REMOVE_SUCCESS: {
       const uuid = (<fromQueue.QueueRemoveSuccess>action).payload;
       const index = state.queue.findIndex(item => item.uuid === uuid);
+      const item = state.queue[index];
       const queue = [...state.queue];
       if (index >= 0) {
         queue.splice(index, 1);
       }
 
-      return Object.assign({}, state, { queue });
+      const totalCount = state.pagination.totalCount - 1;
+      const pagination = Object.assign({}, state.pagination, {
+        totalCount,
+        totalPages: Math.ceil(totalCount / environment.apiLimit) || 1
+      });
+      const meta = Object.assign({}, state.meta, {
+        play_time: state.meta.play_time - item.track.duration
+      });
+
+      return Object.assign({}, state, {
+        queue,
+        meta,
+        pagination
+      });
     }
 
     case fromQueue.QUEUE_SHIFT: {
@@ -115,11 +133,15 @@ export function queueReducer(
         totalCount,
         totalPages: Math.ceil(totalCount / environment.apiLimit) || 1
       });
+      const meta = Object.assign({}, state.meta, {
+        play_time: state.meta.play_time - queue[0].track.duration
+      });
       queue.shift();
 
       return Object.assign({}, state, {
         queue,
-        pagination
+        pagination,
+        meta
       });
     }
   }
