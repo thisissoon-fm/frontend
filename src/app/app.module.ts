@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NgbDropdownModule, NgbTabsetModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2UiAuthModule, AuthService } from 'ng2-ui-auth';
 import * as io from 'socket.io-client';
@@ -20,6 +21,7 @@ import { NotificationModule, NotificationService } from './notification';
 
 import { AppRoutingModule, routedComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
 
 // Factories to be specifically provided for browser platform
 const socketIO = { connect: io };
@@ -46,6 +48,7 @@ export const getNotification = () => notification;
     NgbPopoverModule.forRoot(),
     StoreModule.forRoot([]),
     EffectsModule.forRoot([]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
     Ng2UiAuthModule.forRoot(AuthConfig),
     SharedModule.forRoot(),
     ApiModule.forRoot([

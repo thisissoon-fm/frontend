@@ -82,7 +82,7 @@ export function queueReducer(
     case fromQueue.LOAD_QUEUE_ITEM_SUCCESS: {
       const item = (<fromQueue.LoadQueueItemSuccess>action).payload;
       const queue = [...state.queue];
-      if (state.pagination.totalPages === state.pagination.currentPage) {
+      if (state.queue.length === state.pagination.totalCount) {
         queue.push(item);
       }
       const totalCount = state.pagination.totalCount + 1;
@@ -105,7 +105,16 @@ export function queueReducer(
         queue.splice(index, 1);
       }
 
-      return Object.assign({}, state, { queue });
+      const totalCount = state.pagination.totalCount - 1;
+      const pagination = Object.assign({}, state.pagination, {
+        totalCount,
+        totalPages: Math.ceil(totalCount / environment.apiLimit) || 1
+      });
+
+      return Object.assign({}, state, {
+        queue,
+        pagination
+      });
     }
 
     case fromQueue.QUEUE_SHIFT: {
