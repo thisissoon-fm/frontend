@@ -158,6 +158,16 @@ export class AppComponent implements OnInit, OnDestroy {
     return outlet.activatedRouteData['animation'] || 'homePage';
   }
   /**
+   * Close search if it's open
+   *
+   * @memberof AppComponent
+   */
+  public closeSearch(): void {
+    if (this.isSearchRouterActive) {
+      this.router.navigate(['/home']);
+    }
+  }
+  /**
    * Event handler for events from socket.io event service
    *
    * @param {PlayerEvent} data
