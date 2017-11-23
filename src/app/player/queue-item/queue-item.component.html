@@ -22,7 +22,7 @@
     <p class="lead mb-0 font-weight-bold text-truncate">
       <ng-template ngFor [ngForOf]="item?.track?.artists" let-artist let-last="last">
         <a [routerLink]="['/home', { outlets: { search: ['artists', getArtistUri(artist)] } }]">
-          {{ artist.name }}<span *ngIf="!last">,&nbsp;</span>
+          {{ artist.name }}<span *ngIf="!last">, </span>
         </a>
       </ng-template>
     </p>
