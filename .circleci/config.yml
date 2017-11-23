@@ -5,6 +5,19 @@
 
 version: 2
 jobs:
+  setup:
+    working_directory: ~/fm-frontend
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm i --no-progress
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
   test:
     working_directory: ~/fm-frontend
     docker:
@@ -13,21 +26,7 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Install globals
-          command: sudo npm install -d -g @angular/cli@latest
-      - run:
-          name: npm install
-          command: sudo npm install -d
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run: npm test -- --single-run
-      - save_cache:
-          key: dist-{{ .Revision }}
-          paths:
-            - dist
+      - run: npm run test -- --single-run --no-progress
   build:
     working_directory: ~/fm-frontend
     docker:
@@ -36,18 +35,7 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Install globals
-          command: sudo npm install -q -g @angular/cli@latest
-      - run:
-          name: npm install
-          command: sudo npm -q install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
       - run: npm run build -- --prod --no-progress
-
       - save_cache:
           key: dist-{{ .Revision }}
           paths:
@@ -84,17 +72,21 @@ jobs:
 
 workflows:
   version: 2
-  test:
+  build_test_and_deploy:
     jobs:
-      - test
-  build_and_deploy:
-    jobs:
+      - setup
+      - test:
+          requires:
+            - setup
       - build:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
             - build
-    filters:
-      branches:
-        only: master
-    requires:
-      - test
+          filters:
+            branches:
+              only: master
