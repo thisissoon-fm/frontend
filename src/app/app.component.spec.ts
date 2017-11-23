@@ -8,15 +8,22 @@ import { Store, Action } from '@ngrx/store';
 import { EventService, PlayerEvent } from './event';
 import { AppComponent } from './app.component';
 import * as fromPlayerStore from './player/store';
+import { queueMeta } from '../testing/mock-queue-meta';
+import { QueueService } from './api';
 
 
 const mockStore = {
-  dispatch: jasmine.createSpy('dispatch')
+  dispatch: jasmine.createSpy('dispatch'),
+  select: jasmine.createSpy('dispatch').and.returnValue(Observable.of(queueMeta))
 };
 
 class MockEventService {
   messages$ = Observable.of({});
 }
+
+const mockQueueService = {
+  getMeta: jasmine.createSpy('getMeta').and.returnValue(Observable.of(queueMeta))
+};
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -34,7 +41,8 @@ describe('AppComponent', () => {
       ],
       providers: [
         { provide: Store, useValue: mockStore },
-        { provide: EventService, useClass: MockEventService }
+        { provide: EventService, useClass: MockEventService },
+        { provide: QueueService, useValue: mockQueueService }
       ],
       declarations: [ AppComponent ],
     }).compileComponents();
@@ -42,6 +50,7 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     mockStore.dispatch.calls.reset();
+    mockQueueService.getMeta.calls.reset();
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -142,5 +151,16 @@ describe('AppComponent', () => {
     component.ngOnDestroy();
     expect(spyComplete).toHaveBeenCalled();
     expect(spyUnsubscribe).toHaveBeenCalled();
+  }));
+
+  it('should check if player is in sync', async(() => {
+    const spy = spyOn(component, 'loadPlayerData');
+    spy.calls.reset();
+    component.checkPlayerDataInSync();
+    expect(spy).not.toHaveBeenCalled();
+
+    mockQueueService.getMeta.and.returnValue(Observable.of({}));
+    component.checkPlayerDataInSync();
+    expect(spy).toHaveBeenCalled();
   }));
 });

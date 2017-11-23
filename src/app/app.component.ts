@@ -94,20 +94,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public ngOnInit(): void {
-    this.render.listen(this.doc, 'visibilitychange', () => {
-      if (this.doc['visibilityState'] === 'visible') {
-        const metaApi$ = this.queueService.getMeta();
-        const metaClient$ = this.playerStore$.select(fromPlayerStore.getQueueMeta);
-
-        Observable.combineLatest(metaApi$, metaClient$)
-          .take(1)
-          .filter(([metaApi, metaClient]) => metaApi.play_time !== metaClient.play_time)
-          .subscribe(() => {
-            console.log('queue is out of sync, reloading data');
-            this.loadPlayerData();
-          });
-      }
-    });
+    this.router.navigate(['/']);
 
     this.router.events
       .filter((event) => event instanceof NavigationStart)
@@ -119,7 +106,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.sharedStore$.dispatch(new fromSharedStore.SetRouterSearchActive(this.isSearchRouterActive));
       });
 
-    this.router.navigate(['/']);
 
     this.loadPlayerData();
     this.userStore$.dispatch(new fromUserStore.LoadMe());
@@ -127,14 +113,33 @@ export class AppComponent implements OnInit, OnDestroy {
     this.eventSvc.messages$
       .takeUntil(this.ngUnsubscribe$)
       .subscribe((event) => this.onEvent(event));
+
+    this.render.listen(this.doc, 'visibilitychange', () => {
+      if (this.doc['visibilityState'] === 'visible') {
+        this.checkPlayerDataInSync();
+      }
+    });
+  }
+  /**
+   * Checks if player data is in sync else it refreshes all data
+   *
+   * @memberof AppComponent
+   */
+  public checkPlayerDataInSync(): void {
+    const metaApi$ = this.queueService.getMeta();
+    const metaClient$ = this.playerStore$.select(fromPlayerStore.getQueueMeta);
+
+    Observable.combineLatest(metaApi$, metaClient$)
+      .take(1)
+      .filter(([metaApi, metaClient]) => metaApi.play_time !== metaClient.play_time)
+      .subscribe(() => this.loadPlayerData());
   }
   /**
    * Load all data for player
    *
-   * @private
    * @memberof AppComponent
    */
-  private loadPlayerData() {
+  public loadPlayerData() {
     this.playerStore$.dispatch(new fromPlayerStore.LoadCurrent());
     this.playerStore$.dispatch(new fromPlayerStore.LoadQueue());
     this.playerStore$.dispatch(new fromPlayerStore.LoadVolume());
