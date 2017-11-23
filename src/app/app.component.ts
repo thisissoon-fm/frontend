@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, Inject, Renderer2 } from '@angular/core';
 import { Router, NavigationStart, RouterOutlet } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 
@@ -8,6 +9,8 @@ import * as fromSharedStore from './shared/store';
 import * as fromUserStore from './user/store';
 import { EventService, PlayerEvent } from './event';
 import { navFadeAnimation, routeAnimation } from './shared/';
+import { QueueService } from './api';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Root component of application, this component should be present
@@ -66,8 +69,12 @@ export class AppComponent implements OnInit, OnDestroy {
    * Creates an instance of AppComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
    * @param {Store<fromSharedStore.SharedState>} sharedStore$
+   * @param {Store<fromUserStore.UserState>} userStore$
    * @param {Router} router
    * @param {EventService} eventSvc
+   * @param {QueueService} queueService
+   * @param {Renderer2} render
+   * @param {any} doc
    * @memberof AppComponent
    */
   constructor(
@@ -75,7 +82,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private sharedStore$: Store<fromSharedStore.SharedState>,
     private userStore$: Store<fromUserStore.UserState>,
     private router: Router,
-    private eventSvc: EventService
+    private eventSvc: EventService,
+    private queueService: QueueService,
+    private render: Renderer2,
+    @Inject(DOCUMENT) private doc
   ) { }
   /**
    * Tell store to load player data from api and subscribe to
@@ -84,6 +94,8 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public ngOnInit(): void {
+    this.router.navigate(['/']);
+
     this.router.events
       .filter((event) => event instanceof NavigationStart)
       .subscribe((event: NavigationStart) => {
@@ -94,19 +106,46 @@ export class AppComponent implements OnInit, OnDestroy {
         this.sharedStore$.dispatch(new fromSharedStore.SetRouterSearchActive(this.isSearchRouterActive));
       });
 
-    this.router.navigate(['/']);
 
+    this.loadPlayerData();
+    this.userStore$.dispatch(new fromUserStore.LoadMe());
+
+    this.eventSvc.messages$
+      .takeUntil(this.ngUnsubscribe$)
+      .subscribe((event) => this.onEvent(event));
+
+    this.render.listen(this.doc, 'visibilitychange', () => {
+      if (this.doc['visibilityState'] === 'visible') {
+        this.checkPlayerDataInSync();
+      }
+    });
+  }
+  /**
+   * Checks if player data is in sync else it refreshes all data
+   *
+   * @memberof AppComponent
+   */
+  public checkPlayerDataInSync(): void {
+    const metaApi$ = this.queueService.getMeta();
+    const metaClient$ = this.playerStore$.select(fromPlayerStore.getQueueMeta);
+
+    Observable.combineLatest(metaApi$, metaClient$)
+      .take(1)
+      .filter(([metaApi, metaClient]) => metaApi.play_time !== metaClient.play_time)
+      .subscribe(() => this.loadPlayerData());
+  }
+  /**
+   * Load all data for player
+   *
+   * @memberof AppComponent
+   */
+  public loadPlayerData() {
     this.playerStore$.dispatch(new fromPlayerStore.LoadCurrent());
     this.playerStore$.dispatch(new fromPlayerStore.LoadQueue());
     this.playerStore$.dispatch(new fromPlayerStore.LoadVolume());
     this.playerStore$.dispatch(new fromPlayerStore.LoadMute());
     this.playerStore$.dispatch(new fromPlayerStore.LoadQueueMeta());
     this.playerStore$.dispatch(new fromPlayerStore.LoadStats());
-    this.userStore$.dispatch(new fromUserStore.LoadMe());
-
-    this.eventSvc.messages$
-      .takeUntil(this.ngUnsubscribe$)
-      .subscribe((event) => this.onEvent(event));
   }
   /**
    * Return route meta data for router animation
