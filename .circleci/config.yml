@@ -8,17 +8,17 @@ jobs:
   test:
     working_directory: ~/fm-frontend
     docker:
-      - image: circleci/node:6-browsers
+      - image: circleci/node:8-browsers
     steps:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: Install globals
-          command: sudo npm install -q -g @angular/cli@latest
+          command: sudo npm install -d -g @angular/cli@latest
       - run:
           name: npm install
-          command: sudo npm install -q
+          command: sudo npm install -d
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
@@ -31,7 +31,7 @@ jobs:
   build:
     working_directory: ~/fm-frontend
     docker:
-      - image: circleci/node:6-browsers
+      - image: circleci/node:8-browsers
     steps:
       - checkout
       - restore_cache:
@@ -46,7 +46,7 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run build -- --prod
+      - run: npm run build -- --prod --no-progress
 
       - save_cache:
           key: dist-{{ .Revision }}
@@ -90,12 +90,11 @@ workflows:
   build_and_deploy:
     jobs:
       - build:
-          filters:
-            branches:
-              only: master
       - deploy:
-          filters:
-            branches:
-              only: master
           requires:
             - build
+    filters:
+      branches:
+        only: master
+    requires:
+      - test
