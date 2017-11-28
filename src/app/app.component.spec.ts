@@ -2,6 +2,7 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
 
@@ -25,9 +26,15 @@ const mockQueueService = {
   getMeta: jasmine.createSpy('getMeta').and.returnValue(Observable.of(queueMeta))
 };
 
+const mockRouter = {
+  navigate: jasmine.createSpy('navigate'),
+  events: jasmine.createSpy('events')
+};
+
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -40,12 +47,15 @@ describe('AppComponent', () => {
         CUSTOM_ELEMENTS_SCHEMA
       ],
       providers: [
+        // { provide: Router, useValue: mockRouter },
         { provide: Store, useValue: mockStore },
         { provide: EventService, useClass: MockEventService },
         { provide: QueueService, useValue: mockQueueService }
       ],
       declarations: [ AppComponent ],
     }).compileComponents();
+
+    router = TestBed.get(Router);
   }));
 
   beforeEach(() => {
@@ -161,6 +171,26 @@ describe('AppComponent', () => {
 
     mockQueueService.getMeta.and.returnValue(Observable.of({}));
     component.checkPlayerDataInSync();
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it('should close search view', async(() => {
+    const spy = spyOn(router, 'navigate');
+    component.closeSearch();
+    expect(spy).not.toHaveBeenCalled();
+
+    component.isSearchRouterActive = true;
+    component.closeSearch();
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it('should close artist/album detail view', async(() => {
+    const spy = spyOn(router, 'navigate');
+    component.closeSearchDetail();
+    expect(spy).not.toHaveBeenCalled();
+
+    component.isSearchDetailPage = true;
+    component.closeSearchDetail();
     expect(spy).toHaveBeenCalled();
   }));
 });

@@ -2,15 +2,16 @@ import { Component, OnInit, OnDestroy, HostBinding, Inject, Renderer2 } from '@a
 import { Router, NavigationStart, RouterOutlet } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import * as fromPlayerStore from './player/store';
 import * as fromSharedStore from './shared/store';
 import * as fromUserStore from './user/store';
+import * as fromSearchStore from './search/store';
 import { EventService, PlayerEvent } from './event';
 import { navFadeAnimation, routeAnimation } from './shared/';
 import { QueueService } from './api';
-import { Observable } from 'rxjs/Observable';
 
 /**
  * Root component of application, this component should be present
@@ -51,6 +52,13 @@ export class AppComponent implements OnInit, OnDestroy {
   @HostBinding('class.is-search-page')
   public isSearchPage = false;
   /**
+   * If true means the artist or album page is currently active
+   *
+   * @memberof AppComponent
+   */
+  @HostBinding('class.is-search-detail-page')
+  public isSearchDetailPage = false;
+  /**
    * If true means the search router is active
    *
    * @memberof AppComponent
@@ -69,6 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Creates an instance of AppComponent.
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
    * @param {Store<fromSharedStore.SharedState>} sharedStore$
+   * @param {Store<fromSearchStore.SharedState>} searchStore$
    * @param {Store<fromUserStore.UserState>} userStore$
    * @param {Router} router
    * @param {EventService} eventSvc
@@ -80,6 +89,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private playerStore$: Store<fromPlayerStore.PlayerState>,
     private sharedStore$: Store<fromSharedStore.SharedState>,
+    private searchStore$: Store<fromSearchStore.SearchState>,
     private userStore$: Store<fromUserStore.UserState>,
     private router: Router,
     private eventSvc: EventService,
@@ -98,12 +108,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.router.events
       .filter((event) => event instanceof NavigationStart)
+      .delay(0)
       .subscribe((event: NavigationStart) => {
         this.isLoadingPage = (event.url === '/');
         this.isSearchPage = event.url.includes('(search:search)');
+        this.isSearchDetailPage = event.url.includes('(search:artists') || event.url.includes('(search:albums');
         this.isSearchRouterActive = event.url.includes('(search');
         this.sharedStore$.dispatch(new fromSharedStore.SetSearchPageActive(this.isSearchPage));
         this.sharedStore$.dispatch(new fromSharedStore.SetRouterSearchActive(this.isSearchRouterActive));
+        this.sharedStore$.dispatch(new fromSharedStore.SetSearchDetailPageActive(this.isSearchDetailPage));
       });
 
 
@@ -156,6 +169,27 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public prepRouteState(outlet: RouterOutlet): 'splashPage' | 'homePage'  {
     return outlet.activatedRouteData['animation'] || 'homePage';
+  }
+  /**
+   * Close search if it's open
+   *
+   * @memberof AppComponent
+   */
+  public closeSearch(): void {
+    if (this.isSearchRouterActive) {
+      this.router.navigate(['/home']);
+      this.searchStore$.dispatch(new fromSearchStore.ClearSearch());
+    }
+  }
+  /**
+   * Close search if it's open
+   *
+   * @memberof AppComponent
+   */
+  public closeSearchDetail(): void {
+    if (this.isSearchDetailPage) {
+      this.router.navigate(['/home', { outlets: { search: ['search'] } }]);
+    }
   }
   /**
    * Event handler for events from socket.io event service

@@ -1,10 +1,13 @@
 <sfm-nav [@navFade]="isLoadingPage ? 'out' : 'in'"></sfm-nav>
 
-<div class="router-default" [@routeAnimation]="prepRouteState(outletDefault)">
+<div
+  class="router-default"
+  [@routeAnimation]="prepRouteState(outletDefault)"
+  (click)="closeSearch()">
   <router-outlet #outletDefault="outlet"></router-outlet>
 </div>
 
 <div class="router-search">
-  <sfm-search></sfm-search>
+  <sfm-search (click)="closeSearchDetail()"></sfm-search>
   <router-outlet name="search"></router-outlet>
 </div>
