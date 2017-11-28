@@ -176,6 +176,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * @memberof SearchComponent
    */
   public close(): void {
+    this.inputSearch.nativeElement.value = '';
     this.searchStore$.dispatch(new fromSearchStore.ClearSearch());
   }
   /**

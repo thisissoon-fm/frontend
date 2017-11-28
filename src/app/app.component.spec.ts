@@ -183,4 +183,14 @@ describe('AppComponent', () => {
     component.closeSearch();
     expect(spy).toHaveBeenCalled();
   }));
+
+  it('should close artist/album detail view', async(() => {
+    const spy = spyOn(router, 'navigate');
+    component.closeSearchDetail();
+    expect(spy).not.toHaveBeenCalled();
+
+    component.isSearchDetailPage = true;
+    component.closeSearchDetail();
+    expect(spy).toHaveBeenCalled();
+  }));
 });
