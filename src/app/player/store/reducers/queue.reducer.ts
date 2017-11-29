@@ -91,7 +91,7 @@ export function queueReducer(
         totalPages: Math.ceil(totalCount / environment.apiLimit) || 1
       });
       const meta = Object.assign({}, state.meta, {
-        play_time: state.meta.play_time + item.track.duration
+        play_time: state.meta.play_time + (item && item.track ? item.track.duration : 0)
       });
 
       return Object.assign({}, state, {
@@ -116,7 +116,7 @@ export function queueReducer(
         totalPages: Math.ceil(totalCount / environment.apiLimit) || 1
       });
       const meta = Object.assign({}, state.meta, {
-        play_time: state.meta.play_time - item.track.duration
+        play_time: state.meta.play_time - (item && item.track ? item.track.duration : 0)
       });
 
       return Object.assign({}, state, {
@@ -134,7 +134,7 @@ export function queueReducer(
         totalPages: Math.ceil(totalCount / environment.apiLimit) || 1
       });
       const meta = Object.assign({}, state.meta, {
-        play_time: state.meta.play_time - queue[0].track.duration
+        play_time: state.meta.play_time - (queue[0] && queue[0].track ? queue[0].track.duration : 0)
       });
       queue.shift();
 
