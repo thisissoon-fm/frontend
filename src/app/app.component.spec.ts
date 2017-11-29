@@ -10,12 +10,18 @@ import { EventService, PlayerEvent } from './event';
 import { AppComponent } from './app.component';
 import * as fromPlayerStore from './player/store';
 import { queueItem } from '../testing/mock-queue-item';
-import { CurrentService } from './api';
+import { queueMeta } from '../testing/mock-queue-meta';
+import { CurrentService, QueueService } from './api';
 
 
 const mockStore = {
   dispatch: jasmine.createSpy('dispatch'),
-  select: jasmine.createSpy('dispatch').and.returnValue(Observable.of(queueItem))
+  select: jasmine.createSpy('dispatch').and.returnValues(
+    Observable.of(queueItem),
+    Observable.of(queueMeta),
+    Observable.of(queueItem),
+    Observable.of(queueMeta)
+  )
 };
 
 class MockEventService {
@@ -24,6 +30,10 @@ class MockEventService {
 
 const mockCurrentService = {
   get: jasmine.createSpy('get').and.returnValue(Observable.of(queueItem))
+};
+
+const mockQueueService = {
+  getMeta: jasmine.createSpy('getMeta').and.returnValue(Observable.of(queueMeta))
 };
 
 const mockRouter = {
@@ -47,10 +57,10 @@ describe('AppComponent', () => {
         CUSTOM_ELEMENTS_SCHEMA
       ],
       providers: [
-        // { provide: Router, useValue: mockRouter },
         { provide: Store, useValue: mockStore },
         { provide: EventService, useClass: MockEventService },
-        { provide: CurrentService, useValue: mockCurrentService }
+        { provide: CurrentService, useValue: mockCurrentService },
+        { provide: QueueService, useValue: mockQueueService }
       ],
       declarations: [ AppComponent ],
     }).compileComponents();
@@ -169,7 +179,7 @@ describe('AppComponent', () => {
     component.checkPlayerDataInSync();
     expect(spy).not.toHaveBeenCalled();
 
-    mockCurrentService.get.and.returnValue(Observable.of({}));
+    mockCurrentService.get.and.returnValue(Observable.of(null));
     component.checkPlayerDataInSync();
     expect(spy).toHaveBeenCalled();
   }));

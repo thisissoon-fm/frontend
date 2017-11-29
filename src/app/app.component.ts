@@ -11,7 +11,7 @@ import * as fromUserStore from './user/store';
 import * as fromSearchStore from './search/store';
 import { EventService, PlayerEvent } from './event';
 import { navFadeAnimation, routeAnimation } from './shared/';
-import { CurrentService } from './api';
+import { CurrentService, QueueService } from './api';
 
 /**
  * Root component of application, this component should be present
@@ -81,7 +81,8 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {Store<fromUserStore.UserState>} userStore$
    * @param {Router} router
    * @param {EventService} eventSvc
-   * @param {CurrentService} currentService
+   * @param {currentSvc} currentService
+   * @param {queueSvc} queueService
    * @param {Renderer2} render
    * @param {any} doc
    * @memberof AppComponent
@@ -93,7 +94,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private userStore$: Store<fromUserStore.UserState>,
     private router: Router,
     private eventSvc: EventService,
-    private currentService: CurrentService,
+    private currentSvc: CurrentService,
+    private queueSvc: QueueService,
     private render: Renderer2,
     @Inject(DOCUMENT) private doc
   ) { }
@@ -139,16 +141,31 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public checkPlayerDataInSync(): void {
-    const currentFromApi$ = this.currentService.get();
+    const currentFromApi$ = this.currentSvc.get();
     const currentFromClient$ = this.playerStore$.select(fromPlayerStore.getCurrent);
 
-    Observable.combineLatest(currentFromApi$, currentFromClient$)
+    const metaFromApi$ = this.queueSvc.getMeta();
+    const metaFromClient$ = this.playerStore$.select(fromPlayerStore.getQueueMeta);
+
+    const currentCombined$ = Observable.combineLatest(currentFromApi$, currentFromClient$)
       .take(1)
-      .filter(([currentFromApi, currentFromClient]) => {
-        const currentFromClientId = currentFromClient.track ? currentFromClient.track.id : null;
-        const currentFromApiId = currentFromApi.track ? currentFromApi.track.id : null;
+      .map(([currentFromApi, currentFromClient]) => {
+        const currentFromClientId = currentFromClient && currentFromClient.track ? currentFromClient.track.id : null;
+        const currentFromApiId = currentFromApi && currentFromApi.track ? currentFromApi.track.id : null;
         return currentFromClientId !== currentFromApiId;
-      })
+      });
+
+    const metaCombined$ = Observable.combineLatest(metaFromApi$, metaFromClient$)
+      .take(1)
+      .map(([metaFromApi, metaFromClient]) => {
+        const metaFromClientPlayTime = metaFromClient ? metaFromClient.play_time : null;
+        const metaFromApiPlayTime = metaFromApi ? metaFromApi.play_time : null;
+        return metaFromClientPlayTime !== metaFromApiPlayTime;
+      });
+
+    Observable.combineLatest(currentCombined$, metaCombined$)
+      .take(1)
+      .filter(([currentDoesntMatch, metaDoesntMatch]) => currentDoesntMatch || metaDoesntMatch)
       .subscribe(() => this.loadPlayerData());
   }
   /**
