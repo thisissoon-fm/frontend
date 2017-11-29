@@ -11,7 +11,7 @@ import * as fromUserStore from './user/store';
 import * as fromSearchStore from './search/store';
 import { EventService, PlayerEvent } from './event';
 import { navFadeAnimation, routeAnimation } from './shared/';
-import { QueueService } from './api';
+import { CurrentService } from './api';
 
 /**
  * Root component of application, this component should be present
@@ -81,7 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {Store<fromUserStore.UserState>} userStore$
    * @param {Router} router
    * @param {EventService} eventSvc
-   * @param {QueueService} queueService
+   * @param {CurrentService} currentService
    * @param {Renderer2} render
    * @param {any} doc
    * @memberof AppComponent
@@ -93,7 +93,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private userStore$: Store<fromUserStore.UserState>,
     private router: Router,
     private eventSvc: EventService,
-    private queueService: QueueService,
+    private currentService: CurrentService,
     private render: Renderer2,
     @Inject(DOCUMENT) private doc
   ) { }
@@ -139,12 +139,16 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public checkPlayerDataInSync(): void {
-    const metaApi$ = this.queueService.getMeta();
-    const metaClient$ = this.playerStore$.select(fromPlayerStore.getQueueMeta);
+    const currentFromApi$ = this.currentService.get();
+    const currentFromClient$ = this.playerStore$.select(fromPlayerStore.getCurrent);
 
-    Observable.combineLatest(metaApi$, metaClient$)
+    Observable.combineLatest(currentFromApi$, currentFromClient$)
       .take(1)
-      .filter(([metaApi, metaClient]) => metaApi.play_time !== metaClient.play_time)
+      .filter(([currentFromApi, currentFromClient]) => {
+        const currentFromClientId = currentFromClient.track ? currentFromClient.track.id : null;
+        const currentFromApiId = currentFromApi.track ? currentFromApi.track.id : null;
+        return currentFromClientId !== currentFromApiId;
+      })
       .subscribe(() => this.loadPlayerData());
   }
   /**

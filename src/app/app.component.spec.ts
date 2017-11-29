@@ -9,21 +9,21 @@ import { Store, Action } from '@ngrx/store';
 import { EventService, PlayerEvent } from './event';
 import { AppComponent } from './app.component';
 import * as fromPlayerStore from './player/store';
-import { queueMeta } from '../testing/mock-queue-meta';
-import { QueueService } from './api';
+import { queueItem } from '../testing/mock-queue-item';
+import { CurrentService } from './api';
 
 
 const mockStore = {
   dispatch: jasmine.createSpy('dispatch'),
-  select: jasmine.createSpy('dispatch').and.returnValue(Observable.of(queueMeta))
+  select: jasmine.createSpy('dispatch').and.returnValue(Observable.of(queueItem))
 };
 
 class MockEventService {
   messages$ = Observable.of({});
 }
 
-const mockQueueService = {
-  getMeta: jasmine.createSpy('getMeta').and.returnValue(Observable.of(queueMeta))
+const mockCurrentService = {
+  get: jasmine.createSpy('get').and.returnValue(Observable.of(queueItem))
 };
 
 const mockRouter = {
@@ -50,7 +50,7 @@ describe('AppComponent', () => {
         // { provide: Router, useValue: mockRouter },
         { provide: Store, useValue: mockStore },
         { provide: EventService, useClass: MockEventService },
-        { provide: QueueService, useValue: mockQueueService }
+        { provide: CurrentService, useValue: mockCurrentService }
       ],
       declarations: [ AppComponent ],
     }).compileComponents();
@@ -60,7 +60,7 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     mockStore.dispatch.calls.reset();
-    mockQueueService.getMeta.calls.reset();
+    mockCurrentService.get.calls.reset();
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -169,7 +169,7 @@ describe('AppComponent', () => {
     component.checkPlayerDataInSync();
     expect(spy).not.toHaveBeenCalled();
 
-    mockQueueService.getMeta.and.returnValue(Observable.of({}));
+    mockCurrentService.get.and.returnValue(Observable.of({}));
     component.checkPlayerDataInSync();
     expect(spy).toHaveBeenCalled();
   }));
