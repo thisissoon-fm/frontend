@@ -69,7 +69,7 @@ export class TrackComponent {
    * @memberof TrackComponent
    */
   @Output()
-  public onButtonClick = new EventEmitter<string>();
+  public buttonClick = new EventEmitter<string>();
   /**
    * Returns optimal image or last image in array if
    * optimal image does not exist
@@ -106,6 +106,6 @@ export class TrackComponent {
    */
   public onClick(): void {
     this.added = true;
-    this.onButtonClick.emit(this.item.uri);
+    this.buttonClick.emit(this.item.uri);
   }
 }

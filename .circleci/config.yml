@@ -26,6 +26,7 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm run lint
       - run: npm run test -- --no-progress --single-run --code-coverage
       # - run: npm run coverage
   build:

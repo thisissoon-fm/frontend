@@ -40,7 +40,7 @@ describe('TrackComponent', () => {
   });
 
   it('should emit event on click', () => {
-    const spy = spyOn(component.onButtonClick, 'emit');
+    const spy = spyOn(component.buttonClick, 'emit');
     component.onClick();
     expect(spy).toHaveBeenCalledWith('spotify:track:5EnYT6F7wEcdege6mDHEfO');
   });
