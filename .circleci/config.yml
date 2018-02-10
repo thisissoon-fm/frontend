@@ -26,7 +26,8 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm run test -- --single-run --no-progress
+      - run: npm run test -- --no-progress --single-run --code-coverage
+      # - run: npm run coverage
   build:
     working_directory: ~/fm-frontend
     docker:
@@ -35,7 +36,7 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm run build -- --prod --no-progress
+      - run: npm run build -- --no-progress
       - save_cache:
           key: dist-{{ .Revision }}
           paths:
