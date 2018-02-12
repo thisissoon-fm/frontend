@@ -7,10 +7,14 @@ export interface CurrentState {
   current: QueueItem;
 }
 
-const initialState: CurrentState = {
+export const initialState: CurrentState = {
   loaded: false,
   loading: false,
   current: null
+};
+
+const newState = (state, newData) => {
+  return Object.assign({}, state, newData);
 };
 
 export function currentReducer(
@@ -19,7 +23,7 @@ export function currentReducer(
 ): CurrentState {
   switch (action.type) {
     case fromCurrent.LOAD_CURRENT: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: true
       });
@@ -36,14 +40,14 @@ export function currentReducer(
     }
 
     case fromCurrent.LOAD_CURRENT_FAIL: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: false
       });
     }
 
     case fromCurrent.REMOVE_CURRENT_SUCCESS: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: false,
         current: null
@@ -51,24 +55,24 @@ export function currentReducer(
     }
 
     case fromCurrent.ADD_PAUSE_SUCCESS: {
-      return Object.assign({}, state, {
-        current: Object.assign({}, state.current, { paused: true })
+      return newState(state, {
+        current: newState(state.current, { paused: true })
       });
     }
 
     case fromCurrent.REMOVE_PAUSE_SUCCESS: {
-      return Object.assign({}, state, {
-        current: Object.assign({}, state.current, { paused: false })
+      return newState(state, {
+        current: newState(state.current, { paused: false })
       });
     }
 
     case fromCurrent.TIMER_INCREMENT: {
       const player = state.current.player;
-      player.elapsed_time++;
+      player.elapsed_seconds++;
       player.elapsed_time += 1000;
       player.elapsed_percentage = (player.elapsed_time  / state.current.track.duration);
-      return Object.assign({}, state, {
-        current: Object.assign({}, state.current, { player })
+      return newState(state, {
+        current: newState(state.current, { player })
       });
     }
   }

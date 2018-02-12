@@ -17,14 +17,14 @@ export interface SpotifyArtists {
 }
 
 export interface SpotifyArtist {
-  genres: string[];
+  genres?: string[];
   name: string;
   external_urls: ExternalUrls;
-  popularity: number;
+  popularity?: number;
   uri: string;
   href: string;
-  followers: Followers;
-  images: Image[];
+  followers?: Followers;
+  images?: Image[];
   type: string;
   id: string;
 }
@@ -67,7 +67,7 @@ export interface ExternalIds {
   isrc: string;
 }
 
-export interface SpotifyAlbums {
+export interface  SpotifyAlbums {
   items: SpotifyAlbum[];
   next: string;
   href: string;

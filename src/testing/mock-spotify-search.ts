@@ -1,4 +1,6 @@
-export const search = {
+import { SpotifySearch } from '../app/api';
+
+export const search: SpotifySearch = {
   'tracks': {
     'items': [
       {

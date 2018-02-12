@@ -7,7 +7,11 @@ export interface MuteState {
   mute: Mute;
 }
 
-const initialState: MuteState = {
+const newState = (state, newData) => {
+  return Object.assign({}, state, newData);
+};
+
+export const initialState: MuteState = {
   loaded: false,
   loading: false,
   mute: null,
@@ -19,7 +23,7 @@ export function muteReducer(
 ): MuteState {
   switch (action.type) {
     case fromMute.LOAD_MUTE: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: true
       });
@@ -38,7 +42,7 @@ export function muteReducer(
     }
 
     case fromMute.LOAD_MUTE_FAIL: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: false
       });

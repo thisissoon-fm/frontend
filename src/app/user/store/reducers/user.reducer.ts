@@ -8,11 +8,15 @@ export interface UserState {
   authenticated: boolean;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   loaded: false,
   loading: false,
   user: null,
   authenticated: false
+};
+
+const newState = (state, newData) => {
+  return Object.assign({}, state, newData);
 };
 
 export function userReducer(
@@ -21,7 +25,7 @@ export function userReducer(
 ): UserState {
   switch (action.type) {
     case fromUser.LOAD_ME: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: true
       });
@@ -30,7 +34,7 @@ export function userReducer(
     case fromUser.LOAD_ME_SUCCESS: {
       const user = (<fromUser.LoadMeSuccess>action).payload;
 
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: true,
         loading: false,
         user,
@@ -39,7 +43,7 @@ export function userReducer(
     }
 
     case fromUser.LOAD_ME_FAIL: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: false,
         user: null,

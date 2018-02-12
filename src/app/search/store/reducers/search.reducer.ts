@@ -10,7 +10,8 @@ export interface SearchState {
   query: string;
 }
 
-const initialState: SearchState = {
+
+export const initialState: SearchState = {
   loaded: false,
   loading: false,
   results: [],
@@ -19,13 +20,17 @@ const initialState: SearchState = {
   query: null
 };
 
+const newState = (state, newData) => {
+  return Object.assign({}, state, newData);
+};
+
 export function searchReducer(
   state = initialState,
   action: fromSearch.SearchAction
 ): SearchState {
   switch (action.type) {
     case fromSearch.LOAD_SEARCH_RESULTS: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: true,
         results: [],
@@ -42,7 +47,7 @@ export function searchReducer(
         totalPages: Math.ceil(res.total / res.limit)
       };
 
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: true,
         loading: false,
         results: items,
@@ -51,16 +56,16 @@ export function searchReducer(
     }
 
     case fromSearch.LOAD_SEARCH_RESULTS_FAIL: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: false,
         results: [],
-        pagination: Object.assign({}, initialState.pagination)
+        pagination: newState(initialState.pagination, {})
       });
     }
 
     case fromSearch.LOAD_SEARCH_RESULTS_NEXT_PAGE: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: true
       });
@@ -75,7 +80,7 @@ export function searchReducer(
         totalPages: Math.ceil(res.total / res.limit)
       };
 
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: true,
         loading: false,
         results: items,
@@ -84,7 +89,7 @@ export function searchReducer(
     }
 
     case fromSearch.LOAD_SEARCH_RESULTS_NEXT_PAGE_FAIL: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: false
       });
@@ -93,17 +98,17 @@ export function searchReducer(
     case fromSearch.SET_SEARCH_TYPE: {
       const type = (<fromSearch.SetSearchType>action).payload;
 
-      return Object.assign({}, state, { type });
+      return newState(state, { type });
     }
 
     case fromSearch.SET_SEARCH_QUERY: {
       const query = (<fromSearch.SetSearchQuery>action).payload;
 
-      return Object.assign({}, state, { query });
+      return newState(state, { query });
     }
 
     case fromSearch.CLEAR_SEARCH: {
-      return Object.assign({}, initialState);
+      return newState(initialState, {});
     }
   }
 

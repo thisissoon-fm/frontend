@@ -7,10 +7,14 @@ export interface VolumeState {
   volume: Volume;
 }
 
-const initialState: VolumeState = {
+export const initialState: VolumeState = {
   loaded: false,
   loading: false,
   volume: null
+};
+
+const newState = (state, newData) => {
+  return Object.assign({}, state, newData);
 };
 
 export function volumeReducer(
@@ -19,7 +23,7 @@ export function volumeReducer(
 ): VolumeState {
   switch (action.type) {
     case fromVolume.LOAD_VOLUME: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: true
       });
@@ -37,7 +41,7 @@ export function volumeReducer(
     }
 
     case fromVolume.LOAD_VOLUME_FAIL: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: false
       });

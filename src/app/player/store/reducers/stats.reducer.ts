@@ -6,10 +6,14 @@ export interface StatsState {
   stats: any;
 }
 
-const initialState: StatsState = {
+export const initialState: StatsState = {
   loaded: false,
   loading: false,
   stats: null
+};
+
+const newState = (state, newData) => {
+  return Object.assign({}, state, newData);
 };
 
 export function statsReducer(
@@ -18,7 +22,7 @@ export function statsReducer(
 ): StatsState {
   switch (action.type) {
     case fromStats.LOAD_STATS: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: true
       });
@@ -35,7 +39,7 @@ export function statsReducer(
     }
 
     case fromStats.LOAD_STATS_FAIL: {
-      return Object.assign({}, state, {
+      return newState(state, {
         loaded: false,
         loading: false,
       });
