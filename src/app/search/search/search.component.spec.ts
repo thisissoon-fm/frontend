@@ -103,7 +103,7 @@ describe('SearchComponent', () => {
   it('should set search query on search changes', fakeAsync(() => {
     const spy = spyOn(component, 'setSearchQuery');
     component.onSearchChange$.next('foo');
-    tick(100);
+    tick(300);
     expect(spy).toHaveBeenCalled();
   }));
 });

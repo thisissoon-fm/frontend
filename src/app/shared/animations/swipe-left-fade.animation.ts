@@ -6,8 +6,8 @@ export const swipeLeftFadeAnimation = trigger('swipeLeftFade', [
 
     query('.swipe-left-fade', style({ opacity: 0, transform: 'translateX(40px)' })),
 
-    query('.swipe-left-fade', stagger('200ms', [
-      animate('350ms .2s ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
+    query('.swipe-left-fade', stagger(75, [
+      animate('.4s .2s ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
     ])),
 
     query('.swipe-left-fade', [
@@ -18,8 +18,8 @@ export const swipeLeftFadeAnimation = trigger('swipeLeftFade', [
   transition('* => out', [
     query('.swipe-left-fade', style({ opacity: 1, transform: 'translateX(0)' })),
 
-    query('.swipe-left-fade', stagger('200ms', [
-      animate('350ms ease-out', style({ opacity: 0, transform: 'translateX(40px)' })),
+    query('.swipe-left-fade', stagger(75, [
+      animate('.4s ease-out', style({ opacity: 0, transform: 'translateX(40px)' })),
     ])),
   ])
 ]);

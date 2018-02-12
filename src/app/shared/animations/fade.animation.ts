@@ -6,10 +6,10 @@ export const fadeAnimation = trigger('fade', [
   state('out', style({ opacity: 0 })),
   transition('* => in', [
     style({ opacity: 0 }),
-    animate('350ms ease-out', style({ opacity: 1 }))
+    animate('.4s linear', style({ opacity: 1 }))
   ]),
   transition('* => out', [
     style({ opacity: 1 }),
-    animate('350ms ease-out', style({ opacity: 0 }))
+    animate('.4s linear', style({ opacity: 0 }))
   ])
 ]);

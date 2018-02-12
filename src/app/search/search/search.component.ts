@@ -102,7 +102,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.onSearchChange$
       .takeUntil(this.ngUnsubscribe$)
-      .debounceTime(100)
+      .debounceTime(300)
       .subscribe((query) => this.setSearchQuery(query));
 
     this.searchStore$.select(fromSearchStore.getSearchState)

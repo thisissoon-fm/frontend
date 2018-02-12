@@ -57,7 +57,6 @@ export class QueueComponent implements OnInit {
    */
   public ngOnInit(): void {
     this.playerStore$.select(fromPlayerStore.getQueue)
-      .delay(0)
       .subscribe(queue => this.queue = queue);
     this.playerStore$.select(fromPlayerStore.getQueueLoading)
       .subscribe(loading => this.loading = loading);
