@@ -28,7 +28,7 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: npm run lint
       - run: npm run test -- --no-progress --single-run --code-coverage
-      # - run: npm run coverage
+      - run: npm run coverage
   build:
     working_directory: ~/fm-frontend
     docker:

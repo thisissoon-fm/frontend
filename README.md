@@ -1,8 +1,8 @@
 # SOON FM Frontend
 
 [![CircleCI][circleci-badge]][circleci]
+[![Coverage Status][coveralls-badge]][coveralls]
 [![Commitizen friendly][commitizen-badge]][commitizen]
-<!-- [![Coverage Status][coveralls-badge]][coveralls] -->
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
 
