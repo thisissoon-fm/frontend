@@ -5,7 +5,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { NgbDropdownModule, NgbTabsetModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbTabsetModule,
+  NgbPopoverModule
+} from '@ng-bootstrap/ng-bootstrap';
 import { Ng2UiAuthModule, AuthService } from 'ng2-ui-auth';
 import * as io from 'socket.io-client';
 
@@ -16,7 +20,7 @@ import { SearchModule } from './search';
 import { PlayerModule } from './player';
 import { SharedModule } from './shared';
 import { UserModule } from './user';
-import { AuthModule, AuthConfig, OAuthService } from './auth';
+import { AuthModule, OAuthService } from './auth';
 import { NotificationModule, NotificationService } from './notification';
 
 import { AppRoutingModule, routedComponents } from './app-routing.module';
@@ -46,33 +50,30 @@ export const getNotification = () => notification;
     NgbDropdownModule.forRoot(),
     NgbTabsetModule.forRoot(),
     NgbPopoverModule.forRoot(),
-    StoreModule.forRoot([]),
+    StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    Ng2UiAuthModule.forRoot(AuthConfig),
+    Ng2UiAuthModule.forRoot({
+      providers: { google: { clientId: environment.googleClientId } }
+    }),
     SharedModule.forRoot(),
     ApiModule.forRoot([
-      { provide: LocalStorageService, useFactory: (getLocalStorage) }
+      { provide: LocalStorageService, useFactory: getLocalStorage }
     ]),
     EventModule.forRoot([
-      { provide: SocketIOService, useFactory: (getSocketIO) }
+      { provide: SocketIOService, useFactory: getSocketIO }
     ]),
     NotificationModule.forRoot([
-      { provide: NotificationService, useFactory: (getNotification) }
+      { provide: NotificationService, useFactory: getNotification }
     ]),
-    AuthModule.forRoot([
-      { provide: OAuthService, useClass: AuthService }
-    ]),
+    AuthModule.forRoot([{ provide: OAuthService, useClass: AuthService }]),
     NavModule,
     UserModule,
     SearchModule,
     PlayerModule,
     AppRoutingModule
   ],
-  declarations: [
-    ...routedComponents,
-    AppComponent
-  ],
+  declarations: [...routedComponents, AppComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

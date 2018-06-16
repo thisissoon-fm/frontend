@@ -4,31 +4,35 @@
 #
 
 version: 2
+
 jobs:
+  jobs:
   setup:
-    working_directory: ~/fm-frontend
+    working_directory: ~/soon-fm
     docker:
       - image: circleci/node:8-browsers
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: ~/soon-fm-{{ .Branch }}-{{ checksum "package.json" }}
       - run: npm i --no-progress
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: ~/soon-fm-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
-            - node_modules
+            - "node_modules"
+
   test:
-    working_directory: ~/fm-frontend
+    working_directory: ~/soon-fm
     docker:
       - image: circleci/node:8-browsers
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: ~/soon-fm-{{ .Branch }}-{{ checksum "package.json" }}
       - run: npm run lint
-      - run: npm run test -- --no-progress --single-run --code-coverage
+      - run: xvfb-run -a npm run test
       - run: npm run coverage
+
   build:
     working_directory: ~/fm-frontend
     docker:
@@ -37,11 +41,12 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm run build -- --no-progress
+      - run: npm run build -- --prod --progress false
       - save_cache:
           key: dist-{{ .Revision }}
           paths:
             - dist
+
   deploy:
     working_directory: ~/fm-frontend
     machine: true
