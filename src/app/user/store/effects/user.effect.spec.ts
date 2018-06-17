@@ -1,9 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { Observable, EMPTY, of as observableOf } from 'rxjs';
 
 import { UserEffects } from './user.effect';
 import * as actions from '../actions/user.action';
@@ -12,7 +10,7 @@ import { user } from '../../../../testing/mock-user';
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   set stream(source: Observable<any>) {
@@ -32,9 +30,9 @@ describe('UserEffects', () => {
 
   beforeEach(() => {
     mockUserService = {
-      get: jasmine.createSpy('get').and.returnValue(of(user)),
-      me: jasmine.createSpy('me').and.returnValue(of(user)),
-      delete: jasmine.createSpy('delete').and.returnValue(of(null))
+      get: jasmine.createSpy('get').and.returnValue(observableOf(user)),
+      me: jasmine.createSpy('me').and.returnValue(observableOf(user)),
+      delete: jasmine.createSpy('delete').and.returnValue(observableOf(null))
     };
 
     testBed = TestBed.configureTestingModule({

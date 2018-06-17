@@ -1,9 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { Observable, EMPTY, of as observableOf } from 'rxjs';
 
 import { MuteEffects } from './mute.effect';
 import * as actions from '../actions/mute.action';
@@ -11,7 +9,7 @@ import { MuteService } from '../../../api';
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   set stream(source: Observable<any>) {
@@ -34,9 +32,15 @@ describe('MuteEffects', () => {
     mute = { mute: true };
 
     mockMuteService = {
-      get: jasmine.createSpy('get').and.returnValue(of({ mute: true })),
-      post: jasmine.createSpy('post').and.returnValue(of({ mute: true })),
-      delete: jasmine.createSpy('delete').and.returnValue(of({ mute: false }))
+      get: jasmine
+        .createSpy('get')
+        .and.returnValue(observableOf({ mute: true })),
+      post: jasmine
+        .createSpy('post')
+        .and.returnValue(observableOf({ mute: true })),
+      delete: jasmine
+        .createSpy('delete')
+        .and.returnValue(observableOf({ mute: false }))
     };
 
     testBed = TestBed.configureTestingModule({

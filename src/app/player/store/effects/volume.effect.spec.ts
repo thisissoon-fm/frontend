@@ -1,9 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { Observable, EMPTY, of as observableOf } from 'rxjs';
 
 import { VolumeEffects } from './volume.effect';
 import * as actions from '../actions/volume.action';
@@ -11,7 +9,7 @@ import { VolumeService } from '../../../api';
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   set stream(source: Observable<any>) {
@@ -34,8 +32,12 @@ describe('volumeEffects', () => {
     volume = { volume: 50 };
 
     mockVolumeService = {
-      get: jasmine.createSpy('get').and.returnValue(of({ volume: 50 })),
-      post: jasmine.createSpy('post').and.returnValue(of({ volume: 70 }))
+      get: jasmine
+        .createSpy('get')
+        .and.returnValue(observableOf({ volume: 50 })),
+      post: jasmine
+        .createSpy('post')
+        .and.returnValue(observableOf({ volume: 70 }))
     };
 
     testBed = TestBed.configureTestingModule({

@@ -1,9 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { Observable, EMPTY, of as observableOf } from 'rxjs';
 
 import { StatsEffects } from './stats.effect';
 import * as actions from '../actions/stats.action';
@@ -11,7 +9,7 @@ import { StatsService } from '../../../api';
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   set stream(source: Observable<any>) {
@@ -34,7 +32,7 @@ describe('StatsEffects', () => {
     stats = {};
 
     mockStatsService = {
-      get: jasmine.createSpy('get').and.returnValue(of({}))
+      get: jasmine.createSpy('get').and.returnValue(observableOf({}))
     };
 
     testBed = TestBed.configureTestingModule({

@@ -1,9 +1,7 @@
 import { Actions } from '@ngrx/effects';
 import { TestBed } from '@angular/core/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { Observable, EMPTY, of as observableOf } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { QueueEffects } from './queue.effect';
@@ -19,7 +17,7 @@ import { UtilsService } from '../../../shared';
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   set stream(source: Observable<any>) {
@@ -47,18 +45,18 @@ describe('QueueEffects', () => {
 
   beforeEach(() => {
     mockQueueService = {
-      query: jasmine.createSpy('query').and.returnValue(of(items)),
-      post: jasmine.createSpy('post').and.returnValue(of({})),
-      delete: jasmine.createSpy('remove').and.returnValue(of({})),
-      getMeta: jasmine.createSpy('meta').and.returnValue(of({}))
+      query: jasmine.createSpy('query').and.returnValue(observableOf(items)),
+      post: jasmine.createSpy('post').and.returnValue(observableOf({})),
+      delete: jasmine.createSpy('remove').and.returnValue(observableOf({})),
+      getMeta: jasmine.createSpy('meta').and.returnValue(observableOf({}))
     };
 
     mockTrackService = {
-      get: jasmine.createSpy('trackGet').and.returnValue(of({}))
+      get: jasmine.createSpy('trackGet').and.returnValue(observableOf({}))
     };
 
     mockUserService = {
-      get: jasmine.createSpy('userGet').and.returnValue(of({}))
+      get: jasmine.createSpy('userGet').and.returnValue(observableOf({}))
     };
 
     mockNotificationService = {
@@ -66,7 +64,9 @@ describe('QueueEffects', () => {
     };
 
     mockStore = {
-      select: jasmine.createSpy('select').and.returnValue(of(pagination))
+      select: jasmine
+        .createSpy('select')
+        .and.returnValue(observableOf(pagination))
     };
 
     TestBed.configureTestingModule({

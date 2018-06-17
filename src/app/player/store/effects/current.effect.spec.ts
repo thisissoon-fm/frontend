@@ -2,9 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { Actions } from '@ngrx/effects';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { EMPTY, of as observableOf, Observable } from 'rxjs';
 
 import { CurrentEffects } from './current.effect';
 import * as actions from '../actions/current.action';
@@ -14,7 +12,7 @@ import { UtilsService } from '../../../shared';
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   set stream(source: Observable<any>) {
@@ -43,8 +41,8 @@ describe('CurrentEffects', () => {
 
   beforeEach(() => {
     mockCurrentService = {
-      get: jasmine.createSpy('query').and.returnValue(of(current)),
-      delete: jasmine.createSpy('remove').and.returnValue(of({}))
+      get: jasmine.createSpy('query').and.returnValue(observableOf(current)),
+      delete: jasmine.createSpy('remove').and.returnValue(observableOf({}))
     };
 
     mockTitle = {
