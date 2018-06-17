@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Store, Action } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromPlayerStore from '../../player/store';
@@ -12,29 +12,22 @@ import { queueItem } from '../../../testing/mock-queue-item';
 describe('QueueItemComponent', () => {
   let component: QueueItemComponent;
   let fixture: ComponentFixture<QueueItemComponent>;
-  let mockStore: { dispatch: () => any, select: () => any };
+  let mockStore: { dispatch: () => any; select: () => any };
 
   beforeEach(async(() => {
     mockStore = {
       dispatch: jasmine.createSpy('dispatch'),
-      select: jasmine.createSpy('select').and.returnValue(Observable.of(queueItem.user))
+      select: jasmine
+        .createSpy('select')
+        .and.returnValue(Observable.of(queueItem.user))
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      schemas: [
-        NO_ERRORS_SCHEMA,
-        CUSTOM_ELEMENTS_SCHEMA
-      ],
-      providers: [
-        { provide: Store, useValue: mockStore },
-        UtilsService
-      ],
-      declarations: [ QueueItemComponent ]
-    })
-    .compileComponents();
+      imports: [RouterTestingModule],
+      schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
+      providers: [{ provide: Store, useValue: mockStore }, UtilsService],
+      declarations: [QueueItemComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -51,7 +44,9 @@ describe('QueueItemComponent', () => {
 
   it('should delete track from queue', () => {
     component.delete();
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.QueueRemove('4753dfdf-3653-ab54-6fbb-475aabc43221'));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.QueueRemove('4753dfdf-3653-ab54-6fbb-475aabc43221')
+    );
   });
 
   it('should get album uri', () => {
@@ -59,6 +54,8 @@ describe('QueueItemComponent', () => {
   });
 
   it('should get artist joined', () => {
-    expect(component.artistsJoined).toEqual('Johnny Kidd & The Pirates, Another Guy');
+    expect(component.artistsJoined).toEqual(
+      'Johnny Kidd & The Pirates, Another Guy'
+    );
   });
 });

@@ -8,9 +8,8 @@ describe('EqualizerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EqualizerComponent ]
-    })
-    .compileComponents();
+      declarations: [EqualizerComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpResponse, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import {
+  HttpEvent,
+  HttpInterceptor,
+  HttpResponse,
+  HttpHandler,
+  HttpRequest
+} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { QueueItem } from '../models';
@@ -33,19 +40,23 @@ export class PausedInterceptor implements HttpInterceptor {
    * @returns {Observable<HttpEvent<any>>}
    * @memberof PausedInterceptor
    */
-  public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  public intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     if (!req.url.startsWith(`${environment.apiUrlPlayer}player/current`)) {
       return next.handle(req);
     }
 
-    return next.handle(req)
-      .map((event: HttpEvent<QueueItem>) => {
+    return next.handle(req).pipe(
+      map((event: HttpEvent<QueueItem>) => {
         if (event instanceof HttpResponse) {
           if (event.body) {
             event.body.paused = this.getPaused(event);
           }
         }
         return event;
-      });
+      })
+    );
   }
 }

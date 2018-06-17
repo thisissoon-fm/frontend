@@ -4,20 +4,18 @@
 // Override form styling that cannot be customised
 // by modifying variables
 
-
 .form-control {
   // Placeholder
   &::placeholder {
     font-style: italic;
   }
-
 }
 
 .form-group {
   position: relative;
 
   &.border-left::before {
-    background-color: rgba($black, .1);
+    background-color: rgba($black, 0.1);
     bottom: 0;
     content: "";
     display: block;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { Mute } from '../models';
@@ -26,7 +26,7 @@ export class MuteService {
    * @param {HttpClient} http
    * @memberof MuteService
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * Get player mute status
    *

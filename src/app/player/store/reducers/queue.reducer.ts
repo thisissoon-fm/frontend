@@ -1,6 +1,6 @@
 import * as fromQueue from '../actions/queue.action';
 
-import { QueueItem, QueueMeta, QueueResponse, Pagination } from '../../../api';
+import { QueueItem, QueueMeta, Pagination } from '../../../api';
 import { environment } from '../../../../environments/environment';
 
 export interface QueueState {
@@ -36,7 +36,8 @@ export function queueReducer(
 
     case fromQueue.LOAD_QUEUE_SUCCESS: {
       const queue = (<fromQueue.LoadQueueSuccess>action).payload.items;
-      const pagination = (<fromQueue.LoadQueueSuccess>action).payload.pagination;
+      const pagination = (<fromQueue.LoadQueueSuccess>action).payload
+        .pagination;
       pagination.currentPage = 1;
 
       return newState(state, {
@@ -61,7 +62,8 @@ export function queueReducer(
 
     case fromQueue.LOAD_NEXT_QUEUE_PAGE_SUCCESS: {
       const queue = (<fromQueue.LoadNextQueuePageSuccess>action).payload.items;
-      const pagination = (<fromQueue.LoadNextQueuePageSuccess>action).payload.pagination;
+      const pagination = (<fromQueue.LoadNextQueuePageSuccess>action).payload
+        .pagination;
       pagination.currentPage = state.pagination.currentPage + 1;
 
       return newState(state, {
@@ -92,14 +94,24 @@ export function queueReducer(
       const totalCount = state.pagination.totalCount + 1;
       const totalPages = Math.ceil(totalCount / environment.apiLimit) || 1;
       const currentPage = Math.ceil(queue.length / environment.apiLimit);
-      const pagination = newState(state.pagination, { totalCount, totalPages, currentPage });
+      const pagination = newState(state.pagination, {
+        totalCount,
+        totalPages,
+        currentPage
+      });
       const userId = item ? item.user.id : null;
       const user = state.meta.users[userId];
-      const users = newState(state.meta.users, { [userId]: user ? user + 1 : 1 });
+      const users = newState(state.meta.users, {
+        [userId]: user ? user + 1 : 1
+      });
       const play_time = state.meta.play_time + item.track.duration;
-      const meta = newState (state.meta, { play_time, total: totalCount, users });
+      const meta = newState(state.meta, {
+        play_time,
+        total: totalCount,
+        users
+      });
 
-      return newState(state, { queue, pagination, meta});
+      return newState(state, { queue, pagination, meta });
     }
 
     case fromQueue.QUEUE_REMOVE_SUCCESS: {
@@ -115,14 +127,27 @@ export function queueReducer(
       const totalCount = state.pagination.totalCount - 1;
       const totalPages = Math.ceil(totalCount / environment.apiLimit) || 1;
       const currentPage = Math.ceil(queue.length / environment.apiLimit);
-      const pagination = newState(state.pagination, { totalCount, totalPages, currentPage });
+      const pagination = newState(state.pagination, {
+        totalCount,
+        totalPages,
+        currentPage
+      });
       const userId = item ? item.user.id : null;
       const userCount = userId ? state.meta.users[userId] : 0;
-      const users = userId && userCount ? newState(state.meta.users, { [userId]: userCount - 1 }) : state.meta.users;
-      const play_time = item ? state.meta.play_time - item.track.duration : state.meta.play_time;
-      const meta = newState(state.meta, { play_time, total: totalCount, users });
+      const users =
+        userId && userCount
+          ? newState(state.meta.users, { [userId]: userCount - 1 })
+          : state.meta.users;
+      const play_time = item
+        ? state.meta.play_time - item.track.duration
+        : state.meta.play_time;
+      const meta = newState(state.meta, {
+        play_time,
+        total: totalCount,
+        users
+      });
 
-      return newState(state, {queue, meta, pagination});
+      return newState(state, { queue, meta, pagination });
     }
 
     case fromQueue.QUEUE_SHIFT: {
@@ -133,14 +158,27 @@ export function queueReducer(
       const totalCount = state.pagination.totalCount - 1;
       const totalPages = Math.ceil(totalCount / environment.apiLimit) || 1;
       const currentPage = Math.ceil(queue.length / environment.apiLimit);
-      const pagination = newState(state.pagination, { totalCount, totalPages, currentPage });
+      const pagination = newState(state.pagination, {
+        totalCount,
+        totalPages,
+        currentPage
+      });
       const userId = item ? item.user.id : null;
       const userCount = userId ? state.meta.users[userId] : 0;
-      const users = userId && userCount ? newState(state.meta.users, { [userId]: userCount - 1 }) : state.meta.users;
-      const play_time = item ? state.meta.play_time - item.track.duration : state.meta.play_time;
-      const meta = newState(state.meta, { play_time, total: totalCount, users });
+      const users =
+        userId && userCount
+          ? newState(state.meta.users, { [userId]: userCount - 1 })
+          : state.meta.users;
+      const play_time = item
+        ? state.meta.play_time - item.track.duration
+        : state.meta.play_time;
+      const meta = newState(state.meta, {
+        play_time,
+        total: totalCount,
+        users
+      });
 
-      return newState(state, {queue, meta, pagination});
+      return newState(state, { queue, meta, pagination });
     }
   }
 

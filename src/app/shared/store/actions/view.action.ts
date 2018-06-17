@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
 
-export const SET_ROUTER_SEARCH_ACTIVE           = '[View] Set Router Search Active';
-export const SET_SEARCH_PAGE_ACTIVE             = '[View] Set Search Page Active';
-export const SET_SEARCH_DETAIL_PAGE_ACTIVE      = '[View] Set Search Detail Page Active';
+export const SET_ROUTER_SEARCH_ACTIVE = '[View] Set Router Search Active';
+export const SET_SEARCH_PAGE_ACTIVE = '[View] Set Search Page Active';
+export const SET_SEARCH_DETAIL_PAGE_ACTIVE =
+  '[View] Set Search Detail Page Active';
 
 /**
  * Set view actions
@@ -10,21 +11,20 @@ export const SET_SEARCH_DETAIL_PAGE_ACTIVE      = '[View] Set Search Detail Page
 export class SetRouterSearchActive implements Action {
   readonly type = SET_ROUTER_SEARCH_ACTIVE;
 
-  constructor(public payload: boolean) { }
+  constructor(public payload: boolean) {}
 }
 
 export class SetSearchPageActive implements Action {
   readonly type = SET_SEARCH_PAGE_ACTIVE;
 
-  constructor(public payload: boolean) { }
+  constructor(public payload: boolean) {}
 }
 
 export class SetSearchDetailPageActive implements Action {
   readonly type = SET_SEARCH_DETAIL_PAGE_ACTIVE;
 
-  constructor(public payload: boolean) { }
+  constructor(public payload: boolean) {}
 }
-
 
 export type ViewAction =
   | SetRouterSearchActive

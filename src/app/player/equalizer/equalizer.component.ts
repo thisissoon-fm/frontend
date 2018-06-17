@@ -1,5 +1,4 @@
 import { Component, Input, AfterViewInit, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'sfm-equalizer',
@@ -28,14 +27,13 @@ export class EqualizerComponent implements AfterViewInit {
    * @type {boolean}
    * @memberof EqualizerComponent
    */
-  @Input('playing')
-  public playing = true;
+  @Input() public playing = true;
   /**
    * Creates an instance of EqualizerComponent.
    * @param {ElementRef} el
    * @memberof EqualizerComponent
    */
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef) {}
   /**
    * Create array and assign random height to each item one
    *

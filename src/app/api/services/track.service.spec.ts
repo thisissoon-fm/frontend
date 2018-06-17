@@ -1,5 +1,8 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 
 import { TrackService } from './track.service';
 import { environment } from '../../../environments/environment';
@@ -11,7 +14,7 @@ describe('TrackService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [TrackService]
     });
 
@@ -19,16 +22,16 @@ describe('TrackService', () => {
     httpMock = TestBed.get(HttpTestingController);
   });
 
-  it('should get track data', (done) => {
-    trackService.get('foo')
-      .subscribe((res) => {
-        expect(res.name).toEqual('Shakin\' All Over');
-        done();
-      });
+  it('should get track data', done => {
+    trackService.get('foo').subscribe(res => {
+      expect(res.name).toEqual("Shakin' All Over");
+      done();
+    });
 
-    const statsRequest = httpMock.expectOne(`${environment.apiUrlPlayer}tracks/foo`);
+    const statsRequest = httpMock.expectOne(
+      `${environment.apiUrlPlayer}tracks/foo`
+    );
     statsRequest.flush(queueItem.track);
     httpMock.verify();
   });
-
 });

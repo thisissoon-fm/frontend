@@ -5,13 +5,13 @@
 
 ::-webkit-scrollbar {
   -webkit-appearance: none;
-  height: .5rem;
-  width: .5rem;
+  height: 0.5rem;
+  width: 0.5rem;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: $gray-800;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
 }
 
 ::-webkit-scrollbar-track {

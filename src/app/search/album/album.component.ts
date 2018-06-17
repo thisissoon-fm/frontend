@@ -15,24 +15,21 @@ export class AlbumComponent {
    * @type {number}
    * @memberof AlbumComponent
    */
-  @Input()
-  public imageIndex = 0;
+  @Input() public imageIndex = 0;
   /**
    * Spotify track item to display
    *
    * @type {SpotifyTrack}
    * @memberof AlbumComponent
    */
-  @Input()
-  public item: SpotifyAlbum;
+  @Input() public item: SpotifyAlbum;
   /**
    * If true means component is on drk background
    *
    * @type {boolean}
    * @memberof AlbumComponent
    */
-  @Input()
-  public dark =  false;
+  @Input() public dark = false;
   /**
    * Returns optimal image or last image in array if
    * optimal image does not exist
@@ -51,13 +48,14 @@ export class AlbumComponent {
    * @memberof AlbumComponent
    */
   public get artistsJoined(): string {
-    return (this.item && this.item.artists) ?
-      this.utilsSvc.getArtistsJoined(this.item.artists) : '';
+    return this.item && this.item.artists
+      ? this.utilsSvc.getArtistsJoined(this.item.artists)
+      : '';
   }
   /**
    * Creates an instance of AlbumComponent.
    * @param {UtilsService} utilsSvc
    * @memberof AlbumComponent
    */
-  constructor(public utilsSvc: UtilsService) { }
+  constructor(public utilsSvc: UtilsService) {}
 }

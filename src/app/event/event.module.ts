@@ -3,10 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EventService } from './services';
 import { SocketIOService } from './shared';
 
-export const defaultProviders: Provider[] = [
-  EventService,
-  SocketIOService
-];
+export const defaultProviders: Provider[] = [EventService, SocketIOService];
 
 /**
  * Service that connects to socket.io event service
@@ -16,9 +13,7 @@ export const defaultProviders: Provider[] = [
  * @class EventModule
  */
 @NgModule({
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule]
 })
 export class EventModule {
   /**
@@ -34,10 +29,7 @@ export class EventModule {
   public static forRoot(providers?: Provider[]): ModuleWithProviders {
     return {
       ngModule: EventModule,
-      providers: [
-        ...defaultProviders,
-        ...providers
-      ]
+      providers: [...defaultProviders, ...providers]
     };
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { SpotifyAlbum, SpotifyTracks } from '../models';
@@ -25,7 +26,7 @@ export class SpotifyAlbumService {
    * @param {HttpClient} http
    * @memberof SpotifyAlbumService
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * Get album detail data
    *
@@ -44,11 +45,16 @@ export class SpotifyAlbumService {
    * @returns {Observable<SpotifyTracks>}
    * @memberof SpotifyAlbumService
    */
-  public getTracks(id: string, params: HttpParams = new HttpParams()): Observable<SpotifyTracks> {
-    const paramsWithLimit = new HttpParams({ fromString: params.toString() })
-      .set('limit', `${environment.apiLimit}`);
+  public getTracks(
+    id: string,
+    params: HttpParams = new HttpParams()
+  ): Observable<SpotifyTracks> {
+    const paramsWithLimit = new HttpParams({
+      fromString: params.toString()
+    }).set('limit', `${environment.apiLimit}`);
     const options: any = { params: paramsWithLimit, observe: 'response' };
-    return this.http.get<SpotifyTracks>(`${this.endpointUrl}/${id}/tracks`, options)
-      .map((event: HttpResponse<SpotifyTracks>) => event.body);
+    return this.http
+      .get<SpotifyTracks>(`${this.endpointUrl}/${id}/tracks`, options)
+      .pipe(map((event: HttpResponse<SpotifyTracks>) => event.body));
   }
 }

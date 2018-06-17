@@ -43,7 +43,7 @@ describe('volumeEffects', () => {
         VolumeEffects,
         { provide: Actions, useFactory: getActions },
         { provide: VolumeService, useFactory: () => mockVolumeService }
-      ],
+      ]
     });
 
     effects = testBed.get(VolumeEffects);
@@ -77,7 +77,6 @@ describe('volumeEffects', () => {
     });
   });
 
-
   describe('setVolume$', () => {
     it('should return a volumeAction.SetVolumeSuccess, with volume, on success', () => {
       const action = new actions.SetVolume({ volume: 70 });
@@ -106,5 +105,4 @@ describe('volumeEffects', () => {
       expect(mockVolumeService.post).toHaveBeenCalled();
     });
   });
-
 });

@@ -1,24 +1,40 @@
-import { Component, OnInit, HostBinding, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostBinding,
+  OnDestroy,
+  ViewChild
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
+import {
+  interval as observableInterval,
+  forkJoin as observableForkJoin,
+  Subject
+} from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
-import { UtilsService, fadeMoveUpAnimation, swipeLeftFadeAnimation } from '../../shared';
+import {
+  UtilsService,
+  fadeMoveUpAnimation,
+  swipeLeftFadeAnimation
+} from '../../shared';
 import * as fromPlayerStore from '../../player/store';
-import { SpotifyArtist, SpotifySearch, SpotifyAlbums, SpotifyArtistService } from '../../api';
+import {
+  SpotifyArtist,
+  SpotifySearch,
+  SpotifyAlbums,
+  SpotifyArtistService
+} from '../../api';
 
 @Component({
   selector: 'sfm-artist-detail',
   templateUrl: './artist-detail.component.html',
   styleUrls: ['./artist-detail.component.scss'],
-  animations: [
-    fadeMoveUpAnimation,
-    swipeLeftFadeAnimation
-  ]
+  animations: [fadeMoveUpAnimation, swipeLeftFadeAnimation]
 })
 export class ArtistDetailComponent implements OnInit, OnDestroy {
   /**
@@ -68,24 +84,21 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
    * @type {NgbTabset}
    * @memberof ArtistDetailComponent
    */
-  @ViewChild('tabset')
-  public tabset: NgbTabset;
+  @ViewChild('tabset') public tabset: NgbTabset;
   /**
    * If the user has scrolled down the component
    *
    * @type {boolean}
    * @memberof ArtistDetailComponent
    */
-  @HostBinding('class.scrolled-down')
-  public scrolledDown = false;
+  @HostBinding('class.scrolled-down') public scrolledDown = false;
   /**
    * True if component is loading data
    *
    * @type {boolean}
    * @memberof ArtistDetailComponent
    */
-  @HostBinding('class.is-loading')
-  public loading = true;
+  @HostBinding('class.is-loading') public loading = true;
   /**
    * Returns artist image or empty string if one doesn't exist
    *
@@ -94,8 +107,9 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
    * @memberof ArtistDetailComponent
    */
   public get artistImage(): string {
-    return (this.artist &&  this.artist.images) ?
-      this.utilsSvc.getOptimalImage(this.artist.images, 0) : '';
+    return this.artist && this.artist.images
+      ? this.utilsSvc.getOptimalImage(this.artist.images, 0)
+      : '';
   }
   /**
    * Returns true if all albums have been loaded
@@ -105,7 +119,11 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
    * @memberof ArtistDetailComponent
    */
   public get allAlbumsLoaded(): boolean {
-    return (this.albums && this.albums.items && (this.albums.items.length === this.albums.total));
+    return (
+      this.albums &&
+      this.albums.items &&
+      this.albums.items.length === this.albums.total
+    );
   }
   /**
    * Returns true if all albums have been loaded
@@ -115,7 +133,11 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
    * @memberof ArtistDetailComponent
    */
   public get allSinglesLoaded(): boolean {
-    return (this.singles && this.singles.items && (this.singles.items.length === this.singles.total));
+    return (
+      this.singles &&
+      this.singles.items &&
+      this.singles.items.length === this.singles.total
+    );
   }
   /**
    * Observable used to unsubscribe and complete infinite observables
@@ -138,8 +160,8 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
     private spotifyArtistService: SpotifyArtistService,
     private route: ActivatedRoute,
     private location: Location,
-    private utilsSvc: UtilsService,
-  ) { }
+    private utilsSvc: UtilsService
+  ) {}
   /**
    * Get artist details from router service
    * and save to properties in component
@@ -147,34 +169,30 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
    * @memberof ArtistDetailComponent
    */
   public ngOnInit(): void {
-    this.route.params
-      .takeUntil(this.ngUnsubscribe$)
-      .subscribe((params) => {
-        this.artist = null;
-        this.albums = null;
-        this.singles = null;
-        this.topTracks = null;
-        this.related = null;
+    this.route.params.pipe(takeUntil(this.ngUnsubscribe$)).subscribe(params => {
+      this.artist = null;
+      this.albums = null;
+      this.singles = null;
+      this.topTracks = null;
+      this.related = null;
+      this.loading = false;
+
+      const id = params['id'];
+      observableForkJoin(
+        this.spotifyArtistService.get(id),
+        this.spotifyArtistService.getAlbums(id),
+        this.spotifyArtistService.getSingles(id),
+        this.spotifyArtistService.getTopTracks(id),
+        this.spotifyArtistService.getRelatedArtists(id)
+      ).subscribe(res => {
+        this.artist = res[0];
+        this.albums = res[1];
+        this.singles = res[2];
+        this.topTracks = res[3];
+        this.related = res[4];
         this.loading = false;
-
-        const id = params['id'];
-        Observable.forkJoin(
-          this.spotifyArtistService.get(id),
-          this.spotifyArtistService.getAlbums(id),
-          this.spotifyArtistService.getSingles(id),
-          this.spotifyArtistService.getTopTracks(id),
-          this.spotifyArtistService.getRelatedArtists(id)
-        )
-          .subscribe((res) => {
-            this.artist = res[0];
-            this.albums = res[1];
-            this.singles = res[2];
-            this.topTracks = res[3];
-            this.related = res[4];
-            this.loading = false;
-          });
       });
-
+    });
   }
   /**
    * Tabset select handler
@@ -189,36 +207,36 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
         this.tabset.select('top-tracks');
         const tracks = this.topTracks;
         this.topTracks = null;
-        Observable.interval(0)
-          .take(1)
-          .subscribe(() => this.topTracks = tracks);
+        observableInterval(0)
+          .pipe(take(1))
+          .subscribe(() => (this.topTracks = tracks));
         break;
       case 'albums':
         this.selectedTab = 'Albums';
         this.tabset.select('albums');
         const albums = this.albums;
         this.albums = null;
-        Observable.interval(0)
-          .take(1)
-          .subscribe(() => this.albums = albums);
+        observableInterval(0)
+          .pipe(take(1))
+          .subscribe(() => (this.albums = albums));
         break;
       case 'singles':
         this.selectedTab = 'Singles';
         this.tabset.select('singles');
         const singles = this.singles;
         this.singles = null;
-        Observable.interval(0)
-          .take(1)
-          .subscribe(() => this.singles = singles);
+        observableInterval(0)
+          .pipe(take(1))
+          .subscribe(() => (this.singles = singles));
         break;
       case 'related':
         this.selectedTab = 'Related artists';
         this.tabset.select('related');
         const related = this.related;
         this.related = null;
-        Observable.interval(0)
-          .take(1)
-          .subscribe(() => this.related = related);
+        observableInterval(0)
+          .pipe(take(1))
+          .subscribe(() => (this.related = related));
         break;
     }
   }
@@ -237,19 +255,18 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
    * @memberof ArtistDetailComponent
    */
   public getMoreAlbums(): void {
-    this.route.params
-      .take(1)
-      .subscribe((params) => {
-        const id = params['id'];
-        const httpParams = new HttpParams()
-          .set('offset', `${this.albums.items.length}`);
-        this.loading = true;
-        this.spotifyArtistService.getAlbums(id, httpParams)
-          .subscribe({
-            next: (res) => res.items.forEach(item => this.albums.items.push(item)),
-            complete: () => this.loading = false
-          });
+    this.route.params.pipe(take(1)).subscribe(params => {
+      const id = params['id'];
+      const httpParams = new HttpParams().set(
+        'offset',
+        `${this.albums.items.length}`
+      );
+      this.loading = true;
+      this.spotifyArtistService.getAlbums(id, httpParams).subscribe({
+        next: res => res.items.forEach(item => this.albums.items.push(item)),
+        complete: () => (this.loading = false)
       });
+    });
   }
   /**
    * Get more singles
@@ -257,19 +274,18 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
    * @memberof ArtistDetailComponent
    */
   public getMoreSingles(): void {
-    this.route.params
-      .take(1)
-      .subscribe((params) => {
-        const id = params['id'];
-        const httpParams = new HttpParams()
-          .set('offset', `${this.singles.items.length}`);
-        this.loading = true;
-        this.spotifyArtistService.getSingles(id, httpParams)
-          .subscribe({
-            next: (res) => res.items.forEach(item => this.singles.items.push(item)),
-            complete: () => this.loading = false
-          });
+    this.route.params.pipe(take(1)).subscribe(params => {
+      const id = params['id'];
+      const httpParams = new HttpParams().set(
+        'offset',
+        `${this.singles.items.length}`
+      );
+      this.loading = true;
+      this.spotifyArtistService.getSingles(id, httpParams).subscribe({
+        next: res => res.items.forEach(item => this.singles.items.push(item)),
+        complete: () => (this.loading = false)
       });
+    });
   }
   /**
    * On scroll end load more albums/singles
@@ -277,7 +293,9 @@ export class ArtistDetailComponent implements OnInit, OnDestroy {
    * @param {('top-tracks' | 'albums' | 'singles' | 'related')} id
    * @memberof ArtistDetailComponent
    */
-  public onScrollEnd(id: 'top-tracks' | 'albums' | 'singles' | 'related'): void {
+  public onScrollEnd(
+    id: 'top-tracks' | 'albums' | 'singles' | 'related'
+  ): void {
     switch (id) {
       case 'albums':
         this.getMoreAlbums();

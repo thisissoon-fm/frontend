@@ -1,6 +1,13 @@
-import { TestBed, inject, async } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HTTP_INTERCEPTORS, HttpHeaders } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+import {
+  HttpClient,
+  HTTP_INTERCEPTORS,
+  HttpHeaders
+} from '@angular/common/http';
 
 import { PausedInterceptor } from './paused-interceptor.service';
 import { environment } from '../../../environments/environment';
@@ -13,7 +20,7 @@ describe('PausedInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [
         { provide: HTTP_INTERCEPTORS, useClass: PausedInterceptor, multi: true }
       ]
@@ -23,33 +30,42 @@ describe('PausedInterceptor', () => {
     http = TestBed.get(HttpClient);
   });
 
-  it('should NOT get paused data from header', async(() => {
-    http.get<QueueItem>(`${environment.apiUrlPlayer}some-other-url`)
+  it('should NOT get paused data from header', () => {
+    http
+      .get<QueueItem>(`${environment.apiUrlPlayer}some-other-url`)
       .subscribe(res => expect(res.paused).toBeUndefined());
 
-    const request = httpMock.expectOne(`${environment.apiUrlPlayer}some-other-url`);
+    const request = httpMock.expectOne(
+      `${environment.apiUrlPlayer}some-other-url`
+    );
     const headers = new HttpHeaders();
-    request.flush(queueItem);
+    request.flush(queueItem, { headers });
     httpMock.verify();
-  }));
+  });
 
-  it('should get paused data from header', async(() => {
-    http.get<QueueItem>(`${environment.apiUrlPlayer}player/current`)
+  it('should get paused data from header', () => {
+    http
+      .get<QueueItem>(`${environment.apiUrlPlayer}player/current`)
       .subscribe(res => expect(res.paused).toBeFalsy());
 
-    const request = httpMock.expectOne(`${environment.apiUrlPlayer}player/current`);
-    const headers = new HttpHeaders({Paused: '0'});
+    const request = httpMock.expectOne(
+      `${environment.apiUrlPlayer}player/current`
+    );
+    const headers = new HttpHeaders({ Paused: '0' });
     request.flush(queueItem, { headers });
     httpMock.verify();
-  }));
+  });
 
-  it('should get paused data from header', async(() => {
-    http.get<QueueItem>(`${environment.apiUrlPlayer}player/current`)
+  it('should get paused data from header', () => {
+    http
+      .get<QueueItem>(`${environment.apiUrlPlayer}player/current`)
       .subscribe(res => expect(res.paused).toBeTruthy());
 
-    const request = httpMock.expectOne(`${environment.apiUrlPlayer}player/current`);
-    const headers = new HttpHeaders({Paused: '1'});
+    const request = httpMock.expectOne(
+      `${environment.apiUrlPlayer}player/current`
+    );
+    const headers = new HttpHeaders({ Paused: '1' });
     request.flush(queueItem, { headers });
     httpMock.verify();
-  }));
+  });
 });

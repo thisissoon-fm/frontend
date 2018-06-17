@@ -44,7 +44,9 @@ export class NotificationService {
    */
   public push(msg: string, options?: NotificationOptions): any {
     if (this.permission === 'default') {
-      return this.requestPermission(() => new this.nativeNotification(msg, options));
+      return this.requestPermission(
+        () => new this.nativeNotification(msg, options)
+      );
     } else if (this.permission === 'granted') {
       return new this.nativeNotification(msg, options);
     }

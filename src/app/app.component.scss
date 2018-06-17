@@ -9,12 +9,13 @@
   bottom: 0;
   position: fixed;
   top: 0;
-  width: 100vw;
   transition: $transition-base;
+  width: 100vw;
 }
 
 .router-default {
   @include darken-transition();
+
   left: 0;
   z-index: $zindex-router-default;
 }
@@ -27,6 +28,7 @@
 
   sfm-search {
     @include darken-transition();
+
     flex: 1 1 40vw;
     max-width: 40vw;
   }
@@ -35,7 +37,7 @@
 sfm-nav,
 .router-default::after,
 .router-search {
-  transition-delay: .5s;
+  transition-delay: 0.5s;
 }
 
 :host(.is-router-search-active) {
@@ -67,6 +69,7 @@ sfm-nav,
 :host(.is-router-search-active:not(.is-search-page)) {
   sfm-search {
     @include darken();
+
     overflow: hidden;
   }
 }

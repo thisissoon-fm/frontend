@@ -1,5 +1,8 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 
 import { PauseService } from './pause.service';
 import { environment } from '../../../environments/environment';
@@ -10,7 +13,7 @@ describe('PauseService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [PauseService]
     });
 
@@ -18,28 +21,29 @@ describe('PauseService', () => {
     httpMock = TestBed.get(HttpTestingController);
   });
 
-  it('should send request to remove pause', (done) => {
-    pauseService.delete()
-      .subscribe((res: any) => {
-        expect(res.paused).toEqual(false);
-        done();
-      });
+  it('should send request to remove pause', done => {
+    pauseService.delete().subscribe((res: any) => {
+      expect(res.paused).toEqual(false);
+      done();
+    });
 
-    const pauseRequest = httpMock.expectOne(`${environment.apiUrlPlayer}player/pause`);
+    const pauseRequest = httpMock.expectOne(
+      `${environment.apiUrlPlayer}player/pause`
+    );
     pauseRequest.flush({ paused: false });
     httpMock.verify();
   });
 
-  it('should send request to add pause', (done) => {
-    pauseService.post()
-      .subscribe((res: any) => {
-        expect(res.paused).toEqual(true);
-        done();
-      });
+  it('should send request to add pause', done => {
+    pauseService.post().subscribe((res: any) => {
+      expect(res.paused).toEqual(true);
+      done();
+    });
 
-    const pauseRequest = httpMock.expectOne(`${environment.apiUrlPlayer}player/pause`);
+    const pauseRequest = httpMock.expectOne(
+      `${environment.apiUrlPlayer}player/pause`
+    );
     pauseRequest.flush({ paused: true });
     httpMock.verify();
   });
-
 });

@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
-import { SocketIOService, SocketIOInstance, PlayerEvent, events } from '../shared';
+import {
+  SocketIOService,
+  SocketIOInstance,
+  PlayerEvent,
+  events
+} from '../shared';
 import { environment } from '../../../environments/environment';
 
 /**
@@ -32,7 +37,7 @@ export class EventService {
    * @param {SocketIOService} socketio
    * @memberof EventService
    */
-  constructor(private socketio: SocketIOService) {
+  constructor(socketio: SocketIOService) {
     this.socket = socketio.connect(environment.playerSocketUrl);
     this.socket.on('connect', this.onConnect.bind(this));
   }
@@ -43,7 +48,8 @@ export class EventService {
    * @memberof EventService
    */
   public onConnect(): void {
-    events.forEach((event) =>
-      this.socket.on(event, (msg) => this.messages$.next(msg)));
+    events.forEach(event =>
+      this.socket.on(event, msg => this.messages$.next(msg))
+    );
   }
 }

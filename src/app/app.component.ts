@@ -1,8 +1,15 @@
-import { Component, OnInit, OnDestroy, HostBinding, Inject, Renderer2 } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostBinding,
+  Inject,
+  Renderer2
+} from '@angular/core';
 import { Router, NavigationStart, RouterOutlet } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { combineLatest as observableCombineLatest, Subject } from 'rxjs';
+import { delay, takeUntil, take, map, filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromPlayerStore from './player/store';
@@ -31,10 +38,7 @@ import { CurrentService, QueueService } from './api';
   selector: 'sfm-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [
-    navFadeAnimation,
-    routeAnimation
-  ]
+  animations: [navFadeAnimation, routeAnimation]
 })
 export class AppComponent implements OnInit, OnDestroy {
   /**
@@ -42,22 +46,19 @@ export class AppComponent implements OnInit, OnDestroy {
    *
    * @memberof AppComponent
    */
-  @HostBinding('class.is-loading-page')
-  public isLoadingPage = false;
+  @HostBinding('class.is-loading-page') public isLoadingPage = false;
   /**
    * If true means the search view is current active
    *
    * @memberof AppComponent
    */
-  @HostBinding('class.is-search-page')
-  public isSearchPage = false;
+  @HostBinding('class.is-search-page') public isSearchPage = false;
   /**
    * If true means the artist or album page is currently active
    *
    * @memberof AppComponent
    */
-  @HostBinding('class.is-search-detail-page')
-  public isSearchDetailPage = false;
+  @HostBinding('class.is-search-detail-page') public isSearchDetailPage = false;
   /**
    * If true means the search router is active
    *
@@ -98,7 +99,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private queueSvc: QueueService,
     private render: Renderer2,
     @Inject(DOCUMENT) private doc
-  ) { }
+  ) {}
   /**
    * Tell store to load player data from api and subscribe to
    * their latest values from the store
@@ -109,25 +110,34 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.navigate(['/']);
 
     this.router.events
-      .filter((event) => event instanceof NavigationStart)
-      .delay(0)
+      .pipe(
+        filter(event => event instanceof NavigationStart),
+        delay(0)
+      )
       .subscribe((event: NavigationStart) => {
-        this.isLoadingPage = (event.url === '/');
+        this.isLoadingPage = event.url === '/';
         this.isSearchPage = event.url.includes('(search:search)');
-        this.isSearchDetailPage = event.url.includes('(search:artists') || event.url.includes('(search:albums');
+        this.isSearchDetailPage =
+          event.url.includes('(search:artists') ||
+          event.url.includes('(search:albums');
         this.isSearchRouterActive = event.url.includes('(search');
-        this.sharedStore$.dispatch(new fromSharedStore.SetSearchPageActive(this.isSearchPage));
-        this.sharedStore$.dispatch(new fromSharedStore.SetRouterSearchActive(this.isSearchRouterActive));
-        this.sharedStore$.dispatch(new fromSharedStore.SetSearchDetailPageActive(this.isSearchDetailPage));
+        this.sharedStore$.dispatch(
+          new fromSharedStore.SetSearchPageActive(this.isSearchPage)
+        );
+        this.sharedStore$.dispatch(
+          new fromSharedStore.SetRouterSearchActive(this.isSearchRouterActive)
+        );
+        this.sharedStore$.dispatch(
+          new fromSharedStore.SetSearchDetailPageActive(this.isSearchDetailPage)
+        );
       });
-
 
     this.loadPlayerData();
     this.userStore$.dispatch(new fromUserStore.LoadMe());
 
     this.eventSvc.messages$
-      .takeUntil(this.ngUnsubscribe$)
-      .subscribe((event) => this.onEvent(event));
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(event => this.onEvent(event));
 
     this.render.listen(this.doc, 'visibilitychange', () => {
       if (this.doc['visibilityState'] === 'visible') {
@@ -142,30 +152,55 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public checkPlayerDataInSync(): void {
     const currentFromApi$ = this.currentSvc.get();
-    const currentFromClient$ = this.playerStore$.select(fromPlayerStore.getCurrent);
+    const currentFromClient$ = this.playerStore$.select(
+      fromPlayerStore.getCurrent
+    );
 
     const metaFromApi$ = this.queueSvc.getMeta();
-    const metaFromClient$ = this.playerStore$.select(fromPlayerStore.getQueueMeta);
+    const metaFromClient$ = this.playerStore$.select(
+      fromPlayerStore.getQueueMeta
+    );
 
-    const currentCombined$ = Observable.combineLatest(currentFromApi$, currentFromClient$)
-      .take(1)
-      .map(([currentFromApi, currentFromClient]) => {
-        const currentFromClientId = currentFromClient && currentFromClient.track ? currentFromClient.track.id : null;
-        const currentFromApiId = currentFromApi && currentFromApi.track ? currentFromApi.track.id : null;
+    const currentCombined$ = observableCombineLatest(
+      currentFromApi$,
+      currentFromClient$
+    ).pipe(
+      take(1),
+      map(([currentFromApi, currentFromClient]) => {
+        const currentFromClientId =
+          currentFromClient && currentFromClient.track
+            ? currentFromClient.track.id
+            : null;
+        const currentFromApiId =
+          currentFromApi && currentFromApi.track
+            ? currentFromApi.track.id
+            : null;
         return currentFromClientId !== currentFromApiId;
-      });
+      })
+    );
 
-    const metaCombined$ = Observable.combineLatest(metaFromApi$, metaFromClient$)
-      .take(1)
-      .map(([metaFromApi, metaFromClient]) => {
-        const metaFromClientPlayTime = metaFromClient ? metaFromClient.play_time : null;
+    const metaCombined$ = observableCombineLatest(
+      metaFromApi$,
+      metaFromClient$
+    ).pipe(
+      take(1),
+      map(([metaFromApi, metaFromClient]) => {
+        const metaFromClientPlayTime = metaFromClient
+          ? metaFromClient.play_time
+          : null;
         const metaFromApiPlayTime = metaFromApi ? metaFromApi.play_time : null;
         return metaFromClientPlayTime !== metaFromApiPlayTime;
-      });
+      })
+    );
 
-    Observable.combineLatest(currentCombined$, metaCombined$)
-      .take(1)
-      .filter(([currentDoesntMatch, metaDoesntMatch]) => currentDoesntMatch || metaDoesntMatch)
+    observableCombineLatest(currentCombined$, metaCombined$)
+      .pipe(
+        take(1),
+        filter(
+          ([currentDoesntMatch, metaDoesntMatch]) =>
+            currentDoesntMatch || metaDoesntMatch
+        )
+      )
       .subscribe(() => this.loadPlayerData());
   }
   /**
@@ -188,7 +223,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @returns {('splashPage' | 'homePage')}
    * @memberof AppComponent
    */
-  public prepRouteState(outlet: RouterOutlet): 'splashPage' | 'homePage'  {
+  public prepRouteState(outlet: RouterOutlet): 'splashPage' | 'homePage' {
     return outlet.activatedRouteData['animation'] || 'homePage';
   }
   /**
@@ -264,7 +299,9 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onDelete(data: PlayerEvent): void {
-    this.playerStore$.dispatch(new fromPlayerStore.QueueRemoveSuccess(data.uuid));
+    this.playerStore$.dispatch(
+      new fromPlayerStore.QueueRemoveSuccess(data.uuid)
+    );
   }
   /**
    * Remove first queue item from playlist and load the current track
@@ -307,9 +344,13 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public onMuteChanged(data: PlayerEvent): void {
     if (data.mute) {
-      this.playerStore$.dispatch(new fromPlayerStore.AddMuteSuccess({ mute: data.mute }));
+      this.playerStore$.dispatch(
+        new fromPlayerStore.AddMuteSuccess({ mute: data.mute })
+      );
     } else {
-      this.playerStore$.dispatch(new fromPlayerStore.RemoveMuteSuccess({ mute: data.mute }));
+      this.playerStore$.dispatch(
+        new fromPlayerStore.RemoveMuteSuccess({ mute: data.mute })
+      );
     }
   }
   /**
@@ -319,7 +360,9 @@ export class AppComponent implements OnInit, OnDestroy {
    * @memberof AppComponent
    */
   public onVolumeChanged(data: PlayerEvent): void {
-    this.playerStore$.dispatch(new fromPlayerStore.SetVolumeSuccess({ volume: data.volume }));
+    this.playerStore$.dispatch(
+      new fromPlayerStore.SetVolumeSuccess({ volume: data.volume })
+    );
   }
   /**
    * Unsubscribe from infinite observable on destroy

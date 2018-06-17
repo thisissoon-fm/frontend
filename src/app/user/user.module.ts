@@ -7,8 +7,8 @@ import { reducers, effects } from './store';
 @NgModule({
   imports: [
     StoreModule.forFeature('user', reducers),
-    EffectsModule.forFeature(effects),
+    EffectsModule.forFeature(effects)
   ],
   declarations: []
 })
-export class UserModule { }
+export class UserModule {}

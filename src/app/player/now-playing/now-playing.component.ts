@@ -1,7 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
+import {
+  interval as observableInterval,
+  Observable,
+  Subscription,
+  Subject
+} from 'rxjs';
+import { filter, takeUntil, debounceTime, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { QueueItem, Volume, Mute, QueueMeta } from '../../api';
@@ -82,10 +86,10 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
    * @param {EventService} eventSvc
    * @memberof NowPlayingComponent
    */
- constructor(
-   private store: Store<fromStore.PlayerState>,
-   private eventSvc: EventService
- ) { }
+  constructor(
+    private store: Store<fromStore.PlayerState>,
+    private eventSvc: EventService
+  ) {}
   /**
    * Tell store to load player data from api and subscribe to
    * their latest values from the store
@@ -99,17 +103,21 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
     this.meta$ = this.store.select(fromStore.getQueueMeta);
 
     this.onVolumeChange$
-      .takeUntil(this.ngUnsubscribe$)
-      .debounceTime(100)
-      .subscribe((vol) => this.setVolume(vol));
+      .pipe(
+        takeUntil(this.ngUnsubscribe$),
+        debounceTime(100)
+      )
+      .subscribe(vol => this.setVolume(vol));
 
     this.eventSvc.messages$
-      .takeUntil(this.ngUnsubscribe$)
-      .subscribe((event) => this.onEvent(event));
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(event => this.onEvent(event));
 
     this.current$
-      .filter((current) => (current && !current.paused))
-      .take(1)
+      .pipe(
+        filter(current => current && !current.paused),
+        take(1)
+      )
       .subscribe(() => this.startTimer());
   }
   /**
@@ -132,11 +140,12 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
    */
   public togglePause(): void {
     this.current$
-      .take(1)
-      .subscribe((current) =>
-        current.paused ?
-          this.store.dispatch(new fromStore.RemovePause()) :
-          this.store.dispatch(new fromStore.AddPause())
+      .pipe(take(1))
+      .subscribe(
+        current =>
+          current.paused
+            ? this.store.dispatch(new fromStore.RemovePause())
+            : this.store.dispatch(new fromStore.AddPause())
       );
   }
   /**
@@ -146,11 +155,13 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
    */
   public toggleMute(): void {
     this.mute$
-      .take(1)
-      .subscribe((mute) =>
-        mute.mute ?
-        this.store.dispatch(new fromStore.RemoveMute()) :
-        this.store.dispatch(new fromStore.AddMute()));
+      .pipe(take(1))
+      .subscribe(
+        mute =>
+          mute.mute
+            ? this.store.dispatch(new fromStore.RemoveMute())
+            : this.store.dispatch(new fromStore.AddMute())
+      );
   }
   /**
    * Send request to skip the currently playing track
@@ -223,12 +234,14 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
    */
   public startTimer(): void {
     this.current$
-      .filter((current) => !!(current && current.player))
-      .take(1)
-      .subscribe((current) => {
+      .pipe(
+        filter(current => !!(current && current.player)),
+        take(1)
+      )
+      .subscribe(current => {
         this.stopTimer();
-        this.currentTimerSub$ = Observable.interval(1000)
-          .takeUntil(this.ngUnsubscribe$)
+        this.currentTimerSub$ = observableInterval(1000)
+          .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(() => {
             if (current.player.elapsed_time >= current.track.duration) {
               this.stopTimer();

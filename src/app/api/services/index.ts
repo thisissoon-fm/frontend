@@ -1,7 +1,7 @@
 import { QueueService } from './queue.service';
 import { CurrentService } from './current.service';
 import { VolumeService } from './volume.service';
-import { MuteService  } from './mute.service';
+import { MuteService } from './mute.service';
 import { PauseService } from './pause.service';
 import { UserService } from './user.service';
 import { TrackService } from './track.service';
@@ -35,4 +35,3 @@ export * from './stats.service';
 export * from './spotify-search.service';
 export * from './spotify-artist.service';
 export * from './spotify-album.service';
-

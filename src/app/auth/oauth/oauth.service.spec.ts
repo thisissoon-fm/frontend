@@ -9,8 +9,10 @@ describe('OAuthService', () => {
     });
   });
 
-  it('should return authenticated user', inject([OAuthService], (service: OAuthService) => {
-    service.authenticate('google')
-      .subscribe((user) => expect(user).toBeNull());
-  }));
+  it('should return authenticated user', inject(
+    [OAuthService],
+    (service: OAuthService) => {
+      service.authenticate('google').subscribe(user => expect(user).toBeNull());
+    }
+  ));
 });

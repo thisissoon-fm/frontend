@@ -1,5 +1,8 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 
 import { StatsService } from './stats.service';
 import { environment } from '../../../environments/environment';
@@ -11,7 +14,7 @@ describe('StatsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [StatsService]
     });
 
@@ -19,16 +22,16 @@ describe('StatsService', () => {
     httpMock = TestBed.get(HttpTestingController);
   });
 
-  it('should get stats data', (done) => {
-    statsService.get()
-      .subscribe((res) => {
-        expect(res.most_played_tracks[0].track.name).toEqual('Bound 2');
-        done();
-      });
+  it('should get stats data', done => {
+    statsService.get().subscribe(res => {
+      expect(res.most_played_tracks[0].track.name).toEqual('Bound 2');
+      done();
+    });
 
-    const statsRequest = httpMock.expectOne(`${environment.apiUrlPlayer}player/stats`);
+    const statsRequest = httpMock.expectOne(
+      `${environment.apiUrlPlayer}player/stats`
+    );
     statsRequest.flush(stats);
     httpMock.verify();
   });
-
 });

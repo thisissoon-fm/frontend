@@ -39,11 +39,7 @@ const components: any[] = [
     ApiModule,
     NotificationModule
   ],
-  exports: [
-    ...components
-  ],
-  declarations: [
-    ...components,
-  ]
+  exports: [...components],
+  declarations: [...components]
 })
-export class PlayerModule { }
+export class PlayerModule {}

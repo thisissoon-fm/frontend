@@ -21,10 +21,6 @@ export const getUserAuthenticated = createSelector(
   fromUser.getUserAuthenticated
 );
 
-export const getUser = createSelector(
-  getUserState,
-  fromUser.getUser
-);
+export const getUser = createSelector(getUserState, fromUser.getUser);
 
 export { UserState } from './user.reducer';
-

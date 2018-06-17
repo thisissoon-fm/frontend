@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { Volume } from '../models';
@@ -19,7 +19,7 @@ export class VolumeService {
    * @param {HttpClient} http
    * @memberof VolumeService
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * Get current volume value
    *

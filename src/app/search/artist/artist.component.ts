@@ -15,24 +15,21 @@ export class ArtistComponent {
    * @type {number}
    * @memberof ArtistComponent
    */
-  @Input()
-  public imageIndex = 0;
+  @Input() public imageIndex = 0;
   /**
    * Spotify track item to display
    *
    * @type {SpotifyTrack}
    * @memberof ArtistComponent
    */
-  @Input()
-  public item: SpotifyArtist;
+  @Input() public item: SpotifyArtist;
   /**
    * If true means item is on a dark background
    *
    * @type {boolean}
    * @memberof AlbumComponent
    */
-  @Input()
-  public dark = false;
+  @Input() public dark = false;
   /**
    * Returns optimal image or last image in array if
    * optimal image does not exist
@@ -44,10 +41,10 @@ export class ArtistComponent {
   public get optimalImage(): string {
     return this.utilsSvc.getOptimalImage(this.item.images, this.imageIndex);
   }
-   /**
-    * Creates an instance of ArtistComponent.
-    * @param {UtilsService} utilsSvc
-    * @memberof ArtistComponent
-    */
-  constructor(public utilsSvc: UtilsService) { }
+  /**
+   * Creates an instance of ArtistComponent.
+   * @param {UtilsService} utilsSvc
+   * @memberof ArtistComponent
+   */
+  constructor(public utilsSvc: UtilsService) {}
 }

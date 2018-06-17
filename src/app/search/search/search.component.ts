@@ -1,24 +1,29 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil, filter } from 'rxjs/operators';
 
 import * as fromSearchStore from '../store';
 import * as fromSharedStore from '../../shared/store';
 import * as fromPlayerStore from '../../player/store';
-import { SearchType, SpotifySearch } from '../../api';
-import { fadeMoveUpAnimation, swipeLeftFadeAnimation } from '../../shared/animations';
-
+import { SearchType } from '../../api';
+import {
+  fadeMoveUpAnimation,
+  swipeLeftFadeAnimation
+} from '../../shared/animations';
 
 @Component({
   selector: 'sfm-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  animations: [
-    fadeMoveUpAnimation,
-    swipeLeftFadeAnimation
-  ]
+  animations: [fadeMoveUpAnimation, swipeLeftFadeAnimation]
 })
 export class SearchComponent implements OnInit, OnDestroy {
   /**
@@ -62,8 +67,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * @type {ElementRef}
    * @memberof SearchComponent
    */
-  @ViewChild('inputSearch')
-  public inputSearch: ElementRef;
+  @ViewChild('inputSearch') public inputSearch: ElementRef;
   /**
    * Observable used to unsubscribe and complete infinite observables
    * on component destroy lifecycle hook
@@ -80,7 +84,9 @@ export class SearchComponent implements OnInit, OnDestroy {
    * @memberof SearchComponent
    */
   public get allResultsLoaded(): boolean {
-    return this.search.pagination.currentPage >= this.search.pagination.totalPages;
+    return (
+      this.search.pagination.currentPage >= this.search.pagination.totalPages
+    );
   }
   /**
    * Creates an instance of SearchComponent.
@@ -93,7 +99,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     private playerStore$: Store<fromPlayerStore.PlayerState>,
     private sharedStore$: Store<fromSharedStore.SharedState>,
     private router: Router
-  ) { }
+  ) {}
   /**
    * Subscribe to search
    *
@@ -101,25 +107,37 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public ngOnInit(): void {
     this.onSearchChange$
-      .takeUntil(this.ngUnsubscribe$)
-      .debounceTime(300)
-      .subscribe((query) => this.setSearchQuery(query));
+      .pipe(
+        takeUntil(this.ngUnsubscribe$),
+        debounceTime(300)
+      )
+      .subscribe(query => this.setSearchQuery(query));
 
-    this.searchStore$.select(fromSearchStore.getSearchState)
-      .subscribe((search) => {
+    this.searchStore$
+      .select(fromSearchStore.getSearchState)
+      .subscribe(search => {
         this.search = search;
         this.results = search.results;
       });
 
-    this.sharedStore$.select(fromSharedStore.getSearchPageActive)
-      .subscribe((isSearchPage) => this.isSearchPage = isSearchPage);
+    this.sharedStore$
+      .select(fromSharedStore.getSearchPageActive)
+      .subscribe(isSearchPage => (this.isSearchPage = isSearchPage));
 
-    this.sharedStore$.select(fromSharedStore.getRouterSearchActive)
-      .subscribe((isSearchRouterActive) => this.isSearchRouterActive = isSearchRouterActive);
+    this.sharedStore$
+      .select(fromSharedStore.getRouterSearchActive)
+      .subscribe(
+        isSearchRouterActive =>
+          (this.isSearchRouterActive = isSearchRouterActive)
+      );
 
     this.router.events
-      .filter((event) => event instanceof NavigationStart)
-      .filter((event: NavigationStart) => event.url.includes('(search:search)'))
+      .pipe(
+        filter(event => event instanceof NavigationStart),
+        filter((event: NavigationStart) =>
+          event.url.includes('(search:search)')
+        )
+      )
       .subscribe(() => this.inputSearch.nativeElement.focus());
   }
   /**

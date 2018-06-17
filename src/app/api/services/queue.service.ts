@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpParams, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { QueueItem, QueueMeta, QueueResponse } from '../models';
@@ -25,7 +26,7 @@ export class QueueService {
    * @param {HttpClient} http
    * @memberof QueueService
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * Gets list of items in the queue
    *
@@ -33,20 +34,24 @@ export class QueueService {
    * @returns {Observable<QueueItem[]>}
    * @memberof QueueService
    */
-  public query(params: HttpParams = new HttpParams()): Observable<QueueResponse> {
+  public query(
+    params: HttpParams = new HttpParams()
+  ): Observable<QueueResponse> {
     const options: any = { params, observe: 'response' };
-    const paramsWithLimit = new HttpParams({ fromString: params.toString() })
-      .set('limit', `${environment.apiLimit}`);
+    const paramsWithLimit = new HttpParams({
+      fromString: params.toString()
+    }).set('limit', `${environment.apiLimit}`);
     options.params = paramsWithLimit;
-    return this.http.get<QueueItem[]>(this.endpointUrl, options)
-      .map((res: HttpResponse<QueueItem[]>) => {
+    return this.http.get<QueueItem[]>(this.endpointUrl, options).pipe(
+      map((res: HttpResponse<QueueItem[]>) => {
         const totalCount = parseInt(res.headers.get('Total-Count'), 10) || 0;
         const totalPages = parseInt(res.headers.get('Total-Pages'), 10) || 1;
         return {
           items: res.body,
           pagination: { totalCount, totalPages }
         };
-      });
+      })
+    );
   }
   /**
    * Add a track to the queue

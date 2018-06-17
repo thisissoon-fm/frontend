@@ -20,16 +20,16 @@ export class SocketIOService {
    * @memberof SocketIOService
    */
   public connect(url: string): SocketIOInstance {
-
     const instance: SocketIOInstance = {
       /**
        * On message calls callback function with message
        */
-      on: (event: string, callback: (msg: PlayerEvent) => any) => callback({ event: 'add' }),
+      on: (event: string, callback: (msg: PlayerEvent) => any) =>
+        callback({ event: 'add' }),
       /**
        * Disconnect from socket-io server
        */
-      disconnect: () => { }
+      disconnect: () => {}
     };
 
     return instance;

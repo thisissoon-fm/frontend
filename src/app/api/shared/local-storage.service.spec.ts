@@ -9,13 +9,19 @@ describe('LocalStorageService', () => {
     });
   });
 
-  it('should get local storage item', inject([LocalStorageService], (service: LocalStorageService) => {
-    const result = service.getItem('bar');
-    expect(result).toEqual('foo');
-  }));
+  it('should get local storage item', inject(
+    [LocalStorageService],
+    (service: LocalStorageService) => {
+      const result = service.getItem('bar');
+      expect(result).toEqual('foo');
+    }
+  ));
 
-  it('should remove local storage item', inject([LocalStorageService], (service: LocalStorageService) => {
-    const result = service.removeItem('bar');
-    expect(result).toBeUndefined();
-  }));
+  it('should remove local storage item', inject(
+    [LocalStorageService],
+    (service: LocalStorageService) => {
+      const result = service.removeItem('bar');
+      expect(result).toBeUndefined();
+    }
+  ));
 });

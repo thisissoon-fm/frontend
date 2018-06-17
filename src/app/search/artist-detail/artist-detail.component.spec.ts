@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbTabsetModule, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
-import { Store, Action } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { HttpParams } from '@angular/common/http';
 
 import { ArtistDetailComponent } from './artist-detail.component';
@@ -15,31 +15,38 @@ import { UtilsService } from '../../shared';
 import { artist, albums } from '../../../testing/mock-spotify-artist';
 import { search } from '../../../testing/mock-spotify-search';
 
-
 class MockActivatedRoute {
-  params = Observable.of({id: 'foo'});
+  params = Observable.of({ id: 'foo' });
 }
 
 describe('ArtistDetailComponent', () => {
   let component: ArtistDetailComponent;
   let fixture: ComponentFixture<ArtistDetailComponent>;
-  let mockStore: { dispatch: () => any, select: () => any };
+  let mockStore: { dispatch: () => any; select: () => any };
   let mockSpotifyArtistService: {
-    get: jasmine.Spy,
-    getTopTracks: jasmine.Spy
-    getAlbums: jasmine.Spy
-    getSingles: jasmine.Spy,
-    getRelatedArtists: jasmine.Spy
+    get: jasmine.Spy;
+    getTopTracks: jasmine.Spy;
+    getAlbums: jasmine.Spy;
+    getSingles: jasmine.Spy;
+    getRelatedArtists: jasmine.Spy;
   };
-  let mockLocation: {back: jasmine.Spy};
+  let mockLocation: { back: jasmine.Spy };
 
   beforeEach(async(() => {
     mockSpotifyArtistService = {
       get: jasmine.createSpy('get').and.returnValue(Observable.of(artist)),
-      getTopTracks: jasmine.createSpy('getTopTracks').and.returnValue(Observable.of(search)),
-      getAlbums: jasmine.createSpy('getAlbums').and.returnValue(Observable.of(JSON.parse(JSON.stringify(albums)))),
-      getSingles: jasmine.createSpy('getSingles').and.returnValue(Observable.of(JSON.parse(JSON.stringify(albums)))),
-      getRelatedArtists: jasmine.createSpy('getRelatedArtists').and.returnValue(Observable.of(null))
+      getTopTracks: jasmine
+        .createSpy('getTopTracks')
+        .and.returnValue(Observable.of(search)),
+      getAlbums: jasmine
+        .createSpy('getAlbums')
+        .and.returnValue(Observable.of(JSON.parse(JSON.stringify(albums)))),
+      getSingles: jasmine
+        .createSpy('getSingles')
+        .and.returnValue(Observable.of(JSON.parse(JSON.stringify(albums)))),
+      getRelatedArtists: jasmine
+        .createSpy('getRelatedArtists')
+        .and.returnValue(Observable.of(null))
     };
 
     mockStore = {
@@ -52,14 +59,8 @@ describe('ArtistDetailComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        NgbTabsetModule,
-        NoopAnimationsModule
-      ],
-      schemas: [
-        NO_ERRORS_SCHEMA,
-        CUSTOM_ELEMENTS_SCHEMA
-      ],
+      imports: [NgbTabsetModule, NoopAnimationsModule],
+      schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: Store, useValue: mockStore },
         { provide: SpotifyArtistService, useValue: mockSpotifyArtistService },
@@ -68,9 +69,8 @@ describe('ArtistDetailComponent', () => {
         UtilsService,
         NgbTabsetConfig
       ],
-      declarations: [ ArtistDetailComponent ]
-    })
-    .compileComponents();
+      declarations: [ArtistDetailComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -80,7 +80,9 @@ describe('ArtistDetailComponent', () => {
   });
 
   it('should get artist image', () => {
-    expect(component.artistImage).toEqual('https://i.scdn.co/image/cb080366dc8af1fe4dc90c4b9959794794884c66');
+    expect(component.artistImage).toEqual(
+      'https://i.scdn.co/image/cb080366dc8af1fe4dc90c4b9959794794884c66'
+    );
   });
 
   it('should get all albums loaded boolean', () => {
@@ -102,7 +104,9 @@ describe('ArtistDetailComponent', () => {
     expect(mockSpotifyArtistService.getAlbums).toHaveBeenCalledWith('foo');
     expect(mockSpotifyArtistService.getSingles).toHaveBeenCalledWith('foo');
     expect(mockSpotifyArtistService.getTopTracks).toHaveBeenCalledWith('foo');
-    expect(mockSpotifyArtistService.getRelatedArtists).toHaveBeenCalledWith('foo');
+    expect(mockSpotifyArtistService.getRelatedArtists).toHaveBeenCalledWith(
+      'foo'
+    );
   }));
 
   it('should select tab', async(() => {
@@ -133,23 +137,29 @@ describe('ArtistDetailComponent', () => {
 
   it('should add to queue', () => {
     component.addToQueue('foo');
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.QueueAdd('foo'));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.QueueAdd('foo')
+    );
   });
 
   it('should load more albums', async(() => {
     mockSpotifyArtistService.getAlbums.calls.reset();
-    const params = new HttpParams()
-      .set('offset', '1');
+    const params = new HttpParams().set('offset', '1');
     component.getMoreAlbums();
-    expect(mockSpotifyArtistService.getAlbums).toHaveBeenCalledWith('foo', params);
+    expect(mockSpotifyArtistService.getAlbums).toHaveBeenCalledWith(
+      'foo',
+      params
+    );
   }));
 
   it('should load more singles', async(() => {
     mockSpotifyArtistService.getSingles.calls.reset();
-    const params = new HttpParams()
-      .set('offset', '1');
+    const params = new HttpParams().set('offset', '1');
     component.getMoreSingles();
-    expect(mockSpotifyArtistService.getSingles).toHaveBeenCalledWith('foo', params);
+    expect(mockSpotifyArtistService.getSingles).toHaveBeenCalledWith(
+      'foo',
+      params
+    );
   }));
 
   it('should get more albums on scroll end', async(() => {

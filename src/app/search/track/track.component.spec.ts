@@ -1,7 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Store, Action } from '@ngrx/store';
 
 import { DurationPipe, UtilsService } from '../../shared';
 import { TrackComponent } from './track.component';
@@ -13,15 +10,9 @@ describe('TrackComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [
-        UtilsService
-      ],
-      declarations: [
-        TrackComponent,
-        DurationPipe
-      ]
-    })
-    .compileComponents();
+      providers: [UtilsService],
+      declarations: [TrackComponent, DurationPipe]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -32,7 +23,9 @@ describe('TrackComponent', () => {
   });
 
   it('should get optimal image', () => {
-    expect(component.optimalImage).toEqual('https://i.scdn.co/image/87862f13aaa41c7621b3f2c3c8f8bb6e9e7ccd6f');
+    expect(component.optimalImage).toEqual(
+      'https://i.scdn.co/image/87862f13aaa41c7621b3f2c3c8f8bb6e9e7ccd6f'
+    );
   });
 
   it('should get artists as a string', () => {

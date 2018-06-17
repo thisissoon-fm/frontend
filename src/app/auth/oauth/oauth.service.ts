@@ -1,5 +1,5 @@
+import { of as observableOf, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 
 /**
  * Generic service that performs oauth authentication.
@@ -20,6 +20,6 @@ export class OAuthService {
    * @memberof OAuthService
    */
   public authenticate(name: string): Observable<any> {
-    return Observable.of(null);
+    return observableOf(null);
   }
 }

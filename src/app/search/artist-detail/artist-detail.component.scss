@@ -7,13 +7,13 @@
   height: 100vh;
   opacity: 1;
   overflow: hidden;
-  width: 60vw;
   transition: $transition-base;
+  width: 60vw;
 }
 
 .img-clip.img-hero {
   padding-bottom: 50vh;
-  transition: padding-bottom .35s linear;
+  transition: padding-bottom 0.35s linear;
 
   :host(.scrolled-down) & {
     padding-bottom: 20vh;

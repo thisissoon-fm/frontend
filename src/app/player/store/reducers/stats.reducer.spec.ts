@@ -2,7 +2,6 @@ import * as statsReducer from './stats.reducer';
 import * as statsAction from '../actions/stats.action';
 
 describe('statsReducer', () => {
-
   describe('undefined action', () => {
     it('should return the default state', () => {
       const result = statsReducer.statsReducer(undefined, {} as any);
@@ -36,7 +35,7 @@ describe('statsReducer', () => {
 
     it('should load stats', () => {
       const stats = { stats: true };
-      const expected = { loaded: true, loading: false, stats};
+      const expected = { loaded: true, loading: false, stats };
       const action = new statsAction.LoadStatsSuccess(stats);
       const result = statsReducer.statsReducer(
         { ...statsReducer.initialState, loading: true },
@@ -51,7 +50,10 @@ describe('statsReducer', () => {
     const stats = { stats: {} };
     it('should get stats', () => {
       const expected = stats;
-      const result = statsReducer.getStats({...statsReducer.initialState, stats});
+      const result = statsReducer.getStats({
+        ...statsReducer.initialState,
+        stats
+      });
       expect(result).toEqual(expected);
     });
 

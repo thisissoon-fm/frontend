@@ -24,13 +24,13 @@
 .queue-heading-text {
   position: absolute;
   right: 0;
+  top: 0;
   transform: rotate(-90deg) translateX(-50%) translateY(100%);
   transform-origin: 50% 50% 0;
-  top: 0;
 }
 
 .queue-items {
   flex: 1 1 83.33333333%;
-  padding-top: 10rem; // ~160px
   overflow: auto;
+  padding-top: 10rem; // ~160px
 }

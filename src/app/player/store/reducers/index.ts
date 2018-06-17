@@ -6,7 +6,6 @@ import * as fromStats from './stats.reducer';
 import * as fromQueue from './queue.reducer';
 import * as fromVolume from './volume.reducer';
 
-
 export interface PlayerState {
   current: fromCurrent.CurrentState;
   mute: fromMute.MuteState;
@@ -25,7 +24,6 @@ export const reducers = {
 
 export const getPlayerState = createFeatureSelector<PlayerState>('player');
 
-
 export const getCurrentState = createSelector(
   getPlayerState,
   (state: PlayerState) => state.current
@@ -41,20 +39,14 @@ export const getQueueState = createSelector(
   (state: PlayerState) => state.queue
 );
 
-export const getQueue = createSelector(
-  getQueueState,
-  fromQueue.getQueue
-);
+export const getQueue = createSelector(getQueueState, fromQueue.getQueue);
 
 export const getQueueLoading = createSelector(
   getQueueState,
   fromQueue.getQueueLoading
 );
 
-export const getQueueMeta = createSelector(
-  getQueueState,
-  fromQueue.getMeta
-);
+export const getQueueMeta = createSelector(getQueueState, fromQueue.getMeta);
 
 export const getQueuePagination = createSelector(
   getQueueState,
@@ -66,30 +58,21 @@ export const getMuteState = createSelector(
   (state: PlayerState) => state.mute
 );
 
-export const getMute = createSelector(
-  getMuteState,
-  fromMute.getMute
-);
+export const getMute = createSelector(getMuteState, fromMute.getMute);
 
 export const getVolumeState = createSelector(
   getPlayerState,
   (state: PlayerState) => state.volume
 );
 
-export const getVolume = createSelector(
-  getVolumeState,
-  fromVolume.getVolume
-);
+export const getVolume = createSelector(getVolumeState, fromVolume.getVolume);
 
 export const getStatsState = createSelector(
   getPlayerState,
   (state: PlayerState) => state.stats
 );
 
-export const getStats = createSelector(
-  getStatsState,
-  fromStats.getStats
-);
+export const getStats = createSelector(getStatsState, fromStats.getStats);
 
 export { StatsState } from './stats.reducer';
 

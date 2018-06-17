@@ -8,7 +8,7 @@ import { of } from 'rxjs/observable/of';
 
 import { CurrentEffects } from './current.effect';
 import * as actions from '../actions/current.action';
-import { QueueItem, QueueService, PauseService, CurrentService } from '../../../api';
+import { QueueItem, PauseService, CurrentService } from '../../../api';
 import { NotificationService } from '../../../notification';
 import { UtilsService } from '../../../shared';
 
@@ -35,7 +35,10 @@ describe('CurrentEffects', () => {
   let mockPauseService;
   let mockTitle;
 
-  const current = { uuid: '111', track: { name: '', artists: [], album: { images: [] } } } as QueueItem;
+  const current = {
+    uuid: '111',
+    track: { name: '', artists: [], album: { images: [] } }
+  } as QueueItem;
   const pagination = { totalCount: 2, currentPage: 1, totalPages: 1 };
 
   beforeEach(() => {
@@ -64,9 +67,12 @@ describe('CurrentEffects', () => {
         { provide: CurrentService, useFactory: () => mockCurrentService },
         { provide: PauseService, useFactory: () => mockPauseService },
         { provide: Title, useFactory: () => mockTitle },
-        { provide: NotificationService, useFactory: () => mockNotificationService },
+        {
+          provide: NotificationService,
+          useFactory: () => mockNotificationService
+        },
         UtilsService
-      ],
+      ]
     });
 
     effects = testBed.get(CurrentEffects);
@@ -156,10 +162,10 @@ describe('CurrentEffects', () => {
   describe('addPause$', () => {
     it('should request to pause current', () => {
       const action = new actions.AddPause();
-      const completion = {paused: true};
+      const completion = { paused: true };
 
       actions$.stream = hot('-a', { a: action });
-      const response = cold('-a|', { a: { paused: true} });
+      const response = cold('-a|', { a: { paused: true } });
       const expected = cold('--b', { b: completion });
       mockPauseService.post.and.callFake(() => response);
 
@@ -185,10 +191,10 @@ describe('CurrentEffects', () => {
   describe('removePause$', () => {
     it('should request to remove pause', () => {
       const action = new actions.RemovePause();
-      const completion = {paused: false};
+      const completion = { paused: false };
 
       actions$.stream = hot('-a', { a: action });
-      const response = cold('-a|', { a: {paused: false} });
+      const response = cold('-a|', { a: { paused: false } });
       const expected = cold('--b', { b: completion });
       mockPauseService.delete.and.callFake(() => response);
 

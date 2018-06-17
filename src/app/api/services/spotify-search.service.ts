@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { SpotifySearch } from '../models';
@@ -27,7 +28,7 @@ export class SpotifySearchService {
    * @param {HttpClient} http
    * @memberof SpotifySearchService
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * Search spotify for tracks, artists or albums with a query string
    *
@@ -35,14 +36,19 @@ export class SpotifySearchService {
    * @returns {Observable<SpotifySearch>}
    * @memberof SpotifySearchService
    */
-  public search(query: string, type: SearchType = 'track', params: HttpParams = new HttpParams()): Observable<SpotifySearch> {
-    const options: any = { observe: 'response'};
+  public search(
+    query: string,
+    type: SearchType = 'track',
+    params: HttpParams = new HttpParams()
+  ): Observable<SpotifySearch> {
+    const options: any = { observe: 'response' };
     const paramsWithLimit = new HttpParams({ fromString: params.toString() })
       .set('q', `${query}*`)
       .set('type', type)
       .set('market', `${environment.spotifyMarket}`);
     options.params = paramsWithLimit;
-    return this.http.get<SpotifySearch>(this.endpointUrl, options)
-      .map((event: HttpResponse<SpotifySearch>) => event.body);
+    return this.http
+      .get<SpotifySearch>(this.endpointUrl, options)
+      .pipe(map((event: HttpResponse<SpotifySearch>) => event.body));
   }
 }

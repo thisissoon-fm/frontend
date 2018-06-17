@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import {
+  HttpEvent,
+  HttpInterceptor,
+  HttpHandler,
+  HttpRequest
+} from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 import { LocalStorageService } from './local-storage.service';
 import { environment } from '../../../environments/environment';
@@ -20,7 +25,9 @@ export class AuthInterceptor implements HttpInterceptor {
    * @private
    * @memberof AuthInterceptor
    */
-  private storageName = `${environment.googleAuthTokenPrefix}_${environment.googleAuthTokenName}`;
+  private storageName = `${environment.googleAuthTokenPrefix}_${
+    environment.googleAuthTokenName
+  }`;
   /**
    * Returns auth token value in localStorage
    *
@@ -37,7 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
    * @param {LocalStorageService} localStorageSvc
    * @memberof AuthInterceptor
    */
-  constructor(private localStorageSvc: LocalStorageService) { }
+  constructor(private localStorageSvc: LocalStorageService) {}
   /**
    * Clone original request and adds auth token value to header
    * before it's sent.
@@ -47,11 +54,16 @@ export class AuthInterceptor implements HttpInterceptor {
    * @returns {Observable<HttpEvent<any>>}
    * @memberof AuthInterceptor
    */
-  public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  public intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     if (!req.url.startsWith(environment.apiUrlPlayer)) {
       return next.handle(req);
     }
-    const authReq = req.clone({ setHeaders: {'Access-Token': this.authToken }});
+    const authReq = req.clone({
+      setHeaders: { 'Access-Token': this.authToken }
+    });
     return next.handle(authReq);
   }
 }

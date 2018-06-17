@@ -3,15 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { OAuthService } from './oauth/oauth.service';
 
-const defaultProviders: Provider[] = [
-  OAuthService
-];
+const defaultProviders: Provider[] = [OAuthService];
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [],
+  imports: [CommonModule],
+  declarations: []
 })
 export class AuthModule {
   /**
@@ -27,10 +23,7 @@ export class AuthModule {
   public static forRoot(providers?: Provider[]): ModuleWithProviders {
     return {
       ngModule: AuthModule,
-      providers: [
-        ...defaultProviders,
-        ...providers
-      ]
+      providers: [...defaultProviders, ...providers]
     };
   }
 }

@@ -23,22 +23,22 @@ module.exports = {
       { test: /\.scss$/, loader: 'style-loader!raw-loader!sass-loader' },
       { test: /\.(jpg|png|gif)$/, loader: 'file-loader' },
       // /** Adding this to get watch to work for html files */
-      { test: /\.html$/, loader: 'file-loader' },
+      { test: /\.html$/, loader: 'file-loader' }
     ]
   },
   plugins: [
     /**
-      * Plugin: CopyWebpackPlugin
-      * Description: Copy files and directories in webpack.
-      *
-      * Copies project static assets.
-      *
-      * See: https://www.npmjs.com/package/copy-webpack-plugin
-      */
+     * Plugin: CopyWebpackPlugin
+     * Description: Copy files and directories in webpack.
+     *
+     * Copies project static assets.
+     *
+     * See: https://www.npmjs.com/package/copy-webpack-plugin
+     */
     new CopyWebpackPlugin([
       { from: 'src/assets', to: 'assets' },
       { from: '**/*.html', context: path.join(__dirname, 'examples') }
-    ]),
+    ])
   ],
   /**
    * Webpack Development Server configuration
@@ -56,6 +56,5 @@ module.exports = {
       aggregateTimeout: 300,
       poll: 1000
     }
-  },
-
+  }
 };

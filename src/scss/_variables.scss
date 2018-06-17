@@ -9,13 +9,13 @@
 //
 //
 
-$yellow:                            #ffef7f;
-$yellow-lucky:                      #b4981e;
-$yellow-sand:                       #f5e5a3;
-$green-glade:                       #68825b;
-$grey-50a:                          rgba($white, .5);
-$grey-30a:                          rgba($black, .3);
-$grey-20a:                          rgba($white, .2);
+$yellow: #ffef7f;
+$yellow-lucky: #b4981e;
+$yellow-sand: #f5e5a3;
+$green-glade: #68825b;
+$grey-50a: rgba($white, 0.5);
+$grey-30a: rgba($black, 0.3);
+$grey-20a: rgba($white, 0.2);
 
 $colors: (
   yellow: $yellow,
@@ -39,20 +39,18 @@ $theme-colors: (
   white: $white
 );
 
-
 // Options
 //
 // Quickly modify global styling by enabling or disabling
 // optional features.
 
-$enable-rounded:                    true;
-$enable-shadows:                    false;
-$enable-gradients:                  false;
-$enable-transitions:                true;
-$enable-hover-media-query:          true;
-$enable-grid-classes:               true;
-$enable-print-styles:               true;
-
+$enable-rounded: true;
+$enable-shadows: false;
+$enable-gradients: false;
+$enable-transitions: true;
+$enable-hover-media-query: true;
+$enable-grid-classes: true;
+$enable-print-styles: true;
 
 // Spacing
 //
@@ -61,34 +59,41 @@ $enable-print-styles:               true;
 // You can add more entries to the $spacers map, should you
 // need more variation.
 
-$spacer:                            2.5rem; // ~40px
+$spacer: 2.5rem; // ~40px
 $spacers: (
   0: 0,
-  1: ($spacer * .25),
-  2: ($spacer * .5),
+  1: (
+    $spacer * 0.25
+  ),
+  2: (
+    $spacer * 0.5
+  ),
   3: $spacer,
-  4: ($spacer * 1.5),
-  5: ($spacer * 3),
-  6: ($spacer * 6)
+  4: (
+    $spacer * 1.5
+  ),
+  5: (
+    $spacer * 3
+  ),
+  6: (
+    $spacer * 6
+  )
 );
-
 
 // Body
 //
 // Settings for the `<body>` element.
 
-$body-bg:                           $black;
-$body-color:                        $white;
-
+$body-bg: $black;
+$body-color: $white;
 
 // Links
 //
 // Style anchor elements.
 
-$link-color:                        theme-color("dark");
-$link-hover-color:                  darken($link-color, 15%);
-$link-hover-decoration:             none;
-
+$link-color: theme-color("dark");
+$link-hover-color: darken($link-color, 15%);
+$link-hover-decoration: none;
 
 // Grid breakpoints
 //
@@ -104,7 +109,6 @@ $grid-breakpoints: (
 );
 @include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
 @include _assert-starts-at-zero($grid-breakpoints);
-
 
 // Grid containers
 //
@@ -122,165 +126,157 @@ $container-max-widths: (
 //
 // Set the number of columns and specify the width of the gutters.
 
-$grid-columns:                      12;
-$grid-gutter-width:                 2.5rem; // ~40px
-
+$grid-columns: 12;
+$grid-gutter-width: 2.5rem; // ~40px
 
 // Fonts
 //
 // Font, line-height, and color for body text, headings, and more.
 
-$font-family-sans-serif:            "Avenir Medium", "Helvetica Neue", Arial, sans-serif;
-$font-family-sans-serif-bold:       "Avenir Heavy", "Helvetica Neue", Arial, sans-serif;
-$font-family-base:                  $font-family-sans-serif;
+$font-family-sans-serif: "Avenir Medium", "Helvetica Neue", Arial, sans-serif;
+$font-family-sans-serif-bold: "Avenir Heavy", "Helvetica Neue", Arial,
+  sans-serif;
+$font-family-base: $font-family-sans-serif;
 
-$font-size-base:                    0.875rem; // ~14px
-$line-height-base:                  1.3571428571; // ~19px on 14px font
+$font-size-base: 0.875rem; // ~14px
+$line-height-base: 1.3571428571; // ~19px on 14px font
 
-$h1-font-size:                      1.75rem; // ~28px
-$h3-font-size:                      1.625rem; // ~26px
-$h4-font-size:                      1.25rem; // ~20px
-$h5-font-size:                      1.125rem; // ~18px
+$h1-font-size: 1.75rem; // ~28px
+$h3-font-size: 1.625rem; // ~26px
+$h4-font-size: 1.25rem; // ~20px
+$h5-font-size: 1.125rem; // ~18px
 
-$headings-font-weight:              $font-weight-base;
-$headings-line-height:              $line-height-base;
+$headings-font-weight: $font-weight-base;
+$headings-line-height: $line-height-base;
 
-$lead-font-size:                    1.125rem; // ~18px
-$lead-font-weight:                  $font-weight-normal;
+$lead-font-size: 1.125rem; // ~18px
+$lead-font-weight: $font-weight-normal;
 
-$hr-border-color:                   $grey-20a;
-$hr-border-width:                   0.125rem; // ~2px
-$hr-margin-bottom:                  1.25rem; // ~20px
-$hr-margin-top:                     1.25rem; // ~20px
+$hr-border-color: $grey-20a;
+$hr-border-width: 0.125rem; // ~2px
+$hr-margin-bottom: 1.25rem; // ~20px
+$hr-margin-top: 1.25rem; // ~20px
 
-$small-font-size:                   71.42857143%; // ~10px on 14px font
-$xsmall-font-size:                  .5rem; // ~8px
+$small-font-size: 71.42857143%; // ~10px on 14px font
+$xsmall-font-size: 0.5rem; // ~8px
 
-$text-muted:                        $grey-50a;
-
+$text-muted: $grey-50a;
 
 // Buttons
 //
 // For each of Bootstrap's buttons, define text, background and
 // border color.
 
-$input-btn-padding-x:               1.125rem; // ~18px
-$input-btn-padding-y:               0.875rem; // ~14px
-$input-btn-line-height:             1.4; // ~14px on 10px font size
+$input-btn-padding-x: 1.125rem; // ~18px
+$input-btn-padding-y: 0.875rem; // ~14px
+$input-btn-line-height: 1.4; // ~14px on 10px font size
 
-$btn-font-weight:                   $font-weight-normal;
-$btn-box-shadow:                    none;
-$btn-focus-box-shadow:              none;
-$btn-active-box-shadow:             none;
-
+$btn-font-weight: $font-weight-normal;
+$btn-box-shadow: none;
+$btn-focus-box-shadow: none;
+$btn-active-box-shadow: none;
 
 // Allows for customizing button radius independently from global border radius
-$btn-rounded-border-radius:         1.875rem; // ~30px
-$btn-border-width:                  0.0625rem; // ~1px
+$btn-rounded-border-radius: 1.875rem; // ~30px
+$btn-border-width: 0.0625rem; // ~1px
 
-$btn-border-radius:                 0;
-$btn-border-radius-lg:              0;
-$btn-border-radius-sm:              0;
-
+$btn-border-radius: 0;
+$btn-border-radius-lg: 0;
+$btn-border-radius-sm: 0;
 
 // Forms
 
-$input-color:                       $black;
-$input-border-color:                transparent;
-$input-btn-border-width:            0;
-$input-box-shadow:                  none;
+$input-color: $black;
+$input-border-color: transparent;
+$input-btn-border-width: 0;
+$input-box-shadow: none;
 
-$input-border-radius:               $border-radius;
-$input-border-radius-lg:            $border-radius-lg;
-$input-border-radius-sm:            $border-radius-sm;
+$input-border-radius: $border-radius;
+$input-border-radius-lg: $border-radius-lg;
+$input-border-radius-sm: $border-radius-sm;
 
-$input-focus-border-color:          $black;
-$input-focus-bg:                    $input-bg;
-$input-focus-color:                 $input-color;
+$input-focus-border-color: $black;
+$input-focus-bg: $input-bg;
+$input-focus-color: $input-color;
 
-$input-placeholder-color:           $grey-30a;
+$input-placeholder-color: $grey-30a;
 
-$form-group-margin-bottom:          0;
-
+$form-group-margin-bottom: 0;
 
 // Components
 //
 // Define common padding and border radius sizes and more.
 
-$border-radius:                     0;
-$border-radius-lg:                  0;
-$border-radius-sm:                  0;
+$border-radius: 0;
+$border-radius-lg: 0;
+$border-radius-sm: 0;
 
-$transition-base:                   all .35s ease-out;
-
+$transition-base: all 0.35s ease-out;
 
 // Cards
 //
 //
 
-$card-spacer-y:                     1.25rem; // ~20px
-$card-spacer-x:                     0;
-$card-border-width:                 0;
-$card-border-radius:                $border-radius;
-$card-border-color:                 transparent;
-$card-inner-border-radius:          calc(#{$card-border-radius} - #{$card-border-width});
-$card-cap-bg:                       transparent;
-$card-bg:                           transparent;
-
+$card-spacer-y: 1.25rem; // ~20px
+$card-spacer-x: 0;
+$card-border-width: 0;
+$card-border-radius: $border-radius;
+$card-border-color: transparent;
+$card-inner-border-radius: calc(#{$card-border-radius} - #{$card-border-width});
+$card-cap-bg: transparent;
+$card-bg: transparent;
 
 // Icons
 //
 //
 
-$icomoon-font-path:                 "/assets/fonts/icomoon";
+$icomoon-font-path: "/assets/fonts/icomoon";
 
-$icon-plus:                         "\e900";
-$icon-close:                        "\e901";
-$icon-caret-down:                   "\e902";
-$icon-play:                         "\e903";
-$icon-skip:                         "\e904";
-$icon-pause:                        "\e905";
-$icon-history:                      "\e906";
-$icon-stats-dots:                   "\e907";
-$icon-arrow-left:                   "\e908";
-$icon-profile:                      "\e909";
-$icon-delete:                       "\e90a";
-$icon-search:                       "\e986";
-$icon-volume-high:                  "\ea26";
-$icon-volume-medium:                "\ea27";
-$icon-volume-low:                   "\ea28";
-$icon-volume-mute:                  "\ea2a";
-
+$icon-plus: "\e900";
+$icon-close: "\e901";
+$icon-caret-down: "\e902";
+$icon-play: "\e903";
+$icon-skip: "\e904";
+$icon-pause: "\e905";
+$icon-history: "\e906";
+$icon-stats-dots: "\e907";
+$icon-arrow-left: "\e908";
+$icon-profile: "\e909";
+$icon-delete: "\e90a";
+$icon-search: "\e986";
+$icon-volume-high: "\ea26";
+$icon-volume-medium: "\ea27";
+$icon-volume-low: "\ea28";
+$icon-volume-mute: "\ea2a";
 
 // Z-index master list
 //
 // List of zindex values to have a top down overview
 
-$zindex-router-default:             900;
-$zindex-nav:                        910;
-$zindex-router-search:              920;
-$zindex-splash:                     930;
-
+$zindex-router-default: 900;
+$zindex-nav: 910;
+$zindex-router-search: 920;
+$zindex-splash: 930;
 
 // Volume slider
 //
 //
 
-$track-color:                       $gray-900;
-$thumb-color:                       $body-bg;
+$track-color: $gray-900;
+$thumb-color: $body-bg;
 
-$thumb-radius:                      50%;
-$thumb-height:                      1.25rem;
-$thumb-width:                       1.25rem;
-$thumb-border-width:                .1875rem; // ~3px
-$thumb-border-color:                $white;
+$thumb-radius: 50%;
+$thumb-height: 1.25rem;
+$thumb-width: 1.25rem;
+$thumb-border-width: 0.1875rem; // ~3px
+$thumb-border-color: $white;
 
-$track-width:                       100%;
-$track-height:                      .25rem; // ~4px
-$track-border-width:                .0625rem; // ~1px
-$track-border-color:                $track-color;
+$track-width: 100%;
+$track-height: 0.25rem; // ~4px
+$track-border-width: 0.0625rem; // ~1px
+$track-border-color: $track-color;
 
-$track-fill-color:                  theme-color("primary");
+$track-fill-color: theme-color("primary");
 
-$track-radius:                      2rem; // ~32px
-$contrast:                          5%;
+$track-radius: 2rem; // ~32px
+$contrast: 5%;

@@ -2,14 +2,10 @@ import { NgModule, Provider, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from './notification.service';
 
-export const defaultProviders: Provider[] = [
-  NotificationService
-];
+export const defaultProviders: Provider[] = [NotificationService];
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   declarations: []
 })
 export class NotificationModule {
@@ -26,10 +22,7 @@ export class NotificationModule {
   public static forRoot(providers?: Provider[]): ModuleWithProviders {
     return {
       ngModule: NotificationModule,
-      providers: [
-        ...defaultProviders,
-        ...providers
-      ]
+      providers: [...defaultProviders, ...providers]
     };
   }
 }

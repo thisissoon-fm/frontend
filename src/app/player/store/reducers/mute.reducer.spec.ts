@@ -2,7 +2,6 @@ import * as muteReducer from './mute.reducer';
 import * as muteAction from '../actions/mute.action';
 
 describe('MuteReducer', () => {
-
   describe('undefined action', () => {
     it('should return the default state', () => {
       const result = muteReducer.muteReducer(undefined, {} as any);
@@ -15,10 +14,7 @@ describe('MuteReducer', () => {
     it('should set loading to true on load mute request', () => {
       const expected = { ...muteReducer.initialState, loading: true };
       const action = new muteAction.LoadMute();
-      const result = muteReducer.muteReducer(
-        muteReducer.initialState,
-        action
-      );
+      const result = muteReducer.muteReducer(muteReducer.initialState, action);
 
       expect(result).toEqual(expected);
     });
@@ -36,7 +32,7 @@ describe('MuteReducer', () => {
 
     it('should load mute', () => {
       const mute = { mute: true };
-      const expected = { loaded: true, loading: false, mute};
+      const expected = { loaded: true, loading: false, mute };
       const action = new muteAction.LoadMuteSuccess(mute);
       const result = muteReducer.muteReducer(
         { ...muteReducer.initialState, loading: true },
@@ -53,7 +49,7 @@ describe('MuteReducer', () => {
       const expected = { loading: false, loaded: true, mute };
       const action = new muteAction.AddMuteSuccess(mute);
       const result = muteReducer.muteReducer(
-        { loaded: true, loading: true, mute: { mute: false }},
+        { loaded: true, loading: true, mute: { mute: false } },
         action
       );
 
@@ -67,7 +63,7 @@ describe('MuteReducer', () => {
       const expected = { loading: false, loaded: true, mute };
       const action = new muteAction.AddMuteSuccess(mute);
       const result = muteReducer.muteReducer(
-        { loaded: true, loading: true, mute: { mute: true }},
+        { loaded: true, loading: true, mute: { mute: true } },
         action
       );
 
@@ -79,7 +75,7 @@ describe('MuteReducer', () => {
     const mute = { mute: true };
     it('should get mute', () => {
       const expected = mute;
-      const result = muteReducer.getMute({...muteReducer.initialState, mute});
+      const result = muteReducer.getMute({ ...muteReducer.initialState, mute });
       expect(result).toEqual(expected);
     });
 

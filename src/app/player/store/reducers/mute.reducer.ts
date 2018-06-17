@@ -14,7 +14,7 @@ const newState = (state, newData) => {
 export const initialState: MuteState = {
   loaded: false,
   loading: false,
-  mute: null,
+  mute: null
 };
 
 export function muteReducer(
@@ -32,7 +32,11 @@ export function muteReducer(
     case fromMute.ADD_MUTE_SUCCESS:
     case fromMute.REMOVE_MUTE_SUCCESS:
     case fromMute.LOAD_MUTE_SUCCESS: {
-      const mute = (<fromMute.LoadMuteSuccess | fromMute.AddMuteSuccess | fromMute.RemoveMuteSuccess>action).payload;
+      const mute = (<
+        | fromMute.LoadMuteSuccess
+        | fromMute.AddMuteSuccess
+        | fromMute.RemoveMuteSuccess
+      >action).payload;
 
       return {
         loaded: true,

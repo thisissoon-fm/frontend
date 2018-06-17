@@ -1,5 +1,5 @@
 import * as fromSearch from '../actions/search.action';
-import { SearchType, SpotifyArtist, SpotifySearch, SpotifyAlbums, Pagination } from '../../../api';
+import { SearchType, Pagination } from '../../../api';
 
 export interface SearchState {
   loaded: boolean;
@@ -9,7 +9,6 @@ export interface SearchState {
   type: SearchType;
   query: string;
 }
-
 
 export const initialState: SearchState = {
   loaded: false,
@@ -39,7 +38,9 @@ export function searchReducer(
     }
 
     case fromSearch.LOAD_SEARCH_RESULTS_SUCCESS: {
-      const res = (<fromSearch.LoadSearchResultsSuccess>action).payload[`${state.type}s`];
+      const res = (<fromSearch.LoadSearchResultsSuccess>action).payload[
+        `${state.type}s`
+      ];
       const items = res && res.items ? res.items : [];
       const pagination: Pagination = {
         currentPage: 1,
@@ -72,7 +73,9 @@ export function searchReducer(
     }
 
     case fromSearch.LOAD_SEARCH_RESULTS_NEXT_PAGE_SUCCESS: {
-      const res = (<fromSearch.LoadSearchResultsNextPageSuccess>action).payload[`${state.type}s`];
+      const res = (<fromSearch.LoadSearchResultsNextPageSuccess>action).payload[
+        `${state.type}s`
+      ];
       const items = [...state.results, ...res.items];
       const pagination: Pagination = {
         currentPage: state.pagination.currentPage + 1,

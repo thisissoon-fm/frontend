@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { delay } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromPlayerStore from '../../player/store';
@@ -24,15 +24,16 @@ export class StatsComponent implements OnInit {
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
    * @memberof StatsComponent
    */
-  constructor(public playerStore$: Store<fromPlayerStore.PlayerState>) { }
+  constructor(public playerStore$: Store<fromPlayerStore.PlayerState>) {}
   /**
    * Get stats data from store and attact it to component property
    *
    * @memberof StatsComponent
    */
   public ngOnInit(): void {
-    this.playerStore$.select(fromPlayerStore.getStats)
-      .delay(0)
-      .subscribe(stats => this.stats = stats);
+    this.playerStore$
+      .select(fromPlayerStore.getStats)
+      .pipe(delay(0))
+      .subscribe(stats => (this.stats = stats));
   }
 }

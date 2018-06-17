@@ -2,7 +2,6 @@ import * as volumeReducer from './volume.reducer';
 import * as volumeAction from '../actions/volume.action';
 
 describe('volumeReducer', () => {
-
   describe('undefined action', () => {
     it('should return the default state', () => {
       const result = volumeReducer.volumeReducer(undefined, {} as any);
@@ -36,7 +35,7 @@ describe('volumeReducer', () => {
 
     it('should load volume', () => {
       const volume = { volume: 50 };
-      const expected = { loaded: true, loading: false, volume};
+      const expected = { loaded: true, loading: false, volume };
       const action = new volumeAction.LoadVolumeSuccess(volume);
       const result = volumeReducer.volumeReducer(
         { ...volumeReducer.initialState, loading: true },
@@ -53,7 +52,7 @@ describe('volumeReducer', () => {
       const expected = { loading: false, loaded: true, volume };
       const action = new volumeAction.SetVolumeSuccess(volume);
       const result = volumeReducer.volumeReducer(
-        { loaded: true, loading: true, volume: { volume: 25 }},
+        { loaded: true, loading: true, volume: { volume: 25 } },
         action
       );
 
@@ -65,7 +64,10 @@ describe('volumeReducer', () => {
     const volume = { volume: 50 };
     it('should get volume', () => {
       const expected = volume;
-      const result = volumeReducer.getVolume({...volumeReducer.initialState, volume});
+      const result = volumeReducer.getVolume({
+        ...volumeReducer.initialState,
+        volume
+      });
       expect(result).toEqual(expected);
     });
 

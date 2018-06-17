@@ -31,11 +31,10 @@ describe('UserEffects', () => {
   let mockUserService;
 
   beforeEach(() => {
-
     mockUserService = {
       get: jasmine.createSpy('get').and.returnValue(of(user)),
       me: jasmine.createSpy('me').and.returnValue(of(user)),
-      delete: jasmine.createSpy('delete').and.returnValue(of(null)),
+      delete: jasmine.createSpy('delete').and.returnValue(of(null))
     };
 
     testBed = TestBed.configureTestingModule({
@@ -43,7 +42,7 @@ describe('UserEffects', () => {
         UserEffects,
         { provide: Actions, useFactory: getActions },
         { provide: UserService, useFactory: () => mockUserService }
-      ],
+      ]
     });
 
     effects = testBed.get(UserEffects);

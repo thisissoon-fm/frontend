@@ -5,21 +5,12 @@ import { reducers } from './store';
 import { UtilsService } from './utils';
 import { DurationPipe } from './duration';
 
-
-const providers: Provider[] = [
-  UtilsService
-];
+const providers: Provider[] = [UtilsService];
 
 @NgModule({
-  imports: [
-    StoreModule.forFeature('shared', reducers)
-  ],
-  declarations: [
-    DurationPipe
-  ],
-  exports: [
-    DurationPipe
-  ],
+  imports: [StoreModule.forFeature('shared', reducers)],
+  declarations: [DurationPipe],
+  exports: [DurationPipe]
 })
 export class SharedModule {
   /**
@@ -31,12 +22,10 @@ export class SharedModule {
    * @returns {ModuleWithProviders}
    * @memberof SharedModule
    */
- public static forRoot(): ModuleWithProviders {
-   return {
+  public static forRoot(): ModuleWithProviders {
+    return {
       ngModule: SharedModule,
-      providers: [
-        ...providers
-      ]
+      providers: [...providers]
     };
   }
 }

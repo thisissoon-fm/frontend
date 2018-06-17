@@ -4,7 +4,7 @@ import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Store, Action } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { EventService, PlayerEvent } from './event';
 import { AppComponent } from './app.component';
@@ -13,15 +13,16 @@ import { queueItem } from '../testing/mock-queue-item';
 import { queueMeta } from '../testing/mock-queue-meta';
 import { CurrentService, QueueService } from './api';
 
-
 const mockStore = {
   dispatch: jasmine.createSpy('dispatch'),
-  select: jasmine.createSpy('dispatch').and.returnValues(
-    Observable.of(queueItem),
-    Observable.of(queueMeta),
-    Observable.of(queueItem),
-    Observable.of(queueMeta)
-  )
+  select: jasmine
+    .createSpy('dispatch')
+    .and.returnValues(
+      Observable.of(queueItem),
+      Observable.of(queueMeta),
+      Observable.of(queueItem),
+      Observable.of(queueMeta)
+    )
 };
 
 class MockEventService {
@@ -33,12 +34,9 @@ const mockCurrentService = {
 };
 
 const mockQueueService = {
-  getMeta: jasmine.createSpy('getMeta').and.returnValue(Observable.of(queueMeta))
-};
-
-const mockRouter = {
-  navigate: jasmine.createSpy('navigate'),
-  events: jasmine.createSpy('events')
+  getMeta: jasmine
+    .createSpy('getMeta')
+    .and.returnValue(Observable.of(queueMeta))
 };
 
 describe('AppComponent', () => {
@@ -48,21 +46,15 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        NoopAnimationsModule
-      ],
-      schemas: [
-        NO_ERRORS_SCHEMA,
-        CUSTOM_ELEMENTS_SCHEMA
-      ],
+      imports: [RouterTestingModule, NoopAnimationsModule],
+      schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: Store, useValue: mockStore },
         { provide: EventService, useClass: MockEventService },
         { provide: CurrentService, useValue: mockCurrentService },
         { provide: QueueService, useValue: mockQueueService }
       ],
-      declarations: [ AppComponent ],
+      declarations: [AppComponent]
     }).compileComponents();
 
     router = TestBed.get(Router);
@@ -117,52 +109,72 @@ describe('AppComponent', () => {
   it('should dispatch LoadQueueItem action', async(() => {
     const data: PlayerEvent = { uuid: 'foo', event: 'add' };
     component.onAdd(data);
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.LoadQueueItem(data));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.LoadQueueItem(data)
+    );
   }));
 
   it('should dispatch QueueRemoveSuccess action', async(() => {
     const data: PlayerEvent = { uuid: 'foo', event: 'deleted' };
     component.onDelete(data);
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.QueueRemoveSuccess(data.uuid));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.QueueRemoveSuccess(data.uuid)
+    );
   }));
 
   it('should dispatch QueueShift and LoadCurrent action', async(() => {
     component.onPlay();
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.QueueShift());
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.LoadCurrent());
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.QueueShift()
+    );
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.LoadCurrent()
+    );
   }));
 
   it('should dispatch RemoveCurrentSuccess action', async(() => {
     component.onEnd();
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.RemoveCurrentSuccess(null));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.RemoveCurrentSuccess(null)
+    );
   }));
 
   it('should dispatch AddPauseSuccess action', async(() => {
     component.onPause();
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.AddPauseSuccess(null));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.AddPauseSuccess(null)
+    );
   }));
 
   it('should dispatch RemovePauseSuccess action', async(() => {
     component.onResume();
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.RemovePauseSuccess(null));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.RemovePauseSuccess(null)
+    );
   }));
 
   it('should dispatch AddMuteSuccess action', async(() => {
     const data: PlayerEvent = { event: 'set_mute', mute: true };
     component.onMuteChanged(data);
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.AddMuteSuccess({mute: data.mute}));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.AddMuteSuccess({ mute: data.mute })
+    );
   }));
 
   it('should dispatch RemoveMuteSuccess action', async(() => {
     const data: PlayerEvent = { event: 'set_mute', mute: false };
     component.onMuteChanged(data);
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.RemoveMuteSuccess({mute: data.mute}));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.RemoveMuteSuccess({ mute: data.mute })
+    );
   }));
 
   it('should dispatch SetVolumeSuccess action', async(() => {
     const data: PlayerEvent = { event: 'set_volume', volume: 56 };
     component.onVolumeChanged(data);
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new fromPlayerStore.SetVolumeSuccess({ volume: data.volume }));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      new fromPlayerStore.SetVolumeSuccess({ volume: data.volume })
+    );
   }));
 
   it('should complete and unsubscribe from observable onDestroy', async(() => {

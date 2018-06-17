@@ -3,7 +3,6 @@ import * as searchAction from '../actions/search.action';
 import { search } from '../../../../testing/mock-spotify-search';
 
 describe('SearchReducer', () => {
-
   describe('undefined action', () => {
     it('should return the default state', () => {
       const result = searchReducer.searchReducer(undefined, {} as any);
@@ -89,7 +88,12 @@ describe('SearchReducer', () => {
       };
       const action = new searchAction.LoadSearchResultsNextPageSuccess(search);
       const result = searchReducer.searchReducer(
-        { ...searchReducer.initialState, loading: true, type: 'track', results: search.tracks.items },
+        {
+          ...searchReducer.initialState,
+          loading: true,
+          type: 'track',
+          results: search.tracks.items
+        },
         action
       );
 
@@ -99,7 +103,10 @@ describe('SearchReducer', () => {
 
   describe('Search Type', () => {
     it('should set search type', () => {
-      const expected: searchReducer.SearchState = { ...searchReducer.initialState, type: 'album' };
+      const expected: searchReducer.SearchState = {
+        ...searchReducer.initialState,
+        type: 'album'
+      };
       const action = new searchAction.SetSearchType('album');
       const result = searchReducer.searchReducer(
         searchReducer.initialState,
@@ -126,7 +133,7 @@ describe('SearchReducer', () => {
       const expected = { ...searchReducer.initialState, query: null };
       const action = new searchAction.ClearSearch();
       const result = searchReducer.searchReducer(
-        {...searchReducer.initialState, query: 'foo'},
+        { ...searchReducer.initialState, query: 'foo' },
         action
       );
 
@@ -137,25 +144,35 @@ describe('SearchReducer', () => {
   describe('Get state values', () => {
     it('should get search', () => {
       const expected = search.tracks.items;
-      const result = searchReducer.getResults({...searchReducer.initialState, results: search.tracks.items});
+      const result = searchReducer.getResults({
+        ...searchReducer.initialState,
+        results: search.tracks.items
+      });
       expect(result).toEqual(expected);
     });
 
     it('should get search loading', () => {
       const expected = false;
-      const result = searchReducer.getSearchResultsLoading(searchReducer.initialState);
+      const result = searchReducer.getSearchResultsLoading(
+        searchReducer.initialState
+      );
       expect(result).toEqual(expected);
     });
 
     it('should get search loaded', () => {
       const expected = false;
-      const result = searchReducer.getSearchResultsLoaded(searchReducer.initialState);
+      const result = searchReducer.getSearchResultsLoaded(
+        searchReducer.initialState
+      );
       expect(result).toEqual(expected);
     });
 
     it('should get search query', () => {
       const expected = 'foo';
-      const result = searchReducer.getSearchQuery({...searchReducer.initialState, query: 'foo'});
+      const result = searchReducer.getSearchQuery({
+        ...searchReducer.initialState,
+        query: 'foo'
+      });
       expect(result).toEqual(expected);
     });
 

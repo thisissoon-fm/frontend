@@ -7,9 +7,13 @@ import { of } from 'rxjs/observable/of';
 import { Store } from '@ngrx/store';
 
 import { QueueEffects } from './queue.effect';
-import { QueueState } from '../reducers/queue.reducer';
 import * as actions from '../actions/queue.action';
-import { QueueItem, QueueService, TrackService, UserService } from '../../../api';
+import {
+  QueueItem,
+  QueueService,
+  TrackService,
+  UserService
+} from '../../../api';
 import { NotificationService } from '../../../notification';
 import { UtilsService } from '../../../shared';
 
@@ -73,9 +77,12 @@ describe('QueueEffects', () => {
         { provide: QueueService, useFactory: () => mockQueueService },
         { provide: TrackService, useFactory: () => mockTrackService },
         { provide: UserService, useFactory: () => mockUserService },
-        { provide: NotificationService, useFactory: () => mockNotificationService },
+        {
+          provide: NotificationService,
+          useFactory: () => mockNotificationService
+        },
         UtilsService
-      ],
+      ]
     });
 
     effects = TestBed.get(QueueEffects);
@@ -112,10 +119,13 @@ describe('QueueEffects', () => {
   describe('loadNextQueuePage$', () => {
     it('should return a queueAction.LoadNextQueuePageSuccess, with queue items, on success', () => {
       const action = new actions.LoadNextQueuePage();
-      const completion = new actions.LoadNextQueuePageSuccess({ items, pagination });
+      const completion = new actions.LoadNextQueuePageSuccess({
+        items,
+        pagination
+      });
 
       actions$.stream = hot('-a', { a: action });
-      const responseSelect = hot('a|', { a: pagination } );
+      const responseSelect = hot('a|', { a: pagination });
       const response = cold('-a|', { a: { items, pagination } });
       const expected = cold('--b', { b: completion });
       mockStore.select.and.callFake(() => responseSelect);
@@ -221,8 +231,12 @@ describe('QueueEffects', () => {
 
   describe('loadQueueItem$', () => {
     it('should return a queueAction.LoadQueueItemSuccess on success', () => {
-      const action = new actions.LoadQueueItem({id: 'foo'} as any);
-      const completion = new actions.LoadQueueItemSuccess({ uuid: 'foo', track: {}, user: {}} as any);
+      const action = new actions.LoadQueueItem({ id: 'foo' } as any);
+      const completion = new actions.LoadQueueItemSuccess({
+        uuid: 'foo',
+        track: {},
+        user: {}
+      } as any);
 
       actions$.stream = hot('-a', { a: action });
       const response = cold('-a|', { a: {} });

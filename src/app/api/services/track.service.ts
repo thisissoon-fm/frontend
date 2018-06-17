@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { Track } from '../models/index';
@@ -25,7 +25,7 @@ export class TrackService {
    * @param {HttpClient} http
    * @memberof TrackService
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * Returns track data for any spotify track
    *

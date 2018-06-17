@@ -36,9 +36,8 @@ export class UtilsService {
    */
   public getArtistsJoined(artists: Artist[]): string {
     if (artists && artists.length) {
-      return artists.map((artist) => artist.name).join(', ');
+      return artists.map(artist => artist.name).join(', ');
     }
     return '';
   }
-
 }

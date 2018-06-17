@@ -10,7 +10,7 @@ import { SearchEffects } from './search.effect';
 import * as actions from '../actions/search.action';
 import { SpotifySearchService } from '../../../api';
 import { search as spotifySearch } from '../../../../testing/mock-spotify-search';
-import { searchReducer, initialState } from '../reducers/search.reducer';
+import { initialState } from '../reducers/search.reducer';
 
 export class TestActions extends Actions {
   constructor() {
@@ -35,12 +35,13 @@ describe('SearchEffects', () => {
 
   beforeEach(() => {
     mockSearchService = {
-      search: jasmine.createSpy('search').and.returnValue(of(spotifySearch)),
+      search: jasmine.createSpy('search').and.returnValue(of(spotifySearch))
     };
 
     mockStore = {
-      select: jasmine.createSpy('select')
-        .and.returnValue(of({...initialState, query: 'foo'}))
+      select: jasmine
+        .createSpy('select')
+        .and.returnValue(of({ ...initialState, query: 'foo' }))
     };
 
     testBed = TestBed.configureTestingModule({
@@ -49,7 +50,7 @@ describe('SearchEffects', () => {
         { provide: Actions, useFactory: getActions },
         { provide: SpotifySearchService, useFactory: () => mockSearchService },
         { provide: Store, useFactory: () => mockStore }
-      ],
+      ]
     });
 
     effects = testBed.get(SearchEffects);
@@ -86,7 +87,9 @@ describe('SearchEffects', () => {
   describe('loadSearchResultsNextPage$', () => {
     it('should return a searchAction.LoadSearchResultsNextPageSuccess, with search, on success', () => {
       const action = new actions.LoadSearchResultsNextPage();
-      const completion = new actions.LoadSearchResultsNextPageSuccess(spotifySearch);
+      const completion = new actions.LoadSearchResultsNextPageSuccess(
+        spotifySearch
+      );
 
       actions$.stream = hot('-a', { a: action });
       const response = cold('-a|', { a: spotifySearch });
@@ -109,5 +112,4 @@ describe('SearchEffects', () => {
       expect(effects.loadSearchResultsNextPage$).toBeObservable(expected);
     });
   });
-
 });

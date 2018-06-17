@@ -3,7 +3,6 @@ import * as userAction from '../actions/user.action';
 import { user } from '../../../../testing/mock-user';
 
 describe('userReducer', () => {
-
   describe('undefined action', () => {
     it('should return the default state', () => {
       const result = userReducer.userReducer(undefined, {} as any);
@@ -16,10 +15,7 @@ describe('userReducer', () => {
     it('should set loading to true on load me request', () => {
       const expected = { ...userReducer.initialState, loading: true };
       const action = new userAction.LoadMe();
-      const result = userReducer.userReducer(
-        userReducer.initialState,
-        action
-      );
+      const result = userReducer.userReducer(userReducer.initialState, action);
 
       expect(result).toEqual(expected);
     });
@@ -36,7 +32,13 @@ describe('userReducer', () => {
     });
 
     it('should load user', () => {
-      const expected = { ...userReducer.initialState, loaded: true, loading: false, user, authenticated: true};
+      const expected = {
+        ...userReducer.initialState,
+        loaded: true,
+        loading: false,
+        user,
+        authenticated: true
+      };
       const action = new userAction.LoadMeSuccess(user);
       const result = userReducer.userReducer(
         { ...userReducer.initialState, loading: true },
@@ -50,7 +52,7 @@ describe('userReducer', () => {
   describe('Get state values', () => {
     it('should get user', () => {
       const expected = user;
-      const result = userReducer.getUser({...userReducer.initialState, user});
+      const result = userReducer.getUser({ ...userReducer.initialState, user });
       expect(result).toEqual(expected);
     });
 

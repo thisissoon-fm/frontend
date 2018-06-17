@@ -15,7 +15,7 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SearchRoutingModule { }
+export class SearchRoutingModule {}
 
 export const routedComponents = [
   ArtistDetailComponent,

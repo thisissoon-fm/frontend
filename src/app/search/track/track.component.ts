@@ -15,46 +15,40 @@ export class TrackComponent {
    * @type {SpotifyTrack}
    * @memberof TrackComponent
    */
-  @Input()
-  public item: SpotifyTrack;
+  @Input() public item: SpotifyTrack;
   /**
    * Position of image in array to display if available
    *
    * @type {number}
    * @memberof TrackComponent
    */
-  @Input()
-  public imageIndex = 0;
+  @Input() public imageIndex = 0;
   /**
    * If true will render a smaller version of track component
    *
    * @type {boolean}
    * @memberof TrackComponent
    */
-  @Input()
-  public small = false;
+  @Input() public small = false;
   /**
    * Hide artist info
    *
    * @memberof TrackComponent
    */
-  @Input()
-  public hideArtist = false;
+  @Input() public hideArtist = false;
   /**
    * Hide album info
    *
    * @memberof TrackComponent
    */
-  @Input()
-  public hideAlbum = false;
+  @Input() public hideAlbum = false;
   /**
    * If true means the component is on a dark background
    *
    * @type {boolean}
    * @memberof TrackComponent
    */
-  @Input()
-  public dark = false;
+  @Input() public dark = false;
   /**
    * If true means track has been added to queue
    *
@@ -68,8 +62,7 @@ export class TrackComponent {
    * @type {EventEmitter<string>}
    * @memberof TrackComponent
    */
-  @Output()
-  public buttonClick = new EventEmitter<string>();
+  @Output() public buttonClick = new EventEmitter<string>();
   /**
    * Returns optimal image or last image in array if
    * optimal image does not exist
@@ -80,7 +73,10 @@ export class TrackComponent {
    */
   public get optimalImage(): string {
     if (this.item.album && this.item.album.images) {
-      return this.utilsSvc.getOptimalImage(this.item.album.images, this.imageIndex);
+      return this.utilsSvc.getOptimalImage(
+        this.item.album.images,
+        this.imageIndex
+      );
     }
     return '';
   }
@@ -98,7 +94,7 @@ export class TrackComponent {
    * @param {UtilsService} utilsSvc
    * @memberof TrackComponent
    */
-  constructor(public utilsSvc: UtilsService) { }
+  constructor(public utilsSvc: UtilsService) {}
   /**
    * Emit event to parent component
    *

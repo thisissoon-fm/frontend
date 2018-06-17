@@ -4,7 +4,7 @@
 // Reusable blocks of code
 
 @mixin track() {
-  animate: 0.2s;
+  animation: 0.2s;
   cursor: pointer;
   height: $track-height;
   width: $track-width;
@@ -27,8 +27,8 @@
     bottom: 0;
     content: "";
     left: 0;
-    position: absolute;
     pointer-events: none;
+    position: absolute;
     right: 0;
     top: 0;
     transition: $transition-base;
@@ -37,7 +37,7 @@
 
 @mixin darken() {
   &::after {
-    background-color: rgba($black, .7);
+    background-color: rgba($black, 0.7);
     pointer-events: all;
   }
 }

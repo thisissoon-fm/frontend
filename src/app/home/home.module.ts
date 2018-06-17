@@ -6,14 +6,7 @@ import { SearchModule } from '../search';
 import { HomeRoutingModule, routedComponents } from './home-routing.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    PlayerModule,
-    SearchModule,
-    HomeRoutingModule
-  ],
-  declarations: [
-    ...routedComponents
-  ]
+  imports: [CommonModule, PlayerModule, SearchModule, HomeRoutingModule],
+  declarations: [...routedComponents]
 })
-export class HomeModule { }
+export class HomeModule {}

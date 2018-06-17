@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromPlayerStore from '../player/store';
@@ -12,7 +13,6 @@ import { UtilsService } from '../shared';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
   /**
    * Observable of the item currently playing in the player
    *
@@ -35,11 +35,14 @@ export class HomeComponent implements OnInit {
    * @memberof HomeComponent
    */
   public get currentImage$(): Observable<string> {
-    return this.current$
-      .map((current) =>
-        (current && current.track) ?
-           this.utilsSvc.getOptimalImage(current.track.album.images, 0) : ''
-      );
+    return this.current$.pipe(
+      map(
+        current =>
+          current && current.track
+            ? this.utilsSvc.getOptimalImage(current.track.album.images, 0)
+            : ''
+      )
+    );
   }
   /**
    * Creates an instance of HomeComponent.
@@ -50,7 +53,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private playerStore$: Store<fromPlayerStore.PlayerState>,
     private utilsSvc: UtilsService
-  ) { }
+  ) {}
   /**
    * Tell store to load player data from api and subscribe to
    * their latest values from the store

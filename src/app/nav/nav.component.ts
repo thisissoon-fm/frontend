@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import * as fromUserStore from '../user';
 import { OAuthService } from '../auth/index';
@@ -25,8 +25,8 @@ export class NavComponent implements OnInit {
    */
   constructor(
     private userStore$: Store<fromUserStore.UserState>,
-    private oauthSvc: OAuthService,
-  ) { }
+    private oauthSvc: OAuthService
+  ) {}
   /**
    * Subscribe to user state and store as a property in Observable
    *

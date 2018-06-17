@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
+import { take, filter, combineLatest, takeUntil } from 'rxjs/operators';
 
 import { OAuthService } from '../auth';
 import * as fromUserStore from '../user/store';
@@ -12,7 +13,7 @@ import { fadeAnimation } from '../shared';
   selector: 'sfm-splash',
   templateUrl: './splash.component.html',
   styleUrls: ['./splash.component.scss'],
-  animations: [ fadeAnimation ]
+  animations: [fadeAnimation]
 })
 export class SplashComponent implements OnInit, OnDestroy {
   /**
@@ -50,19 +51,26 @@ export class SplashComponent implements OnInit, OnDestroy {
     private userStore$: Store<fromUserStore.UserState>,
     private router: Router,
     private oauthSvc: OAuthService
-  ) { }
+  ) {}
   /**
    * Load data for component from store
    *
    * @memberof SplashComponent
    */
   public ngOnInit(): void {
-    const authenticated$ = this.userStore$.select(fromUserStore.getUserAuthenticated);
-    const dataLoaded$ = this.playerStore$.select(fromPlayerStore.getLoadedState);
+    const authenticated$ = this.userStore$.select(
+      fromUserStore.getUserAuthenticated
+    );
+    const dataLoaded$ = this.playerStore$.select(
+      fromPlayerStore.getLoadedState
+    );
 
-    const combine$ = dataLoaded$.combineLatest(authenticated$)
-      .takeUntil(this.ngUnsubscribe$)
-      .subscribe((data) =>  {
+    const combine$ = dataLoaded$
+      .pipe(
+        combineLatest(authenticated$),
+        takeUntil(this.ngUnsubscribe$)
+      )
+      .subscribe(data => {
         this.playerDataLoaded = data[0];
         this.isAuthenticated = data[1];
         if (this.playerDataLoaded && this.isAuthenticated) {
@@ -79,12 +87,15 @@ export class SplashComponent implements OnInit, OnDestroy {
   public login(): void {
     this.oauthSvc
       .authenticate('google')
-      .takeUntil(this.ngUnsubscribe$)
+      .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(() => {
         this.userStore$.dispatch(new fromUserStore.LoadMe());
-        this.userStore$.select(fromUserStore.getUser)
-          .filter(user => !!(user && user.id))
-          .take(1)
+        this.userStore$
+          .select(fromUserStore.getUser)
+          .pipe(
+            filter(user => !!(user && user.id)),
+            take(1)
+          )
           .subscribe(user => this.router.navigate(['/home']));
       });
   }

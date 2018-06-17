@@ -37,13 +37,7 @@ const components = [
     RouterModule,
     SearchRoutingModule
   ],
-  exports: [
-    ...routedComponents,
-    ...components
-  ],
-  declarations: [
-    ...routedComponents,
-    ...components
-  ]
+  exports: [...routedComponents, ...components],
+  declarations: [...routedComponents, ...components]
 })
-export class SearchModule { }
+export class SearchModule {}

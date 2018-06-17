@@ -70,7 +70,8 @@ export function currentReducer(
       const player = state.current.player;
       player.elapsed_seconds++;
       player.elapsed_time += 1000;
-      player.elapsed_percentage = (player.elapsed_time  / state.current.track.duration);
+      player.elapsed_percentage =
+        player.elapsed_time / state.current.track.duration;
       return newState(state, {
         current: newState(state.current, { player })
       });

@@ -44,7 +44,7 @@ describe('MuteEffects', () => {
         MuteEffects,
         { provide: Actions, useFactory: getActions },
         { provide: MuteService, useFactory: () => mockMuteService }
-      ],
+      ]
     });
 
     effects = testBed.get(MuteEffects);
@@ -77,7 +77,6 @@ describe('MuteEffects', () => {
       expect(effects.loadMute$).toBeObservable(expected);
     });
   });
-
 
   describe('addMute$', () => {
     it('should request to add mute', () => {
@@ -136,5 +135,4 @@ describe('MuteEffects', () => {
       expect(mockMuteService.delete).toHaveBeenCalled();
     });
   });
-
 });

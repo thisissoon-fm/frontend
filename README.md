@@ -3,6 +3,7 @@
 [![CircleCI][circleci-badge]][circleci]
 [![Coverage Status][coveralls-badge]][coveralls]
 [![Commitizen friendly][commitizen-badge]][commitizen]
+[![code style: prettier][prettier-badge]][prettier-badge-url]
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
 
@@ -43,15 +44,17 @@ Run `npm run release` to create a new release. This will use [Standard Version][
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README][angular-cli-readme].
 
-[commitizen]:http://commitizen.github.io/cz-cli/
-[commitizen-badge]:https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
-[conventional-changelog]:https://github.com/conventional-changelog/conventional-changelog
-[standard-version]:https://github.com/conventional-changelog/standard-version
-[circleci]:https://circleci.com/gh/thisissoon-fm/frontend
-[circleci-badge]:https://circleci.com/gh/thisissoon-fm/frontend.svg?style=shield
-[coveralls]:https://coveralls.io/github/thisissoon-fm/frontend?branch=master
-[coveralls-badge]:https://coveralls.io/repos/github/thisissoon-fm/frontend/badge.svg?branch=master
-[karma]:https://karma-runner.github.io
-[protractor]:http://www.protractortest.org/
-[angular-cli]:https://github.com/angular/angular-cli
-[angular-cli-readme]:https://github.com/angular/angular-cli/blob/master/README.md
+[commitizen]: http://commitizen.github.io/cz-cli/
+[commitizen-badge]: https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
+[conventional-changelog]: https://github.com/conventional-changelog/conventional-changelog
+[standard-version]: https://github.com/conventional-changelog/standard-version
+[circleci]: https://circleci.com/gh/thisissoon-fm/frontend
+[circleci-badge]: https://circleci.com/gh/thisissoon-fm/frontend.svg?style=shield
+[coveralls]: https://coveralls.io/github/thisissoon-fm/frontend?branch=master
+[coveralls-badge]: https://coveralls.io/repos/github/thisissoon-fm/frontend/badge.svg?branch=master
+[prettier-badge]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=shield
+[prettier-badge-url]: https://github.com/prettier/prettier
+[karma]: https://karma-runner.github.io
+[protractor]: http://www.protractortest.org/
+[angular-cli]: https://github.com/angular/angular-cli
+[angular-cli-readme]: https://github.com/angular/angular-cli/blob/master/README.md

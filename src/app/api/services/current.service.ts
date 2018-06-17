@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { QueueItem } from '../models';
@@ -25,7 +25,7 @@ export class CurrentService {
    * @param {HttpClient} http
    * @memberof CurrentService
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * Returns the currently playing track data
    *

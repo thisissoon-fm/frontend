@@ -1,6 +1,6 @@
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
 import { LocalStorageService } from '../shared';
@@ -30,7 +30,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private localStorageSvc: LocalStorageService
-  ) { }
+  ) {}
   /**
    * Returns user data for currently authenticated user
    *
@@ -38,11 +38,13 @@ export class UserService {
    * @memberof UserService
    */
   public me(): Observable<User> {
-    const storageName = `${environment.googleAuthTokenPrefix}_${environment.googleAuthTokenName}`;
+    const storageName = `${environment.googleAuthTokenPrefix}_${
+      environment.googleAuthTokenName
+    }`;
     if (!!this.localStorageSvc.getItem(storageName)) {
       return this.http.get<User>(`${this.endpointUrl}authenticated`);
     }
-    return Observable.throw(null);
+    return observableThrowError(null);
   }
   /**
    * Get user data by `id`
@@ -60,7 +62,9 @@ export class UserService {
    * @memberof UserService
    */
   public delete(): void {
-    const storageName = `${environment.googleAuthTokenPrefix}_${environment.googleAuthTokenName}`;
+    const storageName = `${environment.googleAuthTokenPrefix}_${
+      environment.googleAuthTokenName
+    }`;
     this.localStorageSvc.removeItem(storageName);
   }
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
 import { QueueItem, Pagination } from '../../api';
@@ -49,19 +48,22 @@ export class QueueComponent implements OnInit {
    * @param {Store<fromPlayerStore.PlayerState>} playerStore$
    * @memberof QueueComponent
    */
-  constructor(private playerStore$: Store<fromPlayerStore.PlayerState>) { }
+  constructor(private playerStore$: Store<fromPlayerStore.PlayerState>) {}
   /**
    * Subscribe to queue
    *
    * @memberof QueueComponent
    */
   public ngOnInit(): void {
-    this.playerStore$.select(fromPlayerStore.getQueue)
-      .subscribe(queue => this.queue = queue);
-    this.playerStore$.select(fromPlayerStore.getQueueLoading)
-      .subscribe(loading => this.loading = loading);
-    this.playerStore$.select(fromPlayerStore.getQueuePagination)
-      .subscribe(pagination => this.pagination = pagination);
+    this.playerStore$
+      .select(fromPlayerStore.getQueue)
+      .subscribe(queue => (this.queue = queue));
+    this.playerStore$
+      .select(fromPlayerStore.getQueueLoading)
+      .subscribe(loading => (this.loading = loading));
+    this.playerStore$
+      .select(fromPlayerStore.getQueuePagination)
+      .subscribe(pagination => (this.pagination = pagination));
   }
   /**
    * On scroll end load more tracks if needed

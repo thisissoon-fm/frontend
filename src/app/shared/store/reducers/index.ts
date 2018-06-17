@@ -1,12 +1,17 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { viewReducer, ViewState, getSearchPageActiveFromState, getRouterSearchActiveFromState } from './view.reducer';
+import {
+  viewReducer,
+  ViewState,
+  getSearchPageActiveFromState,
+  getRouterSearchActiveFromState
+} from './view.reducer';
 
 export interface SharedState {
   view: ViewState;
 }
 
 export const reducers = {
-  view: viewReducer,
+  view: viewReducer
 };
 
 export const getSharedState = createFeatureSelector<SharedState>('shared');

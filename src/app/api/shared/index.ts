@@ -11,9 +11,7 @@ export * from './local-storage.service';
 
 export const interceptors: Provider[] = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: PausedInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: PausedInterceptor, multi: true }
 ];
 
-export const sharedProviders: Provider[] = [
-  LocalStorageService
-];
+export const sharedProviders: Provider[] = [LocalStorageService];

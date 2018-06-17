@@ -8,4 +8,13 @@ export interface PlayerEvent {
   id?: string;
 }
 
-export type PlayerEventType = 'add' | 'end' | 'stop' | 'pause' | 'resume' | 'play' | 'deleted' | 'set_volume' | 'set_mute';
+export type PlayerEventType =
+  | 'add'
+  | 'end'
+  | 'stop'
+  | 'pause'
+  | 'resume'
+  | 'play'
+  | 'deleted'
+  | 'set_volume'
+  | 'set_mute';

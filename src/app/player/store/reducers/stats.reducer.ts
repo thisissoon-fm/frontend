@@ -41,7 +41,7 @@ export function statsReducer(
     case fromStats.LOAD_STATS_FAIL: {
       return newState(state, {
         loaded: false,
-        loading: false,
+        loading: false
       });
     }
   }

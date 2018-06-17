@@ -67,7 +67,7 @@ export interface ExternalIds {
   isrc: string;
 }
 
-export interface  SpotifyAlbums {
+export interface SpotifyAlbums {
   items: SpotifyAlbum[];
   next: string;
   href: string;

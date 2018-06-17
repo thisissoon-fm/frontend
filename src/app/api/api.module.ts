@@ -5,11 +5,7 @@ import { CommonModule } from '@angular/common';
 import { apiProviders } from './services';
 import { interceptors, sharedProviders } from './shared';
 
-const defaultProviders = [
-  ...apiProviders,
-  ...sharedProviders,
-  ...interceptors
-];
+const defaultProviders = [...apiProviders, ...sharedProviders, ...interceptors];
 
 /**
  * @todo Split into their feature modules
@@ -24,10 +20,7 @@ const defaultProviders = [
  * @class ApiModule
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule
-  ],
+  imports: [CommonModule, HttpClientModule],
   declarations: []
 })
 export class ApiModule {
@@ -44,10 +37,7 @@ export class ApiModule {
   public static forRoot(providers?: Provider[]): ModuleWithProviders {
     return {
       ngModule: ApiModule,
-      providers: [
-        ...defaultProviders,
-        ...providers
-      ]
+      providers: [...defaultProviders, ...providers]
     };
   }
 }

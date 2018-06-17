@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { SpotifySearch, SpotifyArtist, SpotifyAlbums } from '../models';
@@ -25,7 +26,7 @@ export class SpotifyArtistService {
    * @param {HttpClient} http
    * @memberof SpotifyArtistService
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * Get artist detail data
    *
@@ -44,15 +45,18 @@ export class SpotifyArtistService {
    * @returns {Observable<SpotifyAlbums>}
    * @memberof SpotifyArtistService
    */
-  public getAlbums(id: string, params: HttpParams = new HttpParams()): Observable<SpotifyAlbums> {
-    const options: any = { observe: 'response'};
+  public getAlbums(
+    id: string,
+    params: HttpParams = new HttpParams()
+  ): Observable<SpotifyAlbums> {
     const paramsWithLimit = new HttpParams({ fromString: params.toString() })
       .set('album_type', 'album')
       .set('market', `${environment.spotifyMarket}`)
       .set('limit', `${environment.apiLimit}`);
-    options.params = paramsWithLimit;
-    return this.http.get<SpotifyAlbums>(`${this.endpointUrl}/${id}/albums`, options)
-      .map((event: HttpResponse<SpotifyAlbums>) => event.body);
+    const options: any = { observe: 'response', params: paramsWithLimit };
+    return this.http
+      .get<SpotifyAlbums>(`${this.endpointUrl}/${id}/albums`, options)
+      .pipe(map((event: HttpResponse<SpotifyAlbums>) => event.body));
   }
   /**
    * Get list of artist singles
@@ -62,15 +66,18 @@ export class SpotifyArtistService {
    * @returns {Observable<SpotifyAlbums>}
    * @memberof SpotifyArtistService
    */
-  public getSingles(id: string, params: HttpParams = new HttpParams()): Observable<SpotifyAlbums> {
-    const options: any = { observe: 'response'};
+  public getSingles(
+    id: string,
+    params: HttpParams = new HttpParams()
+  ): Observable<SpotifyAlbums> {
     const paramsWithLimit = new HttpParams({ fromString: params.toString() })
       .set('album_type', 'single')
       .set('market', `${environment.spotifyMarket}`)
       .set('limit', `${environment.apiLimit}`);
-    options.params = paramsWithLimit;
-    return this.http.get<SpotifyAlbums>(`${this.endpointUrl}/${id}/albums`, options)
-      .map((event: HttpResponse<SpotifyAlbums>) => event.body);
+    const options: any = { observe: 'response', params: paramsWithLimit };
+    return this.http
+      .get<SpotifyAlbums>(`${this.endpointUrl}/${id}/albums`, options)
+      .pipe(map((event: HttpResponse<SpotifyAlbums>) => event.body));
   }
   /**
    * Get artists top tracks
@@ -80,13 +87,18 @@ export class SpotifyArtistService {
    * @memberof SpotifyArtistService
    */
   public getTopTracks(id: string): Observable<SpotifySearch> {
-    const options: any = { observe: 'response'};
     const params = new HttpParams()
       .set('country', `${environment.spotifyMarket}`)
       .set('limit', `${environment.apiLimit}`);
-    options.params = params;
-    return this.http.get<SpotifySearch>(`${this.endpointUrl}/${id}/top-tracks`, options)
-      .map((event: HttpResponse<SpotifySearch>) => <any>{ tracks: { items: event.body.tracks } });
+    const options: any = { observe: 'response', params };
+    return this.http
+      .get<SpotifySearch>(`${this.endpointUrl}/${id}/top-tracks`, options)
+      .pipe(
+        map(
+          (event: HttpResponse<SpotifySearch>) =>
+            <any>{ tracks: { items: event.body.tracks } }
+        )
+      );
   }
   /**
    * Get an artists related artists
@@ -96,7 +108,8 @@ export class SpotifyArtistService {
    * @memberof SpotifyArtistService
    */
   public getRelatedArtists(id: string): Observable<SpotifySearch> {
-    return this.http.get<SpotifySearch>(`${this.endpointUrl}/${id}/related-artists`)
-      .map((res) => <any>{ artists: { items: res.artists } });
+    return this.http
+      .get<SpotifySearch>(`${this.endpointUrl}/${id}/related-artists`)
+      .pipe(map(res => <any>{ artists: { items: res.artists } }));
   }
 }

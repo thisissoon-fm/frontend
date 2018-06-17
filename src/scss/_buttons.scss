@@ -23,10 +23,17 @@
 }
 
 .btn-circle {
-  @include button-size(0, 0, 0.875rem, 3.125rem, 50%); // ~ 0, 0, 14px, 50px, 50%
+  @include button-size(
+    0,
+    0,
+    0.875rem,
+    3.125rem,
+    50%
+  ); // ~ 0, 0, 14px, 50px, 50%
   @include size(3.125rem); // ~50px
-  border-width: 2px;
+
   border-style: solid;
+  border-width: 2px;
 }
 
 .btn-icon {

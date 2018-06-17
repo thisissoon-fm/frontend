@@ -1,22 +1,24 @@
-import { Component, OnInit, HostBinding, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
+import { forkJoin as observableForkJoin } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
 
-import { SpotifyAlbums, SpotifyAlbumService, SpotifyAlbum, SpotifyTracks } from '../../api';
-import { UtilsService, fadeMoveUpAnimation, swipeLeftFadeAnimation } from '../../shared';
+import { SpotifyAlbumService, SpotifyAlbum, SpotifyTracks } from '../../api';
+import {
+  UtilsService,
+  fadeMoveUpAnimation,
+  swipeLeftFadeAnimation
+} from '../../shared';
 import * as fromPlayerStore from '../../player/store';
 
 @Component({
   selector: 'sfm-album-detail',
   templateUrl: './album-detail.component.html',
   styleUrls: ['./album-detail.component.scss'],
-  animations: [
-    fadeMoveUpAnimation,
-    swipeLeftFadeAnimation
-  ]
+  animations: [fadeMoveUpAnimation, swipeLeftFadeAnimation]
 })
 export class AlbumDetailComponent implements OnInit {
   /**
@@ -39,16 +41,14 @@ export class AlbumDetailComponent implements OnInit {
    * @type {boolean}
    * @memberof AlbumDetailComponent
    */
-  @HostBinding('class.is-loading')
-  public loading = true;
+  @HostBinding('class.is-loading') public loading = true;
   /**
    * If the user has scrolled down the component
    *
    * @type {boolean}
    * @memberof AlbumDetailComponent
    */
-  @HostBinding('class.scrolled-down')
-  public scrolledDown = false;
+  @HostBinding('class.scrolled-down') public scrolledDown = false;
   /**
    * Returns album image or empty string if one doesn't exist
    *
@@ -57,8 +57,9 @@ export class AlbumDetailComponent implements OnInit {
    * @memberof AlbumDetailComponent
    */
   public get albumImage(): string {
-    return (this.album &&  this.album.images) ?
-      this.utilsSvc.getOptimalImage(this.album.images, 0) : '';
+    return this.album && this.album.images
+      ? this.utilsSvc.getOptimalImage(this.album.images, 0)
+      : '';
   }
   /**
    * Returns true if all results have been loaded
@@ -68,7 +69,11 @@ export class AlbumDetailComponent implements OnInit {
    * @memberof AlbumDetailComponent
    */
   public get allTracksLoaded(): boolean {
-    return (this.tracks && this.tracks.items && (this.tracks.items.length === this.tracks.total));
+    return (
+      this.tracks &&
+      this.tracks.items &&
+      this.tracks.items.length === this.tracks.total
+    );
   }
   /**
    * Creates an instance of AlbumDetailComponent.
@@ -85,29 +90,25 @@ export class AlbumDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private utilsSvc: UtilsService
-  ) { }
+  ) {}
   /**
    * Get album details
    *
    * @memberof AlbumDetailComponent
    */
   public ngOnInit(): void {
-    this.route.params
-      .take(1)
-      .subscribe(params => {
-        const id = params['id'];
-        Observable.forkJoin(
-          this.spotifyAlbumService.get(id),
-          this.spotifyAlbumService.getTracks(id)
-        )
-          .subscribe((res) => {
-            this.album = res[0];
-            this.tracks = res[1];
-            this.tracks.items.forEach((item) => item.album = this.album);
-            this.loading = false;
-          });
+    this.route.params.pipe(take(1)).subscribe(params => {
+      const id = params['id'];
+      observableForkJoin(
+        this.spotifyAlbumService.get(id),
+        this.spotifyAlbumService.getTracks(id)
+      ).subscribe(res => {
+        this.album = res[0];
+        this.tracks = res[1];
+        this.tracks.items.forEach(item => (item.album = this.album));
+        this.loading = false;
       });
-
+    });
   }
   /**
    * Return artists as a string of names
@@ -116,8 +117,9 @@ export class AlbumDetailComponent implements OnInit {
    * @memberof AlbumDetailComponent
    */
   public get artistsJoined(): string {
-    return (this.album && this.album.artists) ?
-      this.utilsSvc.getArtistsJoined(this.album.artists) : '';
+    return this.album && this.album.artists
+      ? this.utilsSvc.getArtistsJoined(this.album.artists)
+      : '';
   }
   /**
    * Add to queue
@@ -134,23 +136,22 @@ export class AlbumDetailComponent implements OnInit {
    * @memberof AlbumDetailComponent
    */
   public getMoreTracks(): void {
-    this.route.params
-      .take(1)
-      .subscribe((params) => {
-        const id = params['id'];
-        const httpParams = new HttpParams()
-          .set('offset', `${this.tracks.items.length}`);
-        this.loading = true;
-        this.spotifyAlbumService.getTracks(id, httpParams)
-          .subscribe({
-            next: (res) =>
-              res.items.forEach((item) => {
-                item.album = this.album;
-                this.tracks.items.push(item);
-              }),
-            complete: () => this.loading = false
-          });
+    this.route.params.pipe(take(1)).subscribe(params => {
+      const id = params['id'];
+      const httpParams = new HttpParams().set(
+        'offset',
+        `${this.tracks.items.length}`
+      );
+      this.loading = true;
+      this.spotifyAlbumService.getTracks(id, httpParams).subscribe({
+        next: res =>
+          res.items.forEach(item => {
+            item.album = this.album;
+            this.tracks.items.push(item);
+          }),
+        complete: () => (this.loading = false)
       });
+    });
   }
   /**
    * Go to previous page

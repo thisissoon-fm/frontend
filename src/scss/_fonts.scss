@@ -3,25 +3,29 @@
 // --------------------------------------------------
 // Declaring fonts from font files here
 
+// stylelint-disable
 @font-face {
   font-family: "Avenir Medium";
-  src: url("/assets/fonts/avenir-medium/avenir-medium.eot"); /* IE9 Compat Modes */
-  src: url("/assets/fonts/avenir-medium/avenir-medium.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-       url("/assets/fonts/avenir-medium/avenir-medium.woff") format("woff"), /* Modern Browsers */
-       url("/assets/fonts/avenir-medium/avenir-medium.ttf")  format("truetype"), /* Safari, Android, iOS */
-       url("/assets/fonts/avenir-medium/avenir-medium.svg#0882291fef93bcd06d472e1ee8939c3e") format("svg"); /* Legacy iOS */
-  font-style:   normal;
-  font-weight:  400;
+  font-style: normal;
+  font-weight: 400;
+  src: url("/assets/fonts/avenir-medium/avenir-medium.eot");
+  src: url("/assets/fonts/avenir-medium/avenir-medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("/assets/fonts/avenir-medium/avenir-medium.woff") format("woff"),
+    url("/assets/fonts/avenir-medium/avenir-medium.ttf") format("truetype"),
+    url("/assets/fonts/avenir-medium/avenir-medium.svg#0882291fef93bcd06d472e1ee8939c3e")
+      format("svg");
 }
 
 @font-face {
   font-family: "Avenir Heavy";
-  src: url("/assets/fonts/avenir-heavy/avenir-heavy.eot"); /* IE9 Compat Modes */
-  src: url("/assets/fonts/avenir-heavy/avenir-heavy.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-       url("/assets/fonts/avenir-heavy/avenir-heavy.woff") format("woff"), /* Modern Browsers */
-       url("/assets/fonts/avenir-heavy/avenir-heavy.ttf")  format("truetype"), /* Safari, Android, iOS */
-       url("/assets/fonts/avenir-heavy/avenir-heavy.svg#0882291fef93bcd06d472e1ee8939c3e") format("svg"); /* Legacy iOS */
-  font-style:   normal;
-  font-weight:  400;
+  font-style: normal;
+  font-weight: 400;
+  src: url("/assets/fonts/avenir-heavy/avenir-heavy.eot");
+  src: url("/assets/fonts/avenir-heavy/avenir-heavy.eot?#iefix")
+      format("embedded-opentype"),
+    url("/assets/fonts/avenir-heavy/avenir-heavy.woff") format("woff"),
+    url("/assets/fonts/avenir-heavy/avenir-heavy.ttf") format("truetype"),
+    url("/assets/fonts/avenir-heavy/avenir-heavy.svg#0882291fef93bcd06d472e1ee8939c3e")
+      format("svg");
 }
-

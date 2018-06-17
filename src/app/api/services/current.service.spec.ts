@@ -1,5 +1,8 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 
 import { CurrentService } from './current.service';
 import { environment } from '../../../environments/environment';
@@ -12,7 +15,7 @@ describe('CurrentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [CurrentService]
     });
 
@@ -20,28 +23,29 @@ describe('CurrentService', () => {
     httpMock = TestBed.get(HttpTestingController);
   });
 
-  it('should get current item', (done) => {
-    currentService.get()
-      .subscribe((res: QueueItem) => {
-        expect(res).toEqual(queueItem);
-        done();
-      });
+  it('should get current item', done => {
+    currentService.get().subscribe((res: QueueItem) => {
+      expect(res).toEqual(queueItem);
+      done();
+    });
 
-    const currentRequest = httpMock.expectOne(`${environment.apiUrlPlayer}player/current`);
+    const currentRequest = httpMock.expectOne(
+      `${environment.apiUrlPlayer}player/current`
+    );
     currentRequest.flush(queueItem);
     httpMock.verify();
   });
 
-  it('should send request to delete current item', (done) => {
-    currentService.delete()
-      .subscribe((res: any) => {
-        expect(res.status).toEqual(200);
-        done();
-      });
+  it('should send request to delete current item', done => {
+    currentService.delete().subscribe((res: any) => {
+      expect(res.status).toEqual(200);
+      done();
+    });
 
-    const currentRequest = httpMock.expectOne(`${environment.apiUrlPlayer}player/current`);
+    const currentRequest = httpMock.expectOne(
+      `${environment.apiUrlPlayer}player/current`
+    );
     currentRequest.flush({ status: 200 });
     httpMock.verify();
   });
-
 });

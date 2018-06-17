@@ -31,10 +31,10 @@ describe('StatsEffects', () => {
   let stats;
 
   beforeEach(() => {
-    stats = { };
+    stats = {};
 
     mockStatsService = {
-      get: jasmine.createSpy('get').and.returnValue(of({})),
+      get: jasmine.createSpy('get').and.returnValue(of({}))
     };
 
     testBed = TestBed.configureTestingModule({
@@ -42,7 +42,7 @@ describe('StatsEffects', () => {
         StatsEffects,
         { provide: Actions, useFactory: getActions },
         { provide: StatsService, useFactory: () => mockStatsService }
-      ],
+      ]
     });
 
     effects = testBed.get(StatsEffects);
