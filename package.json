@@ -36,12 +36,11 @@
     "@ngrx/effects": "^6.0.0",
     "@ngrx/store": "^6.0.0",
     "@ngrx/store-devtools": "^6.0.0",
-    "@thisissoon/angular-infinite-scroll": "^1.1.1",
+    "@thisissoon/angular-infinite-scroll": "^2.0.0",
     "bootstrap": "^4.1.1",
     "core-js": "^2.5.7",
     "ng2-ui-auth": "^9.0.0-beta.2",
     "rxjs": "^6.2.1",
-    "rxjs-compat": "^6.2.1",
     "socket.io-client": "^2.1.1",
     "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.26"
