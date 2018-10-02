@@ -29,8 +29,9 @@ export class PausedInterceptor implements HttpInterceptor {
    * @memberof PausedInterceptor
    */
   public getPaused(res: HttpResponse<QueueItem>): boolean {
-    const paused = !!parseInt(res.headers.get('Paused'), 10);
-    return paused;
+    const paused = res.headers.get('Paused');
+    if (!paused) return false;
+    return !!parseInt(paused, 10);
   }
   /**
    * Adds paused value to response body from header value

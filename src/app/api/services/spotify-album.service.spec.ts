@@ -23,29 +23,29 @@ describe('SpotifyAlbumService', () => {
     httpMock = TestBed.get(HttpTestingController);
   });
 
-  it('should get spotify album', done => {
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should get spotify album', () => {
     spotifyAlbumService.get('foo').subscribe(res => {
       expect(res.name).toEqual('More Life');
-      done();
     });
 
     const albumRequest = httpMock.expectOne(
       `${environment.apiUrlPlayer}spotify/albums/foo`
     );
     albumRequest.flush(album);
-    httpMock.verify();
   });
 
-  it('should send request to get album tracks', done => {
+  it('should send request to get album tracks', () => {
     spotifyAlbumService.getTracks('foo').subscribe(res => {
       expect(res.items[0].name).toEqual('Free Smoke');
-      done();
     });
 
     const albumRequest = httpMock.expectOne(
       `${environment.apiUrlPlayer}spotify/albums/foo/tracks?limit=20`
     );
     albumRequest.flush(tracks);
-    httpMock.verify();
   });
 });

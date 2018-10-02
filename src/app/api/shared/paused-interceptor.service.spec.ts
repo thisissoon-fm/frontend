@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController
@@ -30,7 +30,7 @@ describe('PausedInterceptor', () => {
     http = TestBed.get(HttpClient);
   });
 
-  it('should NOT get paused data from header', () => {
+  it('should NOT get paused data from header', async(() => {
     http
       .get<QueueItem>(`${environment.apiUrlPlayer}some-other-url`)
       .subscribe(res => expect(res.paused).toBeFalsy());
@@ -41,9 +41,9 @@ describe('PausedInterceptor', () => {
     const headers = new HttpHeaders();
     request.flush(queueItem, { headers });
     httpMock.verify();
-  });
+  }));
 
-  it('should get paused data from header', () => {
+  it('should get paused data from header', async(() => {
     http
       .get<QueueItem>(`${environment.apiUrlPlayer}player/current`)
       .subscribe(res => expect(res.paused).toBeFalsy());
@@ -54,9 +54,9 @@ describe('PausedInterceptor', () => {
     const headers = new HttpHeaders({ Paused: '0' });
     request.flush(queueItem, { headers });
     httpMock.verify();
-  });
+  }));
 
-  it('should get paused data from header', () => {
+  it('should get paused data from header', async(() => {
     http
       .get<QueueItem>(`${environment.apiUrlPlayer}player/current`)
       .subscribe(res => expect(res.paused).toBeTruthy());
@@ -67,5 +67,5 @@ describe('PausedInterceptor', () => {
     const headers = new HttpHeaders({ Paused: '1' });
     request.flush(queueItem, { headers });
     httpMock.verify();
-  });
+  }));
 });
