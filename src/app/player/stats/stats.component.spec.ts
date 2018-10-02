@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { of as observableOf } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromPlayerStore from '../../player/store';
@@ -17,7 +17,7 @@ describe('StatsComponent', () => {
       dispatch: jasmine.createSpy('dispatch'),
       select: jasmine
         .createSpy('select')
-        .and.returnValue(Observable.of(queueItem))
+        .and.returnValue(observableOf(queueItem))
     };
 
     TestBed.configureTestingModule({

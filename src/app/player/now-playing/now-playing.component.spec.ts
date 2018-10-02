@@ -6,7 +6,7 @@ import {
   TestBed
 } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { of as observableOf } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromStore from '../store';
@@ -17,7 +17,7 @@ import { queueItem } from '../../../testing/mock-queue-item';
 import { queueMeta } from '../../../testing/mock-queue-meta';
 
 class MockEventService {
-  messages$ = Observable.of({});
+  messages$ = observableOf({});
 }
 
 describe('NowPlayingComponent', () => {
@@ -31,10 +31,10 @@ describe('NowPlayingComponent', () => {
       select: jasmine
         .createSpy('select')
         .and.returnValues(
-          Observable.of(Object.assign({}, queueItem, { paused: false })),
-          Observable.of({ volume: 50 }),
-          Observable.of({ mute: false }),
-          Observable.of(queueMeta)
+          observableOf(Object.assign({}, queueItem, { paused: false })),
+          observableOf({ volume: 50 }),
+          observableOf({ mute: false }),
+          observableOf(queueMeta)
         )
     };
 
@@ -73,7 +73,7 @@ describe('NowPlayingComponent', () => {
     component.togglePause();
     expect(mockStore.dispatch).toHaveBeenCalledWith(new fromStore.AddPause());
 
-    component.current$ = Observable.of(
+    component.current$ = observableOf(
       Object.assign({}, queueItem, { paused: true })
     );
     component.togglePause();
@@ -86,7 +86,7 @@ describe('NowPlayingComponent', () => {
     component.toggleMute();
     expect(mockStore.dispatch).toHaveBeenCalledWith(new fromStore.AddMute());
 
-    component.mute$ = Observable.of({ mute: true });
+    component.mute$ = observableOf({ mute: true });
     component.toggleMute();
     expect(mockStore.dispatch).toHaveBeenCalledWith(new fromStore.RemoveMute());
   });

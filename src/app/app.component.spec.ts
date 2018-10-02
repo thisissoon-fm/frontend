@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { of as observableOf } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { EventService, PlayerEvent } from './event';
@@ -18,25 +18,23 @@ const mockStore = {
   select: jasmine
     .createSpy('dispatch')
     .and.returnValues(
-      Observable.of(queueItem),
-      Observable.of(queueMeta),
-      Observable.of(queueItem),
-      Observable.of(queueMeta)
+      observableOf(queueItem),
+      observableOf(queueMeta),
+      observableOf(queueItem),
+      observableOf(queueMeta)
     )
 };
 
 class MockEventService {
-  messages$ = Observable.of({});
+  messages$ = observableOf({});
 }
 
 const mockCurrentService = {
-  get: jasmine.createSpy('get').and.returnValue(Observable.of(queueItem))
+  get: jasmine.createSpy('get').and.returnValue(observableOf(queueItem))
 };
 
 const mockQueueService = {
-  getMeta: jasmine
-    .createSpy('getMeta')
-    .and.returnValue(Observable.of(queueMeta))
+  getMeta: jasmine.createSpy('getMeta').and.returnValue(observableOf(queueMeta))
 };
 
 describe('AppComponent', () => {
@@ -191,7 +189,7 @@ describe('AppComponent', () => {
     component.checkPlayerDataInSync();
     expect(spy).not.toHaveBeenCalled();
 
-    mockCurrentService.get.and.returnValue(Observable.of(null));
+    mockCurrentService.get.and.returnValue(observableOf(null));
     component.checkPlayerDataInSync();
     expect(spy).toHaveBeenCalled();
   }));

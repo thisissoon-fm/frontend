@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Observable } from 'rxjs/Observable';
+import { of as observableOf } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromPlayerStore from '../store';
@@ -19,9 +19,9 @@ describe('QueueComponent', () => {
       select: jasmine
         .createSpy('select')
         .and.returnValues(
-          Observable.of([queueItem]),
-          Observable.of(false),
-          Observable.of({ totalCount: 1, totalPages: 1, currentPage: 1 })
+          observableOf([queueItem]),
+          observableOf(false),
+          observableOf({ totalCount: 1, totalPages: 1, currentPage: 1 })
         )
     };
 

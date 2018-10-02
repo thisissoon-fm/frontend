@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbTabsetModule, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
+import { of as observableOf } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { HttpParams } from '@angular/common/http';
 
@@ -16,7 +16,7 @@ import { artist, albums } from '../../../testing/mock-spotify-artist';
 import { search } from '../../../testing/mock-spotify-search';
 
 class MockActivatedRoute {
-  params = Observable.of({ id: 'foo' });
+  params = observableOf({ id: 'foo' });
 }
 
 describe('ArtistDetailComponent', () => {
@@ -34,19 +34,19 @@ describe('ArtistDetailComponent', () => {
 
   beforeEach(async(() => {
     mockSpotifyArtistService = {
-      get: jasmine.createSpy('get').and.returnValue(Observable.of(artist)),
+      get: jasmine.createSpy('get').and.returnValue(observableOf(artist)),
       getTopTracks: jasmine
         .createSpy('getTopTracks')
-        .and.returnValue(Observable.of(search)),
+        .and.returnValue(observableOf(search)),
       getAlbums: jasmine
         .createSpy('getAlbums')
-        .and.returnValue(Observable.of(JSON.parse(JSON.stringify(albums)))),
+        .and.returnValue(observableOf(JSON.parse(JSON.stringify(albums)))),
       getSingles: jasmine
         .createSpy('getSingles')
-        .and.returnValue(Observable.of(JSON.parse(JSON.stringify(albums)))),
+        .and.returnValue(observableOf(JSON.parse(JSON.stringify(albums)))),
       getRelatedArtists: jasmine
         .createSpy('getRelatedArtists')
-        .and.returnValue(Observable.of(null))
+        .and.returnValue(observableOf(null))
     };
 
     mockStore = {

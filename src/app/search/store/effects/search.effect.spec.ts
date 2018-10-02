@@ -2,9 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { Observable, of as observableOf, EMPTY } from 'rxjs';
 
 import { SearchEffects } from './search.effect';
 import * as actions from '../actions/search.action';
@@ -14,7 +12,7 @@ import { initialState } from '../reducers/search.reducer';
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   set stream(source: Observable<any>) {
@@ -35,13 +33,15 @@ describe('SearchEffects', () => {
 
   beforeEach(() => {
     mockSearchService = {
-      search: jasmine.createSpy('search').and.returnValue(of(spotifySearch))
+      search: jasmine
+        .createSpy('search')
+        .and.returnValue(observableOf(spotifySearch))
     };
 
     mockStore = {
       select: jasmine
         .createSpy('select')
-        .and.returnValue(of({ ...initialState, query: 'foo' }))
+        .and.returnValue(observableOf({ ...initialState, query: 'foo' }))
     };
 
     testBed = TestBed.configureTestingModule({

@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Observable } from 'rxjs/Observable';
+import { of as observableOf } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromPlayerStore from '../../player/store';
@@ -14,7 +14,7 @@ import { AlbumDetailComponent } from './album-detail.component';
 import { album, tracks } from '../../../testing/mock-spotify-album';
 
 class MockActivatedRoute {
-  params = Observable.of({ id: 'foo' });
+  params = observableOf({ id: 'foo' });
 }
 
 describe('AlbumDetailComponent', () => {
@@ -26,10 +26,10 @@ describe('AlbumDetailComponent', () => {
 
   beforeEach(async(() => {
     mockSpotifyAlbumService = {
-      get: jasmine.createSpy('get').and.returnValue(Observable.of(album)),
+      get: jasmine.createSpy('get').and.returnValue(observableOf(album)),
       getTracks: jasmine
         .createSpy('getTracks')
-        .and.returnValue(Observable.of(tracks))
+        .and.returnValue(observableOf(tracks))
     };
 
     mockStore = {

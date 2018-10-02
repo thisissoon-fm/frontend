@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { of as observableOf } from 'rxjs';
 
 import * as fromPlayerStore from '../../player/store';
 import { UtilsService } from '../../shared';
@@ -19,7 +19,7 @@ describe('QueueItemComponent', () => {
       dispatch: jasmine.createSpy('dispatch'),
       select: jasmine
         .createSpy('select')
-        .and.returnValue(Observable.of(queueItem.user))
+        .and.returnValue(observableOf(queueItem.user))
     };
 
     TestBed.configureTestingModule({

@@ -33,7 +33,7 @@ describe('PausedInterceptor', () => {
   it('should NOT get paused data from header', () => {
     http
       .get<QueueItem>(`${environment.apiUrlPlayer}some-other-url`)
-      .subscribe(res => expect(res.paused).toBeUndefined());
+      .subscribe(res => expect(res.paused).toBeFalsy());
 
     const request = httpMock.expectOne(
       `${environment.apiUrlPlayer}some-other-url`

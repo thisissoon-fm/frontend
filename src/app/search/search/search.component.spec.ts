@@ -8,7 +8,7 @@ import {
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Observable } from 'rxjs/Observable';
+import { of as observableOf } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromSearchStore from '../store';
@@ -24,7 +24,7 @@ describe('SearchComponent', () => {
     mockStore = {
       dispatch: jasmine.createSpy('dispatch'),
       select: jasmine.createSpy('select').and.returnValues(
-        Observable.of({
+        observableOf({
           loaded: false,
           loading: false,
           results: [],
@@ -32,8 +32,8 @@ describe('SearchComponent', () => {
           pagination: { totalCount: 0, totalPages: 1, currentPage: 1 },
           query: null
         }),
-        Observable.of(true),
-        Observable.of(true)
+        observableOf(true),
+        observableOf(true)
       )
     };
 

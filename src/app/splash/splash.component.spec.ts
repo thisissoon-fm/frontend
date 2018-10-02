@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { of as observableOf } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromPlayerStore from '../player/store';
@@ -24,9 +24,9 @@ describe('SplashComponent', () => {
       select: jasmine
         .createSpy('select')
         .and.returnValues(
-          Observable.of(true),
-          Observable.of(true),
-          Observable.of(queueItem.user)
+          observableOf(true),
+          observableOf(true),
+          observableOf(queueItem.user)
         )
     };
 
